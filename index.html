@@ -260,22 +260,75 @@ body::before {
 }
 .gate__open-btn:active { transform: translateY(0); }
 
+/* Dossier — personalised plaque on the cover */
+.gate__dossier {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 22px auto 4px;
+  padding: 14px 20px;
+  max-width: 320px;
+  background: rgba(0,0,0,0.18);
+  border: 1px solid rgba(168,136,78,0.25);
+  border-radius: 4px;
+  position: relative;
+  z-index: 2;
+}
+.gate__seal {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, #a83a2f 0%, #6b1f18 60%, #3a0e0a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--gold-soft);
+  flex-shrink: 0;
+  box-shadow:
+    inset 0 -2px 4px rgba(0,0,0,0.4),
+    inset 0 2px 4px rgba(255,255,255,0.15),
+    0 2px 4px rgba(0,0,0,0.3);
+  position: relative;
+}
+.gate__seal::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 1px dashed rgba(217,191,138,0.4);
+}
+.gate__dossier-text {
+  flex: 1;
+  text-align: left;
+}
+.gate__dossier-class {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--gold-bright);
+  line-height: 1.2;
+}
+.gate__dossier-rule {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(168,136,78,0.3) 0%, transparent 100%);
+  margin: 6px 0;
+}
+.gate__dossier-stats {
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: rgba(217,191,138,0.7);
+  line-height: 1.4;
+}
+
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Welcome animation — gentle fade up */
-@keyframes gateFadeUp {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.gate__title #gate-title-text,
-.gate__year,
-.gate__sub,
-.gate__spinner {
-  animation: gateFadeUp 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) both;
-}
-.gate__year { animation-delay: 0.15s; }
-.gate__sub { animation-delay: 0.3s; }
-.gate__spinner { animation-delay: 0.45s; }
+/* Gate animation now JS-driven via enterPortal */
 
 /* Book opening flip — transitions from cover view to dashboard */
 @keyframes bookOpen {
@@ -1633,6 +1686,154 @@ body::before {
   flex-wrap: wrap;
 }
 
+.modal--wide { max-width: 540px; }
+
+/* Signature pad */
+.signature {
+  margin: 22px 0 24px;
+}
+.signature__label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.signature__pad-wrap {
+  position: relative;
+  background: rgba(168,136,78,0.04);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  height: 130px;
+}
+.signature__pad {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: crosshair;
+  touch-action: none;
+}
+.signature__hint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--ink-muted);
+  font-size: 15px;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.signature__hint.is-hidden { opacity: 0; }
+.signature__baseline {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: 22px;
+  height: 1px;
+  background: var(--rule);
+  pointer-events: none;
+}
+.signature__clear {
+  display: inline-block;
+  margin-top: 8px;
+  background: none;
+  border: none;
+  color: var(--ink-muted);
+  font-size: 12px;
+  font-family: var(--font-body);
+  cursor: pointer;
+  padding: 4px 0;
+  text-decoration: underline;
+}
+.signature__clear:hover { color: var(--burgundy); }
+.signature__pad-wrap.has-error { border-color: var(--error); }
+
+/* Confetti celebration overlay */
+.confetti-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(15, 11, 8, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: confettiFadeIn 0.5s ease;
+}
+.confetti-overlay.is-fading {
+  animation: confettiFadeOut 0.6s ease forwards;
+}
+@keyframes confettiFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes confettiFadeOut {
+  to { opacity: 0; }
+}
+#confetti-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.confetti-message {
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(180deg, var(--leather-deep) 0%, var(--leather) 100%);
+  border: 1px solid var(--gold-soft);
+  border-radius: var(--r-md);
+  padding: 44px 56px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  max-width: 480px;
+  animation: confettiPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes confettiPop {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.confetti-flourish {
+  color: var(--gold-bright);
+  font-size: 14px;
+  letter-spacing: 0.5em;
+  margin-bottom: 18px;
+}
+.confetti-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 30px;
+  color: var(--paper);
+  margin: 0 0 10px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.confetti-sub {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--gold-soft);
+  margin: 0 0 28px;
+}
+.confetti-close {
+  padding: 11px 30px;
+  background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 100%);
+  border: 1px solid var(--gold-soft);
+  border-radius: 4px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--leather-deep);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.confetti-close:hover { transform: translateY(-1px); }
+
 /* ============================================================
    MOBILE — large legible touch targets
    ============================================================ */
@@ -1754,9 +1955,16 @@ body::before {
     </div>
     <div class="gate__flourish">✦ ✦ ✦</div>
     <div class="gate__eyebrow" id="gate-eyebrow">The Judge's Notebook</div>
-    <h1 class="gate__title" id="gate-title"><span id="gate-title-text">Welcome</span></h1>
-    <div class="gate__year" id="gate-year">2026</div>
-    <p class="gate__sub" id="gate-sub">RAS Epicurean Star Award · Mystery Judging Programme</p>
+    <h1 class="gate__title" id="gate-title" style="opacity:0;"><span id="gate-title-text">Welcome</span></h1>
+    <p class="gate__sub" id="gate-sub" style="opacity:0;">RAS Epicurean Star Award 2026</p>
+    <div class="gate__dossier" id="gate-dossier" style="opacity:0;">
+      <div class="gate__seal" id="gate-seal"><span id="gate-seal-initials">—</span></div>
+      <div class="gate__dossier-text">
+        <div class="gate__dossier-class" id="gate-dossier-class">—</div>
+        <div class="gate__dossier-rule"></div>
+        <div class="gate__dossier-stats" id="gate-dossier-stats">—</div>
+      </div>
+    </div>
     <div id="gate-spinner" class="gate__spinner"></div>
     <button id="gate-open-btn" class="gate__open-btn" onclick="openNotebook()" style="display:none;">Open Notebook</button>
     <p class="gate__contact" id="gate-contact">Questions? <a href="mailto:xianna.lock@ras.org.sg">xianna.lock@ras.org.sg</a><br>or <a href="mailto:james.chan@ras.org.sg">james.chan@ras.org.sg</a></p>
@@ -1884,7 +2092,7 @@ body::before {
 <div class="toast" id="toast"></div>
 
 <div class="modal-backdrop" id="submit-modal">
-  <div class="modal">
+  <div class="modal modal--wide">
     <h3 class="modal__title">Confirm Submission</h3>
     <p class="modal__body">
       You're about to submit your scoresheet for <strong id="modal-concept">—</strong>. After submission, you may <strong>revise once</strong> if you spot an error. Any further changes must be requested via email to <strong>xianna.lock@ras.org.sg</strong> and/or <strong>james.chan@ras.org.sg</strong>.
@@ -1892,6 +2100,15 @@ body::before {
     <div class="modal__score-preview">
       <small>Your Total</small>
       <strong id="modal-total">0.0<span> / 100</span></strong>
+    </div>
+    <div class="signature">
+      <div class="signature__label">Sign below to confirm</div>
+      <div class="signature__pad-wrap">
+        <canvas id="signature-pad" class="signature__pad"></canvas>
+        <div class="signature__hint" id="signature-hint">Draw your signature with your finger or mouse</div>
+        <div class="signature__baseline"></div>
+      </div>
+      <button class="signature__clear" type="button" onclick="clearSignature()">Clear signature</button>
     </div>
     <div class="modal__actions">
       <button class="btn btn--text" onclick="closeModal()">Cancel</button>
@@ -2239,6 +2456,175 @@ let submitting = false;
 let countdownTimer = null;
 
 // ============================================================
+// ============================================================
+// SIGNATURE PAD
+// ============================================================
+let sigCtx = null;
+let sigDrawing = false;
+let sigHasInk = false;
+let sigLastX = 0, sigLastY = 0;
+
+function setupSignaturePad() {
+  const canvas = document.getElementById('signature-pad');
+  if (!canvas) return;
+  // Match canvas internal resolution to display size for crisp drawing
+  const rect = canvas.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  sigCtx = canvas.getContext('2d');
+  sigCtx.scale(dpr, dpr);
+  sigCtx.strokeStyle = '#2A1810';
+  sigCtx.lineWidth = 2;
+  sigCtx.lineCap = 'round';
+  sigCtx.lineJoin = 'round';
+
+  sigHasInk = false;
+  const hint = document.getElementById('signature-hint');
+  if (hint) hint.classList.remove('is-hidden');
+  document.querySelector('.signature__pad-wrap').classList.remove('has-error');
+
+  // Remove existing listeners by cloning
+  const newCanvas = canvas.cloneNode(true);
+  canvas.parentNode.replaceChild(newCanvas, canvas);
+  sigCtx = newCanvas.getContext('2d');
+  sigCtx.scale(dpr, dpr);
+  sigCtx.strokeStyle = '#2A1810';
+  sigCtx.lineWidth = 2;
+  sigCtx.lineCap = 'round';
+  sigCtx.lineJoin = 'round';
+
+  function getPos(e) {
+    const r = newCanvas.getBoundingClientRect();
+    const x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+    const y = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
+    return { x, y };
+  }
+  function start(e) {
+    e.preventDefault();
+    sigDrawing = true;
+    const p = getPos(e);
+    sigLastX = p.x; sigLastY = p.y;
+    if (!sigHasInk) {
+      const h = document.getElementById('signature-hint');
+      if (h) h.classList.add('is-hidden');
+    }
+    sigHasInk = true;
+  }
+  function move(e) {
+    if (!sigDrawing) return;
+    e.preventDefault();
+    const p = getPos(e);
+    sigCtx.beginPath();
+    sigCtx.moveTo(sigLastX, sigLastY);
+    sigCtx.lineTo(p.x, p.y);
+    sigCtx.stroke();
+    sigLastX = p.x; sigLastY = p.y;
+  }
+  function end() { sigDrawing = false; }
+
+  newCanvas.addEventListener('mousedown', start);
+  newCanvas.addEventListener('mousemove', move);
+  newCanvas.addEventListener('mouseup', end);
+  newCanvas.addEventListener('mouseleave', end);
+  newCanvas.addEventListener('touchstart', start, { passive: false });
+  newCanvas.addEventListener('touchmove', move, { passive: false });
+  newCanvas.addEventListener('touchend', end);
+}
+
+function clearSignature() {
+  const canvas = document.getElementById('signature-pad');
+  if (!canvas || !sigCtx) return;
+  sigCtx.clearRect(0, 0, canvas.width, canvas.height);
+  sigHasInk = false;
+  const hint = document.getElementById('signature-hint');
+  if (hint) hint.classList.remove('is-hidden');
+  document.querySelector('.signature__pad-wrap').classList.remove('has-error');
+}
+
+function getSignatureDataUrl() {
+  const canvas = document.getElementById('signature-pad');
+  if (!canvas || !sigHasInk) return '';
+  return canvas.toDataURL('image/png');
+}
+
+// ============================================================
+// CONFETTI — gold-leaf celebration for the final concept
+// ============================================================
+function fireConfetti() {
+  // Build overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'confetti-overlay';
+  overlay.innerHTML =
+    '<canvas id="confetti-canvas"></canvas>' +
+    '<div class="confetti-message">' +
+      '<div class="confetti-flourish">✦ ✦ ✦</div>' +
+      '<h2 class="confetti-title">Your judgement is complete.</h2>' +
+      '<p class="confetti-sub">Thank you, ' + escapeHtml(judgeData.judgeName || 'Judge') + '.</p>' +
+      '<button class="confetti-close" onclick="closeConfetti()">Close</button>' +
+    '</div>';
+  document.body.appendChild(overlay);
+
+  // Start canvas particles
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const colours = ['#C9A96E', '#A8884E', '#D9BF8A', '#6B2A24', '#8B3A2E', '#F5EDD8'];
+  const particles = [];
+  const particleCount = 140;
+
+  for (let i = 0; i < particleCount; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * -canvas.height,
+      w: 8 + Math.random() * 8,
+      h: 4 + Math.random() * 4,
+      vy: 2 + Math.random() * 3,
+      vx: (Math.random() - 0.5) * 2,
+      rot: Math.random() * Math.PI * 2,
+      vRot: (Math.random() - 0.5) * 0.15,
+      colour: colours[Math.floor(Math.random() * colours.length)]
+    });
+  }
+
+  let frame = 0;
+  const maxFrames = 360; // ~6 seconds at 60fps
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rot += p.vRot;
+      // Soft sway
+      p.vx += (Math.random() - 0.5) * 0.1;
+      p.vx = Math.max(-2, Math.min(2, p.vx));
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.colour;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    });
+    frame++;
+    if (frame < maxFrames) {
+      requestAnimationFrame(animate);
+    }
+  }
+  animate();
+}
+
+function closeConfetti() {
+  const overlay = document.querySelector('.confetti-overlay');
+  if (overlay) {
+    overlay.classList.add('is-fading');
+    setTimeout(() => overlay.remove(), 600);
+  }
+}
+
+// ============================================================
 // BOOT
 // ============================================================
 function init() {
@@ -2301,20 +2687,61 @@ function showGateError(title, sub) {
 function enterPortal() {
   const fullName = judgeData.judgeName || 'Judge';
   const hasSubmitted = (judgeData.assignments || []).some(a => a.submitted);
-  const greeting = hasSubmitted ? 'Welcome back,' : 'Welcome,';
+  const greeting = hasSubmitted ? 'Welcome back, ' : 'Welcome, ';
 
-  // Stage 1: Update gate to show personalised welcome
-  document.getElementById('gate-title-text').textContent = greeting;
-  const yearEl = document.getElementById('gate-year');
-  yearEl.style.fontSize = '38px';
-  yearEl.textContent = fullName;
-  document.getElementById('gate-sub').textContent = 'RAS Epicurean Star Award · Mystery Judging Programme';
+  // Set full title text BEFORE showing — no flash of placeholder
+  document.getElementById('gate-title-text').textContent = greeting + fullName;
 
-  // Hide spinner, show Open button
+  // Populate dossier
+  const assignments = judgeData.assignments || [];
+  const totalConcepts = assignments.length;
+  const remaining = assignments.filter(a => !a.submitted).length;
+  const categories = new Set(assignments.map(a => a.category));
+  const categoryCount = categories.size;
+
+  // Initials — first letter of first word + first letter of last word, max 2 chars
+  const parts = fullName.trim().split(/\s+/);
+  const initials = parts.length > 1
+    ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+    : parts[0].substring(0, 2).toUpperCase();
+  document.getElementById('gate-seal-initials').textContent = initials;
+
+  document.getElementById('gate-dossier-class').textContent =
+    (judgeData.judgeType || 'Judge') + ' · Class of 2026';
+
+  let statsLine;
+  if (hasSubmitted && remaining === 0) {
+    statsLine = 'All ' + totalConcepts + ' ' + (totalConcepts === 1 ? 'concept' : 'concepts') + ' judged';
+  } else if (hasSubmitted) {
+    statsLine = remaining + ' of ' + totalConcepts + ' remaining · ' +
+      categoryCount + ' ' + (categoryCount === 1 ? 'category' : 'categories');
+  } else {
+    statsLine = totalConcepts + ' ' + (totalConcepts === 1 ? 'concept' : 'concepts') +
+      ' across ' + categoryCount + ' ' + (categoryCount === 1 ? 'category' : 'categories');
+  }
+  document.getElementById('gate-dossier-stats').textContent = statsLine;
+
+  // Hide spinner immediately, prep Open button
   document.getElementById('gate-spinner').style.display = 'none';
-  document.getElementById('gate-open-btn').style.display = 'inline-block';
+  const btnEl = document.getElementById('gate-open-btn');
+  btnEl.style.display = 'inline-block';
+  btnEl.style.opacity = '0';
 
-  // Pre-set the portal content (hidden until book opens)
+  // Fade in title, subtitle, dossier, button in sequence
+  const titleH1 = document.getElementById('gate-title');
+  const subEl = document.getElementById('gate-sub');
+  const dossierEl = document.getElementById('gate-dossier');
+  titleH1.style.transition = 'opacity 0.6s ease';
+  subEl.style.transition = 'opacity 0.6s ease 0.15s';
+  dossierEl.style.transition = 'opacity 0.7s ease 0.3s';
+  btnEl.style.transition = 'opacity 0.6s ease 0.55s';
+  void titleH1.offsetWidth; // force reflow
+  titleH1.style.opacity = '1';
+  subEl.style.opacity = '1';
+  dossierEl.style.opacity = '1';
+  btnEl.style.opacity = '1';
+
+  // Pre-set portal content (hidden until book opens)
   document.getElementById('hdr-judge-name').textContent = fullName;
   document.getElementById('hdr-judge-type').textContent = judgeData.judgeType || '';
   startCountdown();
@@ -2646,7 +3073,7 @@ function renderCriterion(c, sectionId) {
       </div>
       <textarea class="criterion__comment"
                 id="comment-${c.id}"
-                placeholder="Your observations on ${escapeAttr(c.label.toLowerCase())} (required)"></textarea>
+                placeholder="Your observations on ${escapeAttr(c.label.toLowerCase())} (optional)"></textarea>
       <div class="criterion__redistribution-note" id="redist-${c.id}"></div>
       <div class="criterion__error" id="score-err-${c.id}">Score is required (or type NA)</div>
       <div class="criterion__error" id="comment-err-${c.id}">Comment is required</div>
@@ -2980,15 +3407,9 @@ function validate() {
         if (sErr) sErr.classList.remove('is-active');
       }
 
-      if (!cEl.value.trim()) {
-        cEl.classList.add('has-error');
-        if (cErr) cErr.classList.add('is-active');
-        errors++;
-        if (!firstError) firstError = cEl;
-      } else {
-        cEl.classList.remove('has-error');
-        if (cErr) cErr.classList.remove('is-active');
-      }
+      // Comments are optional — no validation needed
+      cEl.classList.remove('has-error');
+      if (cErr) cErr.classList.remove('is-active');
     });
   });
 
@@ -3023,6 +3444,8 @@ function onSubmitClick() {
   document.getElementById('modal-concept').textContent = currentAssignment.concept;
   document.getElementById('modal-total').innerHTML = result.total.toFixed(1) + '<span> / 100</span>';
   document.getElementById('submit-modal').classList.add('is-active');
+  // Set up signature pad after modal is visible (so canvas dimensions are correct)
+  setTimeout(setupSignaturePad, 50);
 }
 function closeModal() {
   document.getElementById('submit-modal').classList.remove('is-active');
@@ -3030,13 +3453,23 @@ function closeModal() {
 
 async function doSubmit() {
   if (submitting) return;
+
+  // Validate signature before submitting
+  if (!sigHasInk) {
+    document.querySelector('.signature__pad-wrap').classList.add('has-error');
+    showToast('Please sign to confirm your submission.', 'error');
+    return;
+  }
+
   submitting = true;
+  const signatureDataUrl = getSignatureDataUrl();
   closeModal();
   const btn = document.getElementById('submit-btn');
   btn.disabled = true;
   btn.textContent = 'Submitting…';
 
   const payload = buildSubmitPayload();
+  payload.signatureDataUrl = signatureDataUrl;
   try {
     const res = await jsonp(API_BASE, { action: 'saveScores', payload: JSON.stringify(payload) });
     if (res && res.status === 'ok') {
@@ -3049,6 +3482,9 @@ async function doSubmit() {
       clearDraft();
       showToast('Scores submitted. A copy has been emailed to you.', 'success');
 
+      // Check if this was the FINAL concept — trigger celebration
+      const allDone = (judgeData.assignments || []).every(a => a.submitted);
+
       // Animate page turn on the card, then return to dashboard
       setTimeout(() => {
         const cardId = 'card-' + assignmentKey(currentAssignment);
@@ -3057,11 +3493,11 @@ async function doSubmit() {
           card.classList.add('is-removing');
           setTimeout(() => {
             renderSheet();
-            
+            if (allDone) fireConfetti();
           }, 700);
         } else {
           renderSheet();
-          
+          if (allDone) fireConfetti();
         }
       }, 600);
     } else {
