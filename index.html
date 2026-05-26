@@ -3043,11 +3043,48 @@ function renderSheet() {
     el.addEventListener('change', () => scheduleDraftSave());
   });
 
-  // Load draft
-  const draft = loadDraft(a);
-  if (draft) restoreDraft(draft);
+  // Restore previously-submitted scores when revising, OR load from draft otherwise
+  if (a.isRevising && a.previousSubmission) {
+    restorePreviousSubmission(a.previousSubmission);
+  } else {
+    const draft = loadDraft(a);
+    if (draft) restoreDraft(draft);
+  }
 
   recalcAll();
+}
+
+// Repopulate form with the previously-submitted data (used when revising)
+function restorePreviousSubmission(prev) {
+  if (!prev) return;
+  // Visit details
+  const vDate = document.getElementById('visitDate');
+  const vSvc = document.getElementById('visitService');
+  const vBill = document.getElementById('billAmount');
+  if (vDate && prev.visitDate) vDate.value = prev.visitDate;
+  if (vSvc && prev.visitService) vSvc.value = prev.visitService;
+  if (vBill && prev.billAmount !== undefined && prev.billAmount !== '') vBill.value = prev.billAmount;
+
+  // Scores
+  if (prev.scores) {
+    Object.keys(prev.scores).forEach(id => {
+      const el = document.getElementById('score-' + id);
+      const val = prev.scores[id];
+      if (el && val !== '' && val !== undefined && val !== null) {
+        const strVal = String(val);
+        el.value = strVal;
+        if (NA_REGEX.test(strVal)) el.classList.add('is-na');
+      }
+    });
+  }
+
+  // Comments
+  if (prev.comments) {
+    Object.keys(prev.comments).forEach(id => {
+      const el = document.getElementById('comment-' + id);
+      if (el && prev.comments[id]) el.value = prev.comments[id];
+    });
+  }
 }
 
 function renderCriterion(c, sectionId) {
@@ -3462,14 +3499,13 @@ async function doSubmit() {
   }
 
   submitting = true;
-  const signatureDataUrl = getSignatureDataUrl();
+  // Signature captured as commitment ritual — not transmitted (JSONP URL length limit)
   closeModal();
   const btn = document.getElementById('submit-btn');
   btn.disabled = true;
   btn.textContent = 'Submitting…';
 
   const payload = buildSubmitPayload();
-  payload.signatureDataUrl = signatureDataUrl;
   try {
     const res = await jsonp(API_BASE, { action: 'saveScores', payload: JSON.stringify(payload) });
     if (res && res.status === 'ok') {
