@@ -1623,7 +1623,7 @@ body::before {
     <div class="gate__year">2026</div>
     <p class="gate__sub" id="gate-sub">RAS Epicurean Star Award · Mystery Judging Programme</p>
     <div class="gate__spinner" id="gate-spinner"></div>
-    <p class="gate__contact">Questions? <a href="mailto:james.chan@ras.org.sg">james.chan@ras.org.sg</a><br>+65 9855 1200</p>
+    <p class="gate__contact">Questions? <a href="mailto:xianna.lock@ras.org.sg">xianna.lock@ras.org.sg</a><br>or <a href="mailto:james.chan@ras.org.sg">james.chan@ras.org.sg</a></p>
   </div>
 </div>
 
@@ -1756,7 +1756,7 @@ body::before {
   <div class="modal">
     <h3 class="modal__title">Confirm Submission</h3>
     <p class="modal__body">
-      You're about to submit your scoresheet for <strong id="modal-concept">—</strong>. After submission, you may <strong>revise once</strong> if you spot an error. Any further changes must be requested via email to <strong>xianna.lock@ras.org.sg</strong>.
+      You're about to submit your scoresheet for <strong id="modal-concept">—</strong>. After submission, you may <strong>revise once</strong> if you spot an error. Any further changes must be requested via email to <strong>xianna.lock@ras.org.sg</strong> and/or <strong>james.chan@ras.org.sg</strong>.
     </p>
     <div class="modal__score-preview">
       <small>Your Total</small>
@@ -1773,7 +1773,7 @@ body::before {
   <div class="modal">
     <h3 class="modal__title">Open scoresheet for revision?</h3>
     <p class="modal__body">
-      This is your <strong>one and only</strong> revision for this concept. After re-submitting, the scoresheet will be locked permanently — further changes must be requested via email to <strong>xianna.lock@ras.org.sg</strong>.
+      This is your <strong>one and only</strong> revision for this concept. After re-submitting, the scoresheet will be locked permanently — further changes must be requested via email to <strong>xianna.lock@ras.org.sg</strong> and/or <strong>james.chan@ras.org.sg</strong>.
     </p>
     <div class="modal__actions">
       <button class="btn btn--text" onclick="closeReviseModal()">Cancel</button>
@@ -2115,7 +2115,7 @@ function init() {
   judgeId = (params.get('judge') || '').trim().toLowerCase();
 
   if (!judgeId) {
-    showGateError("We couldn't find your notebook.", "Use the personal link sent to your email. If you've lost it, write to james.chan@ras.org.sg.");
+    showGateError("We couldn't find your notebook.", "Use the personal link sent to your email. If you've lost it, write to xianna.lock@ras.org.sg (or james.chan@ras.org.sg).");
     return;
   }
 
@@ -2147,7 +2147,7 @@ async function fetchJudgeData(jid) {
   try {
     const data = await jsonp(API_BASE, { action: 'getJudge', judge: jid });
     if (!data || data.status !== 'ok' || !data.judge) {
-      showGateError("We couldn't find your assignments.", (data && data.message) || "Your judge ID may be invalid. Please contact james.chan@ras.org.sg.");
+      showGateError("We couldn't find your assignments.", (data && data.message) || "Your judge ID may be invalid. Please contact xianna.lock@ras.org.sg or james.chan@ras.org.sg.");
       return;
     }
     judgeData = data.judge;
@@ -2517,7 +2517,7 @@ function renderSubmittedView(a) {
         ${!isLocked ? '<button class="btn btn--warn" onclick="openReviseModal()">Revise this scoresheet</button>' : ''}
       </div>
       ${isLocked
-        ? '<p class="submitted__note">Need changes? Email <a href="mailto:xianna.lock@ras.org.sg">xianna.lock@ras.org.sg</a></p>'
+        ? '<p class="submitted__note">Need changes? Email <a href="mailto:xianna.lock@ras.org.sg">xianna.lock@ras.org.sg</a> and/or <a href="mailto:james.chan@ras.org.sg">james.chan@ras.org.sg</a></p>'
         : ''}
     </div>
   `;
