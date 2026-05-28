@@ -243,8 +243,21 @@ body::before {
 .credit-reminder--chain { background: rgba(107,42,36,0.06); border-color: rgba(107,42,36,0.3); }
 .credit-reminder--chain .credit-reminder__icon { color: var(--burgundy); }
 .credit-reminder__icon { font-size: 22px; line-height: 1; color: var(--warn); flex-shrink: 0; }
-.credit-reminder__text { font-size: 14px; color: var(--ink); line-height: 1.55; }
-.credit-reminder__text strong { display: block; margin-bottom: 4px; font-weight: 600; color: var(--ink); }
+.credit-reminder__text { font-size: 14px; color: var(--ink); line-height: 1.55; flex: 1; min-width: 0; }
+.credit-reminder__heading-row { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; flex-wrap: wrap; }
+.credit-reminder__heading-row strong { font-weight: 600; color: var(--ink); display: inline; margin: 0; }
+.credit-reminder__download { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: var(--burgundy); color: var(--paper); border-radius: 4px; font-size: 12.5px; font-weight: 600; text-decoration: none; transition: background 0.2s; white-space: nowrap; }
+.credit-reminder__download:hover { background: var(--burgundy-light); }
+.credit-reminder__text strong { font-weight: 600; color: var(--ink); }
+
+.section__na-note { padding: 10px 32px; background: rgba(168,136,78,0.06); border-bottom: 1px dashed var(--rule-soft); font-size: 12.5px; color: var(--ink-soft); font-style: italic; font-family: var(--font-display); line-height: 1.5; }
+.section__na-note strong { font-family: var(--font-body); font-style: normal; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--burgundy); font-weight: 700; margin-right: 8px; }
+
+.chain-v1-banner { background: rgba(74,107,61,0.06); border: 1px solid rgba(74,107,61,0.3); border-left: 4px solid var(--success); border-radius: var(--r-sm); padding: 16px 20px; margin-bottom: 24px; display: flex; align-items: flex-start; gap: 14px; }
+.chain-v1-banner__icon { font-size: 22px; line-height: 1; color: var(--success); flex-shrink: 0; }
+.chain-v1-banner__text { font-size: 14px; color: var(--ink); line-height: 1.55; }
+.chain-v1-banner__text strong { display: block; margin-bottom: 4px; font-weight: 600; color: var(--success); }
+.chain-v1-banner__text em { font-style: italic; color: var(--ink); }
 
 .concept__chain-progress { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; margin-left: 16px; padding: 6px 12px; background: rgba(107,42,36,0.08); border: 1px solid rgba(107,42,36,0.2); border-radius: 999px; font-size: 12px; font-weight: 600; color: var(--burgundy); letter-spacing: 0.04em; }
 .concept__chain-progress-dots { display: inline-flex; gap: 4px; }
@@ -682,6 +695,11 @@ body::before {
           <input class="field__input" type="number" step="0.01" id="billAmount" placeholder="0.00">
           <div class="field__error" id="err-billAmount">Bill amount is required</div>
         </div>
+        <div class="field" style="grid-column: 1 / -1;">
+          <label class="field__label" for="orderedItems">What You Ordered <span style="color:var(--ink-muted);font-weight:500;">(optional)</span></label>
+          <textarea class="field__textarea" id="orderedItems" rows="3" placeholder="List the dishes and drinks you ordered" style="resize:vertical;min-height:72px;"></textarea>
+          <div class="field__hint">Helps Xianna and the team verify your experience.</div>
+        </div>
         <input type="hidden" id="additionalCost" value="0">
       </div>
       <div id="sections-container"></div>
@@ -758,7 +776,7 @@ const SCORESHEETS = {
       ]},
       { id: "s2", title: "Ingredient Quality & Preparation", max: 20, criteria: [
         { id: "s2_1", label: "2.1 Freshness & Quality", desc: "Use of fresh, high-quality ingredients evident in taste and appearance", max: 10 },
-        { id: "s2_2", label: "2.2 Sourcing & Transparency", desc: "Evidence of quality sourcing (menu mentions origin, sustainable practices). Mark NA if not applicable.", max: 5 },
+        { id: "s2_2", label: "2.2 Sourcing & Transparency", desc: "Evidence of quality sourcing (menu mentions origin, sustainable practices).", max: 5 },
         { id: "s2_3", label: "2.3 Portion Appropriateness", desc: "Portion sizes suitable for the concept and price point", max: 5 }
       ]},
       { id: "s3", title: "Service & Ambience", max: 25, criteria: [
@@ -785,7 +803,7 @@ const SCORESHEETS = {
       ]},
       { id: "s2", title: "Ingredient Quality & Preparation", max: 15, criteria: [
         { id: "s2_1", label: "2.1 Ingredient Quality & Seasonality", desc: "Use of premium, seasonal ingredients evident in taste and sourcing", max: 10 },
-        { id: "s2_2", label: "2.2 Sourcing Transparency", desc: "Evidence of exceptional sourcing (provenance, sustainability). Mark NA if not applicable.", max: 5 }
+        { id: "s2_2", label: "2.2 Sourcing Transparency", desc: "Evidence of exceptional sourcing (provenance, sustainability).", max: 5 }
       ]},
       { id: "s3", title: "Service & Ambience", max: 30, criteria: [
         { id: "s3_1", label: "3.1 Service Excellence", desc: "Polished, anticipatory service with deep menu knowledge and attention to detail", max: 12 },
@@ -794,7 +812,7 @@ const SCORESHEETS = {
       ]},
       { id: "s4", title: "Overall Dining Experience", max: 10, criteria: [
         { id: "s4_1", label: "4.1 Value Relative to Fine Dining Standards", desc: "Quality and experience relative to fine dining price expectations", max: 4 },
-        { id: "s4_2", label: "4.2 Wine & Beverage Programme", desc: "Quality of wine list, pairings, and beverage service. Mark NA if not applicable.", max: 3 },
+        { id: "s4_2", label: "4.2 Wine & Beverage Programme", desc: "Quality of wine list, pairings, and beverage service.", max: 3 },
         { id: "s4_3", label: "4.3 Memorability & Distinction", desc: "Exceptional, memorable experience worthy of special occasions", max: 3 }
       ]}
     ]
@@ -811,7 +829,7 @@ const SCORESHEETS = {
       ]},
       { id: "s2", title: "Ingredient Quality & Preparation", max: 20, criteria: [
         { id: "s2_1", label: "2.1 Freshness & Quality", desc: "Use of fresh, high-quality ingredients evident in taste and appearance", max: 10 },
-        { id: "s2_2", label: "2.2 Sourcing & Transparency", desc: "Evidence of quality sourcing. Mark NA if not applicable.", max: 5 },
+        { id: "s2_2", label: "2.2 Sourcing & Transparency", desc: "Evidence of quality sourcing.", max: 5 },
         { id: "s2_3", label: "2.3 Portion Appropriateness", desc: "Portion sizes suitable for the concept and price point", max: 5 }
       ]},
       { id: "s3", title: "Service & Ambience", max: 25, criteria: [
@@ -865,7 +883,7 @@ const SCORESHEETS = {
       ]},
       { id: "s2", title: "Ingredient Quality & Preparation", max: 22, criteria: [
         { id: "s2_1", label: "2.1 Freshness & Quality", desc: "Use of fresh, high-quality ingredients evident in taste and appearance", max: 10 },
-        { id: "s2_2", label: "2.2 Sourcing & Transparency", desc: "Evidence of quality sourcing (menu mentions origin, sustainable practices). Mark NA if not applicable.", max: 7 },
+        { id: "s2_2", label: "2.2 Sourcing & Transparency", desc: "Evidence of quality sourcing (menu mentions origin, sustainable practices).", max: 7 },
         { id: "s2_3", label: "2.3 Portion Appropriateness", desc: "Portion sizes suitable for the concept and price point", max: 5 }
       ]},
       { id: "s3", title: "Service & Ambience", max: 23, criteria: [
@@ -888,11 +906,11 @@ const SCORESHEETS = {
         { id: "s1_1", label: "1.1 Flavour & Balance", desc: "Harmony of flavours, seasoning, and taste balance across dishes ordered", max: 12 },
         { id: "s1_2", label: "1.2 Presentation & Plating", desc: "Visual appeal, creativity, and thoughtfulness in presentation", max: 10 },
         { id: "s1_3", label: "1.3 Technique & Execution", desc: "Cooking skill, proper temperatures, textures, and technical proficiency", max: 10 },
-        { id: "s1_4", label: "1.4 Consistency Across Outlets", desc: "Evidence of standardisation and quality control across multiple outlets. Score this on Visit 2 only — you need both outlets to compare fairly. Leave blank on Visit 1 and return to score it after your second visit.", max: 8, chainVisit2Only: true }
+        { id: "s1_4", label: "1.4 Consistency Across Outlets", desc: "Evidence of standardisation and quality control across multiple outlets. Score this on Visit 2 only — you need both outlets to compare fairly.", max: 8, chainVisit2Only: true }
       ]},
       { id: "s2", title: "Ingredient Quality & Preparation", max: 18, criteria: [
         { id: "s2_1", label: "2.1 Freshness & Quality", desc: "Use of fresh, high-quality ingredients evident in taste and appearance", max: 8 },
-        { id: "s2_2", label: "2.2 Sourcing & Transparency", desc: "Evidence of quality sourcing. Mark NA if not applicable.", max: 5 },
+        { id: "s2_2", label: "2.2 Sourcing & Transparency", desc: "Evidence of quality sourcing.", max: 5 },
         { id: "s2_3", label: "2.3 Portion Appropriateness", desc: "Portion sizes suitable for the concept and price point", max: 5 }
       ]},
       { id: "s3", title: "Service & Ambience", max: 25, criteria: [
@@ -919,7 +937,7 @@ const SCORESHEETS = {
       ]},
       { id: "s2", title: "Ingredient Quality", max: 15, criteria: [
         { id: "s2_1", label: "2.1 Premium Ingredients", desc: "Use of high-quality, seasonal, or rare ingredients", max: 10 },
-        { id: "s2_2", label: "2.2 Sourcing & Provenance", desc: "Chef's knowledge and transparency about ingredient origins. Mark NA if not applicable.", max: 5 }
+        { id: "s2_2", label: "2.2 Sourcing & Provenance", desc: "Chef's knowledge and transparency about ingredient origins.", max: 5 }
       ]},
       { id: "s3", title: "Chef Interaction & Storytelling", max: 20, criteria: [
         { id: "s3_1", label: "3.1 Chef Engagement", desc: "Chef's presence, interaction, and connection with diners", max: 10 },
@@ -1448,36 +1466,25 @@ function renderSheet() {
   if (extras) {
     if (!visitSubmitted) {
       const downloadBtn = a.letterUrl
-        ? ' <a href="' + escapeHtml(a.letterUrl) + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:7px 16px;background:var(--burgundy);color:var(--paper);border-radius:4px;font-size:13px;font-weight:600;text-decoration:none;">⬇ Download Dining Credit Letter</a>'
+        ? '<a href="' + escapeHtml(a.letterUrl) + '" target="_blank" rel="noopener" class="credit-reminder__download">⬇ Download Letter</a>'
         : '';
-      let html;
-      if (isChain) {
-        html = '<div class="credit-reminder credit-reminder--chain">' +
-          '<span class="credit-reminder__icon">⚐</span>' +
+      const reminderClass = isChain ? 'credit-reminder credit-reminder--chain' : 'credit-reminder';
+      const reminderIcon = isChain ? '⚐' : '⚠';
+      let html = '<div class="' + reminderClass + '">' +
+          '<span class="credit-reminder__icon">' + reminderIcon + '</span>' +
           '<div class="credit-reminder__text">' +
-            '<strong>Bring your physical dining credit letter</strong>' +
-            'The same letter covers both your outlet visits — each judge visits 2 different outlets in this chain. Hand the letter to the outlet at the end of each meal.' +
-            downloadBtn +
+            '<div class="credit-reminder__heading-row"><strong>Bring your physical dining credit letter</strong>' + downloadBtn + '</div>' +
+            'Hand it to the restaurant at the end of your meal. If you forget the physical copy, ask the restaurant to take a photo of the digital version.' +
           '</div>' +
         '</div>';
-      } else {
-        html = '<div class="credit-reminder">' +
-          '<span class="credit-reminder__icon">⚠</span>' +
-          '<div class="credit-reminder__text">' +
-            '<strong>Bring your physical dining credit letter</strong>' +
-            'You will need to hand the signed letter to the restaurant at the end of the meal. The digital copy here is for reference only.' +
-            downloadBtn +
-          '</div>' +
-        '</div>';
-      }
       if (a.reservationInstructions) html += '<div class="concept__reservation" style="margin-left:0;margin-bottom:24px;"><strong>Reservation Instructions</strong>' + escapeHtml(a.reservationInstructions) + '</div>';
-      // Chain Visit 1 save-and-exit reminder
+      // Chain Visit 1 two-visit instructions banner
       if (isChain && currentChainVisit === 1) {
-        html += '<div class="credit-reminder" style="background:rgba(74,107,61,0.06);border-color:rgba(74,107,61,0.3);">' +
-          '<span class="credit-reminder__icon" style="color:var(--success);">ℹ</span>' +
-          '<div class="credit-reminder__text">' +
-            '<strong style="color:var(--success);">Two-visit scoring — please read</strong>' +
-            'Score all criteria for this outlet. Once done, tap <em>Save &amp; Exit</em> — do not submit yet. Visit a second outlet from this chain, then return to complete Visit 2 and submit both together.' +
+        html += '<div class="chain-v1-banner">' +
+          '<span class="chain-v1-banner__icon">ℹ</span>' +
+          '<div class="chain-v1-banner__text">' +
+            '<strong>Two-visit scoring — please read</strong>' +
+            'Score all criteria for this outlet (Section 1.4 is locked until Visit 2). Once done, tap <em>Save &amp; Exit</em> — do not submit yet. Visit a second outlet from this chain, then return to complete Visit 2 and submit both together.' +
           '</div>' +
         '</div>';
       }
@@ -1506,6 +1513,7 @@ function renderSheet() {
     return '<div class="section" data-section="' + section.id + '">' +
       '<div class="section__header"><div class="section__header-left"><span class="section__num">' + section.id.replace('s','') + '</span><span class="section__title">' + escapeHtml(section.title) + '</span></div>' +
       '<div class="section__score"><strong id="subtotal-' + section.id + '">0.0</strong> / <span id="submax-' + section.id + '">' + section.max + '</span></div></div>' +
+      '<div class="section__na-note"><strong>NA</strong>Type "NA" in any score field if a criterion does not apply. Points will be redistributed across the remaining criteria in this section.</div>' +
       section.criteria.map(c => renderCriterion(c, section.id)).join('') +
     '</div>';
   }).join('');
@@ -1523,7 +1531,7 @@ function renderSheet() {
     });
   });
 
-  ['visitDate','visitService','billAmount','additionalCost'].forEach(id => {
+  ['visitDate','visitService','billAmount','additionalCost','orderedItems'].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener('input', () => { scheduleDraftSave(); if(el.value){el.classList.remove('has-error');const err=document.getElementById('err-'+id);if(err)err.classList.remove('is-active');} });
     el.addEventListener('change', () => scheduleDraftSave());
@@ -1582,10 +1590,11 @@ function reviseChainVisit(visitNum) {
 
 function restorePreviousSubmission(prev) {
   if (!prev) return;
-  const vDate = document.getElementById('visitDate'); const vSvc = document.getElementById('visitService'); const vBill = document.getElementById('billAmount');
+  const vDate = document.getElementById('visitDate'); const vSvc = document.getElementById('visitService'); const vBill = document.getElementById('billAmount'); const vOrd = document.getElementById('orderedItems');
   if (vDate && prev.visitDate) vDate.value = prev.visitDate;
   if (vSvc && prev.visitService) vSvc.value = prev.visitService;
   if (vBill && prev.billAmount !== undefined && prev.billAmount !== '') vBill.value = prev.billAmount;
+  if (vOrd && prev.orderedItems) vOrd.value = prev.orderedItems;
   if (prev.scores) { Object.keys(prev.scores).forEach(id => { const el=document.getElementById('score-'+id); const val=prev.scores[id]; if(el&&val!==''&&val!==undefined&&val!==null){const strVal=String(val);el.value=strVal;if(NA_REGEX.test(strVal))el.classList.add('is-na');} }); }
   if (prev.comments) { Object.keys(prev.comments).forEach(id => { const el=document.getElementById('comment-'+id); if(el&&prev.comments[id])el.value=prev.comments[id]; }); }
 }
@@ -1593,14 +1602,14 @@ function restorePreviousSubmission(prev) {
 function renderCriterion(c, sectionId) {
   const isChainV2Only = !!(c.chainVisit2Only);
   const isVisit1 = isChainAssignment(currentAssignment) && currentChainVisit === 1;
-  const noteHtml = isChainV2Only ? '<div class="criterion__note">Score on Visit 2 only — leave blank for now. Return after your second outlet visit to complete this.</div>' : '';
+  const isDisabled = isChainV2Only && isVisit1;
   return '<div class="criterion" id="crit-' + c.id + '" data-section="' + sectionId + '" data-orig-max="' + c.max + '">' +
-    '<div class="criterion__head"><div><div class="criterion__title">' + escapeHtml(c.label) + '</div><div class="criterion__desc">' + escapeHtml(c.desc) + '</div>' + noteHtml + '</div>' +
-    '<div class="scorer"><button class="scorer__btn" id="minus-' + c.id + '" type="button" aria-label="Decrease"' + (isChainV2Only&&isVisit1?' disabled':'') + '>−</button>' +
-    '<input class="scorer__input" id="score-' + c.id + '" type="text" inputmode="decimal" autocomplete="off" placeholder="0.0" aria-label="Score (or type NA)"' + (isChainV2Only&&isVisit1?' disabled':'') + '>' +
-    '<button class="scorer__btn" id="plus-' + c.id + '" type="button" aria-label="Increase"' + (isChainV2Only&&isVisit1?' disabled':'') + '>+</button>' +
+    '<div class="criterion__head"><div><div class="criterion__title">' + escapeHtml(c.label) + '</div><div class="criterion__desc">' + escapeHtml(c.desc) + '</div></div>' +
+    '<div class="scorer"><button class="scorer__btn" id="minus-' + c.id + '" type="button" aria-label="Decrease"' + (isDisabled?' disabled':'') + '>−</button>' +
+    '<input class="scorer__input" id="score-' + c.id + '" type="text" inputmode="decimal" autocomplete="off" placeholder="' + (isDisabled?'V2':'0.0') + '" aria-label="Score (or type NA)"' + (isDisabled?' disabled':'') + '>' +
+    '<button class="scorer__btn" id="plus-' + c.id + '" type="button" aria-label="Increase"' + (isDisabled?' disabled':'') + '>+</button>' +
     '<span class="scorer__max-label" id="max-' + c.id + '">/ ' + c.max + '</span></div></div>' +
-    '<textarea class="criterion__comment" id="comment-' + c.id + '" placeholder="Your observations on ' + escapeAttr(c.label.toLowerCase()) + ' (optional)"' + (isChainV2Only&&isVisit1?' disabled':'') + '></textarea>' +
+    '<textarea class="criterion__comment" id="comment-' + c.id + '" placeholder="Your observations on ' + escapeAttr(c.label.toLowerCase()) + ' (optional)"' + (isDisabled?' disabled':'') + '></textarea>' +
     '<div class="criterion__redistribution-note" id="redist-' + c.id + '"></div>' +
     '<div class="criterion__error" id="score-err-' + c.id + '">Score is required (or type NA)</div>' +
     '<div class="criterion__error" id="comment-err-' + c.id + '">Comment is required</div>' +
@@ -1743,14 +1752,15 @@ function clearDraft() {
   try { if(isChainAssignment(currentAssignment)){localStorage.removeItem(draftKey(currentAssignment,currentChainVisit));}else{localStorage.removeItem(draftKey());} } catch(e) {}
 }
 function restoreDraft(draft) {
-  if (draft.visit) { ['visitDate','visitService','billAmount','additionalCost'].forEach(id => { const el=document.getElementById(id); if(el&&draft.visit[id]!==undefined)el.value=draft.visit[id]; }); }
+  if (draft.visit) { ['visitDate','visitService','billAmount','additionalCost','orderedItems'].forEach(id => { const el=document.getElementById(id); if(el&&draft.visit[id]!==undefined)el.value=draft.visit[id]; }); }
   if (draft.scores) { Object.keys(draft.scores).forEach(id => { const el=document.getElementById('score-'+id); if(el&&draft.scores[id]!==''){el.value=draft.scores[id];if(NA_REGEX.test(draft.scores[id]))el.classList.add('is-na');} }); }
   if (draft.comments) { Object.keys(draft.comments).forEach(id => { const el=document.getElementById('comment-'+id); if(el)el.value=draft.comments[id]; }); }
 }
 function collectFormData() {
   const scores = {}; const comments = {};
   currentSheet.sections.forEach(section => { section.criteria.forEach(c => { const sEl=document.getElementById('score-'+c.id); const cEl=document.getElementById('comment-'+c.id); scores[c.id]=sEl?sEl.value:''; comments[c.id]=cEl?cEl.value:''; }); });
-  const out = { visit: { visitDate: document.getElementById('visitDate').value, visitService: document.getElementById('visitService').value, billAmount: document.getElementById('billAmount').value, additionalCost: document.getElementById('additionalCost').value }, scores, comments, ts: Date.now() };
+  const orderedEl = document.getElementById('orderedItems');
+  const out = { visit: { visitDate: document.getElementById('visitDate').value, visitService: document.getElementById('visitService').value, billAmount: document.getElementById('billAmount').value, additionalCost: document.getElementById('additionalCost').value, orderedItems: orderedEl ? orderedEl.value : '' }, scores, comments, ts: Date.now() };
   if (isChainAssignment(currentAssignment) && chainSelectedOutlet) out.chainOutlet = { name: chainSelectedOutlet.name, address: chainSelectedOutlet.address };
   return out;
 }
@@ -1860,7 +1870,7 @@ function buildSubmitPayload() {
     sub=Math.round(sub*10)/10; subtotals[section.id]=sub; totalScore+=sub;
   });
   totalScore=Math.round(totalScore*10)/10;
-  const payload = { judgeId, judgeName:judgeData.judgeName, judgeType:judgeData.judgeType, category:a.category, concept:a.concept, outlet:a.outlet, visitDate:data.visit.visitDate, visitService:data.visit.visitService, billAmount:data.visit.billAmount, additionalCost:data.visit.additionalCost, scores, comments, subtotals, totalScore, scoresheetType:a.scoresheetType, isRevision:!!a.isRevising };
+  const payload = { judgeId, judgeName:judgeData.judgeName, judgeType:judgeData.judgeType, category:a.category, concept:a.concept, outlet:a.outlet, visitDate:data.visit.visitDate, visitService:data.visit.visitService, billAmount:data.visit.billAmount, additionalCost:data.visit.additionalCost, orderedItems:data.visit.orderedItems||'', scores, comments, subtotals, totalScore, scoresheetType:a.scoresheetType, isRevision:!!a.isRevising };
   if (isChainAssignment(a)) { payload.isChain=true; payload.chainVisitNumber=currentChainVisit; payload.chainTotalVisits=2; if(chainSelectedOutlet){payload.outletName=chainSelectedOutlet.name;payload.outletAddress=chainSelectedOutlet.address;} }
   return payload;
 }
