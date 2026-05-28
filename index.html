@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>The Judge's Notebook · RAS Epicurean Star Award 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+
+<style>
+/* ============================================================
+   THE JUDGE'S NOTEBOOK
+   RAS Epicurean Star Award 2026 · The Champions Arena
+   Warm leather-bound journal — cream paper, burgundy, gold
+   ============================================================ */
+
+:root {
+  --paper:        #FBF6EC;
+  --paper-deep:   #F4ECD8;
+  --paper-shade:  #EDE3CA;
+  --ink:          #2A1810;
+  --ink-soft:     #5C4434;
+  --ink-muted:    #8A7560;
+  --rule:         #D7C9A8;
+  --rule-soft:    #E8DCC0;
+  --leather:      #4A1F1A;
+  --leather-deep: #2E1310;
+  --burgundy:     #6B2A24;
+  --burgundy-light: #8B3D34;
+  --gold:         #A8884E;
+  --gold-bright:  #C9A96E;
+  --gold-soft:    #D9BF8A;
+  --seal:         #8B2D24;
+  --success:      #4A6B3D;
+  --warn:         #B8542E;
+  --error:        #8B2D24;
+  --fs-xs:   13px;
+  --fs-sm:   15px;
+  --fs-body: 17px;
+  --fs-md:   19px;
+  --fs-lg:   22px;
+  --fs-xl:   28px;
+  --font-display: 'Cormorant Garamond', 'Libre Caslon Text', Georgia, serif;
+  --font-serif:   'Libre Caslon Text', Georgia, serif;
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --shadow-page:  0 1px 0 var(--paper-shade), 0 2px 4px rgba(74,31,26,0.06), 0 12px 32px rgba(74,31,26,0.08);
+  --shadow-lift:  0 2px 0 var(--paper-shade), 0 8px 16px rgba(74,31,26,0.1), 0 24px 48px rgba(74,31,26,0.12);
+  --shadow-press: inset 0 1px 2px rgba(74,31,26,0.08);
+  --r-xs: 4px;
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 16px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--paper-deep);
+  background-image:
+    radial-gradient(ellipse at top, rgba(168,136,78,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at bottom, rgba(107,42,36,0.04) 0%, transparent 50%);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(74,31,26,0.012) 0px, rgba(74,31,26,0.012) 1px, transparent 1px, transparent 3px),
+    repeating-linear-gradient(-45deg, rgba(168,136,78,0.012) 0px, rgba(168,136,78,0.012) 1px, transparent 1px, transparent 3px);
+}
+
+.gate {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+  position: relative;
+  z-index: 1;
+}
+.gate__book {
+  background: var(--leather);
+  background-image:
+    radial-gradient(ellipse at center, rgba(255,255,255,0.06) 0%, transparent 70%),
+    repeating-linear-gradient(105deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 4px),
+    repeating-linear-gradient(15deg, rgba(0,0,0,0.04) 0px, rgba(0,0,0,0.04) 1px, transparent 1px, transparent 6px);
+  color: var(--gold-bright);
+  padding: 60px 50px;
+  border-radius: 6px 14px 14px 6px;
+  max-width: 460px;
+  width: 100%;
+  position: relative;
+  box-shadow:
+    -4px 0 0 var(--leather-deep),
+    -6px 2px 8px rgba(0,0,0,0.15),
+    0 24px 48px rgba(46,19,16,0.4),
+    inset 0 0 60px rgba(0,0,0,0.2);
+  border: 1px solid rgba(168,136,78,0.2);
+}
+.gate__book::before {
+  content: '';
+  position: absolute;
+  left: -1px; top: 24px; bottom: 24px;
+  width: 8px;
+  background: linear-gradient(90deg, var(--leather-deep) 0%, transparent 100%);
+  border-radius: 6px 0 0 6px;
+}
+.gate__book::after {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(168,136,78,0.35);
+  border-radius: 3px;
+  pointer-events: none;
+}
+.gate__logos { display: flex; gap: 24px; align-items: center; justify-content: center; margin-bottom: 28px; }
+.gate__logo { height: 48px; width: auto; filter: brightness(0) invert(0.78) sepia(0.7) saturate(1.1) hue-rotate(-5deg); opacity: 0.92; }
+.gate__flourish { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 0 0 22px; color: rgba(217,191,138,0.55); font-size: 18px; letter-spacing: 0.4em; }
+.gate__flourish::before,.gate__flourish::after { content: ''; width: 40px; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(217,191,138,0.45) 50%, transparent 100%); }
+.gate__eyebrow { font-family: var(--font-body); font-size: 11px; letter-spacing: 0.38em; text-transform: uppercase; color: var(--gold-soft); margin-bottom: 18px; }
+.gate__title { font-family: var(--font-display); font-weight: 500; font-style: italic; font-size: clamp(34px, 6vw, 44px); line-height: 1.1; letter-spacing: -0.01em; color: var(--paper); margin-bottom: 8px; }
+.gate__year { font-family: var(--font-display); font-size: 64px; color: var(--gold-bright); line-height: 1; margin: 14px 0 22px; letter-spacing: 0.06em; font-weight: 400; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+.gate__sub { font-size: 14px; color: rgba(217,191,138,0.7); max-width: 360px; margin: 0 auto 28px; line-height: 1.7; font-style: italic; font-family: var(--font-display); }
+.gate__spinner { width: 32px; height: 32px; border: 2px solid rgba(168,136,78,0.15); border-top-color: var(--gold-bright); border-radius: 50%; animation: spin 1s linear infinite; margin: 8px auto; }
+.gate__contact { margin-top: 28px; font-size: 12px; color: rgba(217,191,138,0.5); letter-spacing: 0.04em; }
+.gate__contact a { color: var(--gold-bright); text-decoration: none; border-bottom: 1px dotted; }
+.gate__open-btn { display: inline-block; margin: 24px auto 8px; padding: 13px 36px; font-family: var(--font-display); font-style: italic; font-size: 19px; font-weight: 500; letter-spacing: 0.02em; color: var(--leather-deep); background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 100%); border: 1px solid var(--gold-soft); border-radius: 4px; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.3); position: relative; z-index: 2; }
+.gate__open-btn:hover { background: linear-gradient(180deg, var(--gold-soft) 0%, var(--gold-bright) 100%); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.4); }
+.gate__open-btn:active { transform: translateY(0); }
+.gate__dossier { display: flex; align-items: center; gap: 18px; margin: 22px auto 4px; padding: 14px 20px; max-width: 320px; background: rgba(0,0,0,0.18); border: 1px solid rgba(168,136,78,0.25); border-radius: 4px; position: relative; z-index: 2; }
+.gate__seal { width: 52px; height: 52px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #a83a2f 0%, #6b1f18 60%, #3a0e0a 100%); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-style: italic; font-size: 19px; font-weight: 500; color: var(--gold-soft); flex-shrink: 0; box-shadow: inset 0 -2px 4px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.15), 0 2px 4px rgba(0,0,0,0.3); position: relative; }
+.gate__seal::before { content: ''; position: absolute; inset: 4px; border-radius: 50%; border: 1px dashed rgba(217,191,138,0.4); }
+.gate__dossier-text { flex: 1; text-align: left; }
+.gate__dossier-class { font-family: var(--font-display); font-style: italic; font-size: 15px; color: var(--gold-bright); line-height: 1.2; }
+.gate__dossier-rule { height: 1px; background: linear-gradient(90deg, rgba(168,136,78,0.3) 0%, transparent 100%); margin: 6px 0; }
+.gate__dossier-stats { font-family: var(--font-body); font-size: 11.5px; letter-spacing: 0.04em; color: rgba(217,191,138,0.7); line-height: 1.4; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes bookOpen { 0% { transform: rotateY(0) scale(1); opacity: 1; } 40% { transform: perspective(1200px) rotateY(-40deg) scale(0.95); opacity: 0.9; } 70% { transform: perspective(1200px) rotateY(-90deg) scale(0.85); opacity: 0.4; } 100% { transform: perspective(1200px) rotateY(-180deg) scale(0.7); opacity: 0; } }
+.gate__book.is-opening { animation: bookOpen 1.1s cubic-bezier(0.65, 0, 0.35, 1) forwards; transform-origin: left center; }
+.gate.is-fading { animation: fadeOut 0.6s 0.5s forwards; }
+@keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
+@keyframes pageEnter { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+.portal.is-entering #dashboard { animation: pageEnter 0.7s 0.3s cubic-bezier(0.2, 0.7, 0.3, 1) both; }
+.dashboard-hello { font-family: var(--font-display); font-style: italic; font-size: 16px; color: var(--ink-muted); margin-bottom: 6px; display: block; letter-spacing: 0.02em; }
+.dashboard-hello strong { color: var(--burgundy); font-weight: 500; }
+
+.portal { display: none; position: relative; z-index: 1; }
+.portal.is-active { display: block; }
+.portal__header { position: sticky; top: 0; z-index: 50; background: var(--leather); background-image: repeating-linear-gradient(105deg, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 4px); color: var(--paper); border-bottom: 1px solid rgba(168,136,78,0.2); box-shadow: 0 4px 12px rgba(46,19,16,0.2); }
+.portal__header-inner { max-width: 1180px; margin: 0 auto; padding: 16px 28px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.portal__brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.portal__brand img { height: 36px; width: auto; filter: brightness(0) invert(0.78) sepia(0.7) saturate(1.1) hue-rotate(-5deg); opacity: 0.95; flex-shrink: 0; }
+.portal__brand-text { display: flex; flex-direction: column; line-height: 1.15; min-width: 0; }
+.portal__brand-text small { font-size: 9.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-soft); margin-bottom: 3px; }
+.portal__brand-text strong { font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 18px; color: var(--paper); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.portal__judge { text-align: right; line-height: 1.2; min-width: 0; }
+.portal__judge small { font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-soft); display: block; }
+.portal__judge strong { font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 18px; color: var(--paper); display: block; margin-top: 1px; }
+.portal__judge em { font-style: normal; font-size: 11px; color: rgba(245,237,216,0.55); display: block; margin-top: 1px; letter-spacing: 0.04em; }
+.portal__main { max-width: 1180px; margin: 0 auto; padding: 32px 28px 120px; }
+
+.welcome { position: relative; padding: 56px 48px 48px; margin-bottom: 28px; text-align: center; background: var(--paper); border-radius: var(--r-lg); box-shadow: var(--shadow-page); border: 1px solid var(--rule-soft); overflow: hidden; }
+.welcome::before { content: ''; position: absolute; inset: 14px; border: 1px solid var(--rule); border-radius: 8px; pointer-events: none; }
+.welcome__flourish { font-family: var(--font-display); color: var(--gold); font-size: 26px; letter-spacing: 0.3em; margin-bottom: 18px; opacity: 0; animation: fadeUp 0.7s 0.1s forwards; }
+.welcome__greeting { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: clamp(36px, 5vw, 52px); line-height: 1.1; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.005em; }
+.welcome__greeting-word,.welcome__greeting-name { display: inline-block; opacity: 0; transform: translateY(20px); animation: revealName 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) forwards; }
+.welcome__greeting-name { color: var(--burgundy); position: relative; }
+.welcome__greeting-name::after { content: ''; position: absolute; left: 4%; right: 4%; bottom: -4px; height: 6px; background: radial-gradient(ellipse 50% 100% at 50% 0, var(--gold) 0%, transparent 80%); opacity: 0; animation: underlineDraw 0.6s 1.2s forwards; }
+.welcome__sub { font-family: var(--font-display); font-style: italic; font-size: var(--fs-md); color: var(--ink-soft); max-width: 540px; margin: 18px auto 0; line-height: 1.55; opacity: 0; animation: fadeUp 0.7s 1.4s forwards; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes revealName { to { opacity: 1; transform: translateY(0); } }
+@keyframes underlineDraw { from { opacity: 0; transform: scaleX(0); } to { opacity: 1; transform: scaleX(1); } }
+
+.status-bar { display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: stretch; margin-bottom: 28px; }
+.status-card { background: var(--paper); border: 1px solid var(--rule-soft); border-radius: var(--r-md); padding: 18px 22px; box-shadow: var(--shadow-page); position: relative; }
+.status-card__label { font-size: 10.5px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-muted); font-weight: 600; margin-bottom: 8px; }
+.countdown { display: flex; gap: 14px; align-items: baseline; }
+.countdown__unit { display: flex; flex-direction: column; align-items: flex-start; }
+.countdown__num { font-family: var(--font-display); font-size: 38px; font-weight: 500; color: var(--burgundy); line-height: 0.9; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.countdown__unit small { font-family: var(--font-body); font-size: 9.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-muted); margin-top: 4px; font-weight: 600; }
+.countdown__sep { font-family: var(--font-display); font-size: 32px; color: var(--gold); line-height: 1; margin-top: -6px; }
+.remaining { display: flex; align-items: center; gap: 18px; height: 100%; background: var(--leather); background-image: repeating-linear-gradient(105deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 4px); border-radius: var(--r-md); padding: 18px 26px; color: var(--paper); box-shadow: var(--shadow-page); }
+.remaining__num { font-family: var(--font-display); font-size: 52px; font-weight: 500; color: var(--gold-bright); line-height: 1; font-variant-numeric: tabular-nums; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+.remaining__num.is-decrementing { transform: scale(0.7); opacity: 0.4; }
+.remaining__text { font-family: var(--font-display); font-style: italic; font-size: var(--fs-sm); line-height: 1.3; color: rgba(245,237,216,0.85); }
+.remaining__text strong { display: block; font-style: normal; font-family: var(--font-body); font-size: 10.5px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold-soft); font-weight: 600; margin-bottom: 3px; }
+
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 2px solid var(--rule-soft); position: sticky; top: 68px; z-index: 40; background: var(--paper-deep); padding-top: 14px; margin-left: -28px; margin-right: -28px; padding-left: 28px; padding-right: 28px; box-shadow: 0 4px 12px -8px rgba(74,31,26,0.15); }
+.tab { font-family: var(--font-body); font-size: 14px; font-weight: 500; padding: 10px 18px; background: var(--paper); border: 1px solid var(--rule); border-radius: 999px; color: var(--ink-soft); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s ease; }
+.tab:hover { border-color: var(--gold); color: var(--ink); background: var(--paper); transform: translateY(-1px); box-shadow: 0 2px 6px rgba(74,31,26,0.08); }
+.tab.is-active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.tab__count { display: inline-block; min-width: 20px; padding: 0 7px; height: 20px; border-radius: 10px; background: var(--gold-soft); color: var(--ink); font-size: 11px; font-weight: 700; line-height: 20px; text-align: center; }
+.tab.is-active .tab__count { background: var(--gold-bright); }
+.tab.is-done .tab__count { background: var(--success); color: var(--paper); }
+
+.concept-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.concept-pills.is-hidden { display: none; }
+.concept-pill { font-family: var(--font-body); font-size: 13px; font-weight: 500; padding: 7px 14px; background: transparent; border: 1px dashed var(--rule); border-radius: 999px; color: var(--ink-soft); cursor: pointer; display: inline-flex; align-items: center; gap: 7px; transition: all 0.15s; }
+.concept-pill:hover { border-style: solid; border-color: var(--burgundy); color: var(--ink); }
+.concept-pill__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--rule); flex-shrink: 0; }
+.concept-pill__dot.is-draft { background: var(--warn); }
+.concept-pill__dot.is-done { background: var(--success); }
+
+.concepts { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 18px; position: relative; }
+.concept { background: var(--paper); border: 1px solid var(--rule-soft); border-radius: var(--r-md); padding: 24px 26px; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); position: relative; display: flex; flex-direction: column; gap: 14px; min-height: 200px; box-shadow: var(--shadow-page); overflow: hidden; }
+.concept::before { content: ''; position: absolute; left: 14px; top: 18px; bottom: 18px; width: 1px; background: var(--rule-soft); }
+.concept:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: var(--shadow-lift); }
+.concept.is-removing { animation: pageTurn 0.7s cubic-bezier(0.5, 0, 0.5, 1) forwards; }
+@keyframes pageTurn { 0% { transform: translateY(0) rotateY(0); opacity: 1; } 40% { transform: translateY(-8px) rotateY(-25deg); opacity: 0.8; } 100% { transform: translateY(-40px) rotateY(-90deg) scale(0.7); opacity: 0; } }
+.concept__category { font-family: var(--font-body); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--burgundy); font-weight: 700; padding-left: 16px; }
+.concept__name { font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 28px; line-height: 1.1; color: var(--ink); padding-left: 16px; }
+.concept__outlet { font-size: 14px; color: var(--ink-soft); line-height: 1.5; padding-left: 16px; margin-top: -4px; }
+.concept__footer { margin-top: auto; padding-top: 14px; padding-left: 16px; border-top: 1px dashed var(--rule); display: flex; justify-content: space-between; align-items: center; font-size: 13px; gap: 10px; flex-wrap: wrap; }
+.concept__credit { color: var(--ink-muted); }
+.concept__credit strong { color: var(--ink); font-weight: 600; }
+.concept__status { display: inline-flex; align-items: center; gap: 7px; padding: 5px 11px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+.concept__status--pending { background: rgba(168,136,78,0.14); color: var(--gold); }
+.concept__status--draft { background: rgba(184,84,46,0.14); color: var(--warn); }
+.concept__status--submitted { background: rgba(74,107,61,0.16); color: var(--success); }
+.concept__status--locked { background: rgba(42,24,16,0.08); color: var(--ink-muted); }
+.concept__status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.concept__reservation { margin-top: 8px; padding: 10px 14px; background: rgba(168,136,78,0.08); border-left: 3px solid var(--gold); border-radius: var(--r-xs); font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; margin-left: 16px; }
+.concept__reservation strong { color: var(--burgundy); font-weight: 600; display: block; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 4px; }
+
+.credit-reminder { background: rgba(184,84,46,0.06); border: 1px solid rgba(184,84,46,0.25); border-radius: var(--r-sm); padding: 16px 20px; margin-bottom: 24px; display: flex; align-items: flex-start; gap: 14px; }
+.credit-reminder--chain { background: rgba(107,42,36,0.06); border-color: rgba(107,42,36,0.3); }
+.credit-reminder--chain .credit-reminder__icon { color: var(--burgundy); }
+.credit-reminder__icon { font-size: 22px; line-height: 1; color: var(--warn); flex-shrink: 0; }
+.credit-reminder__text { font-size: 14px; color: var(--ink); line-height: 1.55; }
+.credit-reminder__text strong { display: block; margin-bottom: 4px; font-weight: 600; color: var(--ink); }
+
+.concept__chain-progress { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; margin-left: 16px; padding: 6px 12px; background: rgba(107,42,36,0.08); border: 1px solid rgba(107,42,36,0.2); border-radius: 999px; font-size: 12px; font-weight: 600; color: var(--burgundy); letter-spacing: 0.04em; }
+.concept__chain-progress-dots { display: inline-flex; gap: 4px; }
+.concept__chain-progress-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rule); }
+.concept__chain-progress-dot.is-done { background: var(--success); }
+.concept__chain-visited { margin-top: 6px; margin-left: 16px; font-size: 12.5px; color: var(--ink-muted); font-style: italic; font-family: var(--font-display); }
+.concept__chain-visited strong { color: var(--ink-soft); font-weight: 500; font-style: normal; font-family: var(--font-body); }
+.empty { text-align: center; padding: 80px 28px; color: var(--ink-muted); font-family: var(--font-display); font-style: italic; font-size: 22px; }
+
+.scoresheet { display: none; max-width: 900px; margin: 0 auto; }
+.scoresheet.is-active { display: block; animation: fadeUp 0.4s ease; }
+.sheet__back { display: inline-flex; align-items: center; gap: 8px; background: none; border: none; font-family: var(--font-body); font-size: 14px; font-weight: 500; color: var(--ink-soft); cursor: pointer; padding: 6px 0; margin-bottom: 22px; transition: color 0.2s; }
+.sheet__back:hover { color: var(--burgundy); }
+.sheet__hero { background: var(--paper); border: 1px solid var(--rule-soft); border-radius: var(--r-lg); padding: 40px 44px; margin-bottom: 28px; position: relative; box-shadow: var(--shadow-page); }
+.sheet__hero::before { content: ''; position: absolute; left: 24px; top: 24px; bottom: 24px; width: 3px; background: linear-gradient(180deg, var(--burgundy) 0%, var(--gold) 100%); border-radius: 2px; }
+.sheet__category { font-family: var(--font-body); font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--burgundy); font-weight: 700; margin-bottom: 10px; margin-left: 18px; }
+.sheet__concept { font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: clamp(32px, 5vw, 46px); line-height: 1.05; color: var(--ink); margin-bottom: 8px; margin-left: 18px; }
+.sheet__outlet { font-size: var(--fs-md); color: var(--ink-soft); margin-bottom: 24px; margin-left: 18px; font-family: var(--font-display); }
+.sheet__meta { display: flex; flex-wrap: wrap; gap: 32px; padding-top: 22px; margin-left: 18px; border-top: 1px solid var(--rule-soft); }
+.sheet__meta-item small { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-muted); font-weight: 600; display: block; margin-bottom: 4px; }
+.sheet__meta-item strong { font-family: var(--font-display); font-size: var(--fs-md); color: var(--ink); font-weight: 500; }
+
+.chain-picker { background: var(--paper); border: 1px solid var(--rule-soft); border-left: 4px solid var(--burgundy); border-radius: var(--r-md); padding: 24px 28px; margin-bottom: 24px; box-shadow: var(--shadow-page); }
+.chain-picker__header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+.chain-picker__visit-tag { font-family: var(--font-display); font-style: italic; font-size: 18px; color: var(--burgundy); font-weight: 500; }
+.chain-picker__label { font-family: var(--font-body); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-soft); font-weight: 700; }
+.chain-picker__hint { font-size: 13px; color: var(--ink-muted); font-style: italic; margin-bottom: 12px; font-family: var(--font-display); }
+.chain-picker__select { width: 100%; font-family: var(--font-body); font-size: var(--fs-body); color: var(--ink); background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-sm); padding: 13px 14px; transition: border-color 0.2s, box-shadow 0.2s; }
+.chain-picker__select:focus { outline: none; border-color: var(--burgundy); box-shadow: 0 0 0 3px rgba(107,42,36,0.1); }
+.chain-picker__select.has-error { border-color: var(--error); background: rgba(139,45,36,0.04); }
+.chain-picker__address { margin-top: 10px; padding: 10px 14px; background: rgba(168,136,78,0.06); border-left: 3px solid var(--gold-soft); border-radius: var(--r-xs); font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; display: none; }
+.chain-picker__address.is-active { display: block; }
+.chain-picker__address small { display: block; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-muted); font-weight: 600; margin-bottom: 4px; }
+.chain-prior-visit { margin-top: 14px; padding: 10px 14px; background: rgba(74,107,61,0.08); border-left: 3px solid var(--success); border-radius: var(--r-xs); font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+.chain-prior-visit strong { color: var(--success); font-weight: 600; display: block; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 4px; }
+
+.visit { background: var(--paper); border: 1px solid var(--rule-soft); border-radius: var(--r-md); padding: 28px 32px; margin-bottom: 24px; box-shadow: var(--shadow-page); display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+.visit__title { grid-column: 1 / -1; font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 24px; color: var(--ink); margin-bottom: -6px; padding-bottom: 12px; border-bottom: 1px solid var(--rule-soft); }
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field__label { font-family: var(--font-body); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); font-weight: 700; }
+.field__label .req { color: var(--burgundy); margin-left: 2px; }
+.field__input,.field__select,.field__textarea { font-family: var(--font-body); font-size: var(--fs-body); color: var(--ink); background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-sm); padding: 13px 14px; width: 100%; transition: border-color 0.2s, box-shadow 0.2s, background 0.2s; }
+.field__input:focus,.field__select:focus,.field__textarea:focus { outline: none; border-color: var(--burgundy); background: var(--paper); box-shadow: 0 0 0 3px rgba(107,42,36,0.1); }
+.field__input.has-error,.field__select.has-error,.field__textarea.has-error { border-color: var(--error); background: rgba(139,45,36,0.04); }
+.field__error { font-size: 12.5px; color: var(--error); margin-top: 4px; display: none; font-weight: 500; }
+.field__error.is-active { display: block; }
+.field__hint { font-size: 12.5px; color: var(--ink-muted); font-style: italic; }
+
+.section { background: var(--paper); border: 1px solid var(--rule-soft); border-radius: var(--r-md); margin-bottom: 26px; overflow: hidden; box-shadow: var(--shadow-page); }
+.section__header { padding: 22px 32px; border-bottom: 1px solid var(--rule-soft); background: linear-gradient(180deg, var(--paper) 0%, rgba(244,236,216,0.4) 100%); display: flex; justify-content: space-between; align-items: baseline; gap: 20px; flex-wrap: wrap; }
+.section__header-left { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.section__num { font-family: var(--font-display); font-style: italic; font-size: 34px; color: var(--gold); font-weight: 500; line-height: 1; }
+.section__title { font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 26px; color: var(--ink); line-height: 1.1; }
+.section__score { font-family: var(--font-body); font-size: 13px; color: var(--ink-muted); font-weight: 500; white-space: nowrap; }
+.section__score strong { font-family: var(--font-display); color: var(--burgundy); font-size: 22px; font-weight: 500; margin-right: 3px; font-variant-numeric: tabular-nums; }
+
+.criterion { padding: 26px 32px; border-bottom: 1px dashed var(--rule-soft); }
+.criterion:last-child { border-bottom: none; }
+.criterion.is-na .criterion__title,.criterion.is-na .criterion__desc { opacity: 0.5; }
+.criterion.is-redistributed .scorer__max-label { color: var(--burgundy); font-weight: 700; }
+.criterion__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-bottom: 14px; flex-wrap: wrap; }
+.criterion__title { font-weight: 600; font-size: var(--fs-body); color: var(--ink); margin-bottom: 5px; line-height: 1.4; }
+.criterion__desc { font-size: 14.5px; color: var(--ink-soft); line-height: 1.55; max-width: 540px; }
+.criterion__note { margin-top: 8px; padding: 8px 12px; background: rgba(107,42,36,0.06); border-left: 3px solid var(--burgundy); border-radius: var(--r-xs); font-size: 13px; color: var(--burgundy); line-height: 1.5; font-style: italic; }
+
+.scorer { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.scorer__btn { width: 36px; height: 44px; border-radius: var(--r-xs); border: 1px solid var(--rule); background: var(--paper); color: var(--ink); font-size: 20px; font-weight: 400; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; font-family: var(--font-body); }
+.scorer__btn:hover { border-color: var(--burgundy); background: var(--paper); color: var(--burgundy); }
+.scorer__btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.scorer__input { width: 96px; height: 52px; text-align: center; font-family: var(--font-display); font-style: italic; font-size: 28px; font-weight: 500; color: var(--ink); background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-xs); margin: 0 2px; font-variant-numeric: tabular-nums; }
+.scorer__input:focus { outline: none; border-color: var(--burgundy); box-shadow: 0 0 0 3px rgba(107,42,36,0.1); }
+.scorer__input.is-na { font-style: normal; font-family: var(--font-body); font-size: 17px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.scorer__input.has-error { border-color: var(--error); background: rgba(139,45,36,0.04); }
+.scorer__max-label { font-size: 13px; color: var(--ink-muted); margin-left: 8px; font-weight: 500; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+.criterion__comment { width: 100%; font-family: var(--font-body); font-size: 14.5px; line-height: 1.6; color: var(--ink); background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-sm); padding: 12px 14px; resize: vertical; min-height: 58px; margin-top: 4px; transition: border-color 0.2s, box-shadow 0.2s; }
+.criterion__comment:focus { outline: none; border-color: var(--burgundy); box-shadow: 0 0 0 3px rgba(107,42,36,0.1); }
+.criterion__comment.has-error { border-color: var(--error); background: rgba(139,45,36,0.04); }
+.criterion__error { font-size: 12.5px; color: var(--error); margin-top: 5px; font-weight: 500; display: none; }
+.criterion__error.is-active { display: block; }
+.criterion__redistribution-note { font-size: 12.5px; color: var(--burgundy); font-style: italic; margin-top: 5px; display: none; font-family: var(--font-display); }
+.criterion__redistribution-note.is-active { display: block; }
+
+.total-bar { position: sticky; bottom: 0; background: var(--leather); background-image: repeating-linear-gradient(105deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 4px); color: var(--paper); border-radius: var(--r-md); padding: 22px 32px; margin-top: 30px; margin-bottom: 22px; display: flex; justify-content: space-between; align-items: center; gap: 24px; box-shadow: 0 -8px 28px rgba(46,19,16,0.25); z-index: 30; }
+.total-bar__inner-left { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.total-bar__label { font-family: var(--font-body); font-size: 10.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-soft); font-weight: 600; }
+.total-bar__value { font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 48px; color: var(--paper); line-height: 1; font-variant-numeric: tabular-nums; }
+.total-bar__value small { font-family: var(--font-body); font-style: normal; font-size: 17px; color: var(--gold-bright); font-weight: 400; }
+.total-bar__draft { font-size: 12px; color: rgba(245,237,216,0.55); margin-top: 4px; font-style: italic; font-family: var(--font-display); }
+.total-bar__draft.is-saved { color: var(--gold-soft); }
+.total-bar__actions { display: flex; gap: 12px; flex-shrink: 0; }
+
+.btn { font-family: var(--font-body); font-weight: 600; font-size: 14.5px; padding: 14px 24px; border-radius: var(--r-sm); border: none; cursor: pointer; transition: all 0.2s; letter-spacing: 0.02em; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.btn--primary { background: var(--gold-bright); color: var(--ink); }
+.btn--primary:hover { background: var(--gold-soft); transform: translateY(-1px); }
+.btn--primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.btn--ghost { background: transparent; color: var(--paper); border: 1px solid rgba(217,191,138,0.3); }
+.btn--ghost:hover { border-color: var(--gold-soft); background: rgba(217,191,138,0.08); }
+.btn--text { background: none; color: var(--ink-soft); padding: 10px 14px; }
+.btn--text:hover { color: var(--burgundy); }
+.btn--warn { background: var(--warn); color: var(--paper); }
+.btn--warn:hover { background: #a0451a; }
+.btn--burgundy { background: var(--burgundy); color: var(--paper); }
+.btn--burgundy:hover { background: var(--burgundy-light); }
+
+.submitted { background: var(--paper); border: 1px solid var(--rule-soft); border-radius: var(--r-lg); padding: 56px 48px; text-align: center; box-shadow: var(--shadow-page); position: relative; }
+.submitted::before { content: ''; position: absolute; inset: 14px; border: 1px solid var(--rule); border-radius: 8px; pointer-events: none; }
+.submitted__seal { width: 76px; height: 76px; border-radius: 50%; background: var(--seal); color: var(--gold-soft); display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; font-family: var(--font-display); font-style: italic; font-size: 32px; font-weight: 500; box-shadow: inset 0 -3px 6px rgba(0,0,0,0.2), 0 4px 12px rgba(139,45,36,0.3); position: relative; }
+.submitted__seal::before { content: ''; position: absolute; inset: 6px; border-radius: 50%; border: 1px dashed rgba(217,191,138,0.4); }
+.submitted__title { font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 36px; color: var(--ink); margin-bottom: 8px; }
+.submitted__sub { font-family: var(--font-display); font-style: italic; font-size: var(--fs-md); color: var(--ink-soft); margin-bottom: 28px; max-width: 520px; margin-left: auto; margin-right: auto; line-height: 1.55; }
+.submitted__score { display: inline-block; background: var(--leather); background-image: repeating-linear-gradient(105deg, rgba(0,0,0,0.04) 0px, rgba(0,0,0,0.04) 1px, transparent 1px, transparent 4px); color: var(--paper); border-radius: var(--r-md); padding: 24px 44px; margin-bottom: 28px; border: 1px solid rgba(168,136,78,0.25); }
+.submitted__score small { display: block; font-size: 10.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-soft); font-weight: 600; margin-bottom: 10px; }
+.submitted__score strong { font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 56px; line-height: 1; }
+.submitted__score strong span { font-family: var(--font-body); font-style: normal; font-size: 19px; color: var(--gold-bright); font-weight: 400; }
+.submitted__email-note { background: rgba(168,136,78,0.08); border: 1px solid var(--gold-soft); border-radius: var(--r-sm); padding: 14px 22px; font-family: var(--font-display); font-style: italic; font-size: 15px; color: var(--ink-soft); margin-bottom: 24px; display: inline-block; }
+.submitted__actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.submitted__note { margin-top: 24px; font-size: 13px; color: var(--ink-muted); font-style: italic; font-family: var(--font-display); }
+.submitted__note a { color: var(--burgundy); }
+
+.visited-toolbar { margin-bottom: 18px; }
+.visited-btn { width: 100%; display: flex; align-items: center; gap: 16px; padding: 16px 22px; background: linear-gradient(180deg, #FBF6EC 0%, #F5EBD4 100%); border: 1px solid var(--gold-soft); border-left: 4px solid var(--burgundy); border-radius: var(--r-sm); cursor: pointer; text-align: left; font-family: var(--font-body); color: var(--ink); transition: all 0.25s ease; box-shadow: 0 1px 3px rgba(74,31,26,0.08); }
+.visited-btn:hover { background: linear-gradient(180deg, #F5EBD4 0%, #EFE2C0 100%); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(74,31,26,0.12); }
+.visited-btn__icon { font-size: 22px; color: var(--gold); flex-shrink: 0; }
+.visited-btn__text { flex: 1; display: flex; flex-direction: column; }
+.visited-btn__text strong { font-family: var(--font-display); font-style: italic; font-size: 19px; font-weight: 500; color: var(--burgundy); letter-spacing: 0.01em; }
+.visited-btn__text small { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+.visited-btn__arrow { font-family: var(--font-display); font-style: italic; font-size: 22px; color: var(--gold); transition: transform 0.25s ease; }
+.visited-btn:hover .visited-btn__arrow { transform: translateX(4px); }
+
+.visited-hero { text-align: center; padding: 18px 0 26px; margin-bottom: 22px; border-bottom: 2px solid var(--rule-soft); }
+.visited-hero__eyebrow { font-family: var(--font-body); font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 8px; }
+.visited-hero__title { font-family: var(--font-display); font-style: italic; font-size: 32px; color: var(--ink); margin: 0 0 6px; font-weight: 500; }
+.visited-hero__sub { font-family: var(--font-body); font-size: 14px; color: var(--ink-soft); margin: 0; }
+
+.visited-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+.visited-card { display: flex; flex-direction: column; gap: 8px; padding: 18px 22px; background: var(--paper); border: 1px solid var(--rule); border-left: 4px solid var(--gold); border-radius: var(--r-sm); cursor: pointer; transition: all 0.2s ease; position: relative; }
+.visited-card:hover { transform: translateY(-2px); border-left-color: var(--burgundy); box-shadow: 0 8px 20px -10px rgba(74,31,26,0.25); }
+.visited-card__category { font-family: var(--font-body); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+.visited-card__concept { font-family: var(--font-display); font-style: italic; font-size: 21px; color: var(--ink); line-height: 1.2; font-weight: 500; }
+.visited-card__outlet { font-size: 13.5px; color: var(--ink-soft); margin-bottom: 4px; }
+.visited-card__footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--rule); }
+.visited-card__score { font-family: var(--font-display); font-style: italic; font-size: 22px; color: var(--burgundy); font-weight: 500; }
+.visited-card__score small { font-size: 12px; color: var(--ink-muted); font-style: normal; font-family: var(--font-body); margin-left: 2px; }
+.visited-card__view { font-size: 12px; color: var(--gold); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+
+.review-hero { background: linear-gradient(180deg, var(--leather-deep) 0%, var(--leather) 100%); color: var(--paper); padding: 28px 32px; border-radius: var(--r-md); margin-bottom: 24px; text-align: center; }
+.review-hero__eyebrow { font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold-bright); font-weight: 600; margin-bottom: 8px; }
+.review-hero__concept { font-family: var(--font-display); font-style: italic; font-size: 30px; color: var(--paper); margin: 0 0 4px; font-weight: 500; }
+.review-hero__outlet { font-size: 15px; color: var(--gold-soft); margin: 0 0 16px; }
+.review-hero__divider { width: 80px; height: 1px; background: var(--gold); margin: 14px auto; opacity: 0.5; }
+.review-hero__score-block small { display: block; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-soft); margin-bottom: 6px; }
+.review-hero__score-block strong { font-family: var(--font-display); font-style: italic; font-size: 44px; color: var(--gold-bright); font-weight: 500; }
+.review-hero__score-block strong span { font-size: 22px; color: var(--gold-soft); }
+
+.review-visit-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; padding: 18px 22px; background: rgba(168,136,78,0.06); border-radius: var(--r-sm); margin-bottom: 28px; border: 1px solid var(--rule); }
+.review-visit-details__item small { display: block; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-muted); font-weight: 600; margin-bottom: 4px; }
+.review-visit-details__item strong { font-family: var(--font-display); font-style: italic; font-size: 17px; color: var(--ink); font-weight: 500; }
+
+.review-section { margin-bottom: 26px; background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-sm); overflow: hidden; }
+.review-section__head { padding: 14px 22px; background: var(--paper-deep); border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: baseline; }
+.review-section__title { font-family: var(--font-display); font-style: italic; font-size: 19px; color: var(--ink); font-weight: 500; }
+.review-section__num { color: var(--gold); margin-right: 8px; font-style: italic; }
+.review-section__total { font-family: var(--font-display); font-style: italic; font-size: 19px; color: var(--burgundy); font-weight: 500; }
+.review-criterion { padding: 16px 22px; border-bottom: 1px dashed var(--rule); }
+.review-criterion:last-child { border-bottom: none; }
+.review-criterion__head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 8px; }
+.review-criterion__label { font-weight: 600; font-size: 14.5px; color: var(--ink); }
+.review-criterion__desc { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+.review-criterion__score { font-family: var(--font-display); font-style: italic; font-size: 19px; color: var(--burgundy); font-weight: 500; flex-shrink: 0; }
+.review-criterion__score small { font-size: 12px; color: var(--ink-muted); font-style: normal; font-family: var(--font-body); }
+.review-criterion__score.is-na { color: var(--ink-muted); font-style: italic; }
+.review-criterion__comment { margin-top: 10px; padding: 10px 14px; background: rgba(168,136,78,0.06); border-left: 3px solid var(--gold-soft); border-radius: var(--r-xs); font-size: 13.5px; color: var(--ink); line-height: 1.55; font-style: italic; }
+.review-criterion__no-comment { margin-top: 8px; font-size: 12px; color: var(--ink-muted); font-style: italic; }
+.review-locked-note { text-align: center; padding: 20px; background: rgba(168,136,78,0.06); border: 1px dashed var(--gold-soft); border-radius: var(--r-sm); font-size: 13.5px; color: var(--ink-soft); font-style: italic; margin-top: 24px; }
+
+.toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(180%); background: var(--leather); color: var(--paper); border-radius: var(--r-md); padding: 14px 22px; font-size: 14.5px; font-weight: 500; z-index: 200; box-shadow: var(--shadow-lift); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(168,136,78,0.3); max-width: calc(100vw - 32px); text-align: center; }
+.toast.is-visible { transform: translateX(-50%) translateY(0); }
+.toast.is-error { background: var(--error); border-color: var(--error); }
+.toast.is-success { background: var(--success); border-color: var(--success); }
+
+.modal-backdrop { position: fixed; inset: 0; background: rgba(42,24,16,0.65); backdrop-filter: blur(6px); z-index: 300; display: none; align-items: center; justify-content: center; padding: 24px; opacity: 0; transition: opacity 0.2s; }
+.modal-backdrop.is-active { display: flex; opacity: 1; }
+.modal { background: var(--paper); border-radius: var(--r-lg); padding: 40px 44px; max-width: 500px; width: 100%; box-shadow: var(--shadow-lift); position: relative; transform: scale(0.96); transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.3, 1); }
+.modal-backdrop.is-active .modal { transform: scale(1); }
+.modal::before { content: ''; position: absolute; inset: 14px; border: 1px solid var(--rule); border-radius: 8px; pointer-events: none; }
+.modal__title { font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 28px; color: var(--ink); margin-bottom: 14px; }
+.modal__body { font-size: 15px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 28px; }
+.modal__body strong { color: var(--ink); font-weight: 600; }
+.modal__score-preview { background: rgba(168,136,78,0.08); border-radius: var(--r-sm); padding: 18px; margin: 18px 0; text-align: center; }
+.modal__score-preview small { font-size: 10.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-muted); font-weight: 600; display: block; margin-bottom: 6px; }
+.modal__score-preview strong { font-family: var(--font-display); font-style: italic; font-size: 44px; color: var(--burgundy); font-weight: 500; line-height: 1; }
+.modal__score-preview strong span { font-family: var(--font-body); font-style: normal; font-size: 17px; color: var(--ink-muted); font-weight: 400; }
+.modal__actions { display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap; }
+.modal--wide { max-width: 540px; }
+
+.signature { margin: 22px 0 24px; }
+.signature__label { font-family: var(--font-body); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-soft); font-weight: 700; margin-bottom: 10px; }
+.signature__pad-wrap { position: relative; background: rgba(168,136,78,0.04); border: 1px solid var(--rule); border-radius: var(--r-sm); overflow: hidden; height: 130px; }
+.signature__pad { width: 100%; height: 100%; display: block; cursor: crosshair; touch-action: none; }
+.signature__hint { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-style: italic; color: var(--ink-muted); font-size: 15px; pointer-events: none; transition: opacity 0.3s; }
+.signature__hint.is-hidden { opacity: 0; }
+.signature__baseline { position: absolute; left: 12%; right: 12%; bottom: 22px; height: 1px; background: var(--rule); pointer-events: none; }
+.signature__clear { display: inline-block; margin-top: 8px; background: none; border: none; color: var(--ink-muted); font-size: 12px; font-family: var(--font-body); cursor: pointer; padding: 4px 0; text-decoration: underline; }
+.signature__clear:hover { color: var(--burgundy); }
+.signature__pad-wrap.has-error { border-color: var(--error); }
+
+.confetti-overlay { position: fixed; inset: 0; z-index: 9999; background: rgba(15,11,8,0.65); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; animation: confettiFadeIn 0.5s ease; }
+.confetti-overlay.is-fading { animation: confettiFadeOut 0.6s ease forwards; }
+@keyframes confettiFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes confettiFadeOut { to { opacity: 0; } }
+#confetti-canvas { position: absolute; inset: 0; pointer-events: none; }
+.confetti-message { position: relative; z-index: 2; background: linear-gradient(180deg, var(--leather-deep) 0%, var(--leather) 100%); border: 1px solid var(--gold-soft); border-radius: var(--r-md); padding: 44px 56px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.5); max-width: 480px; animation: confettiPop 0.7s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes confettiPop { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.confetti-flourish { color: var(--gold-bright); font-size: 14px; letter-spacing: 0.5em; margin-bottom: 18px; }
+.confetti-title { font-family: var(--font-display); font-style: italic; font-size: 30px; color: var(--paper); margin: 0 0 10px; font-weight: 500; line-height: 1.2; }
+.confetti-sub { font-family: var(--font-display); font-style: italic; font-size: 17px; color: var(--gold-soft); margin: 0 0 28px; }
+.confetti-close { padding: 11px 30px; background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 100%); border: 1px solid var(--gold-soft); border-radius: 4px; font-family: var(--font-display); font-style: italic; font-size: 16px; color: var(--leather-deep); cursor: pointer; transition: transform 0.2s; }
+.confetti-close:hover { transform: translateY(-1px); }
+
+@media (max-width: 720px) {
+  :root { --fs-body: 16px; }
+  .portal__header-inner { padding: 12px 16px; gap: 12px; }
+  .portal__brand img { height: 28px; }
+  .portal__brand-text small { font-size: 8.5px; letter-spacing: 0.24em; }
+  .portal__brand-text strong { font-size: 14px; }
+  .portal__judge strong { font-size: 14px; }
+  .portal__judge em { font-size: 10.5px; }
+  .portal__judge small { font-size: 8.5px; }
+  .portal__main { padding: 22px 16px 140px; }
+  .welcome { padding: 36px 24px 32px; border-radius: var(--r-md); }
+  .welcome::before { inset: 10px; }
+  .welcome__greeting { font-size: 30px; }
+  .welcome__sub { font-size: 15px; }
+  .welcome__flourish { font-size: 22px; margin-bottom: 14px; }
+  .status-bar { grid-template-columns: 1fr; gap: 12px; }
+  .status-card, .remaining { padding: 16px 20px; }
+  .countdown { gap: 8px; }
+  .countdown__num { font-size: 30px; }
+  .countdown__sep { font-size: 24px; }
+  .remaining { gap: 14px; padding: 18px 22px; }
+  .remaining__num { font-size: 44px; }
+  .remaining__text { font-size: 13px; }
+  .tabs { padding-top: 12px; padding-bottom: 14px; top: 60px; margin-left: -16px; margin-right: -16px; padding-left: 16px; padding-right: 16px; gap: 6px; }
+  .tab { font-size: 13px; padding: 8px 14px; }
+  .concept-pills { gap: 6px; margin-bottom: 22px; }
+  .concept-pill { font-size: 12.5px; padding: 6px 12px; }
+  .concepts { grid-template-columns: 1fr; gap: 14px; }
+  .concept { padding: 20px 22px; min-height: 0; }
+  .concept::before { left: 12px; top: 16px; bottom: 16px; }
+  .concept__category, .concept__name, .concept__outlet, .concept__footer { padding-left: 14px; }
+  .concept__name { font-size: 24px; }
+  .sheet__hero { padding: 28px 24px; border-radius: var(--r-md); }
+  .sheet__hero::before { left: 16px; top: 16px; bottom: 16px; }
+  .sheet__category, .sheet__concept, .sheet__outlet, .sheet__meta { margin-left: 14px; }
+  .sheet__concept { font-size: 28px; }
+  .sheet__outlet { font-size: 16px; }
+  .sheet__meta { gap: 20px; }
+  .visit { padding: 22px 20px; gap: 14px; }
+  .visit__title { font-size: 20px; }
+  .section__header { padding: 16px 20px; }
+  .section__num { font-size: 28px; }
+  .section__title { font-size: 21px; }
+  .section__score strong { font-size: 19px; }
+  .criterion { padding: 22px 20px; }
+  .criterion__head { flex-direction: column; gap: 14px; align-items: stretch; }
+  .scorer { align-self: flex-start; flex-wrap: wrap; }
+  .scorer__btn { width: 44px; height: 48px; font-size: 22px; }
+  .scorer__input { width: 100px; height: 48px; font-size: 26px; }
+  .scorer__max-label { font-size: 14px; margin-left: 10px; }
+  .total-bar { border-radius: 0; margin-left: -16px; margin-right: -16px; margin-bottom: 0; padding: 16px 20px; flex-direction: column; gap: 14px; align-items: stretch; }
+  .total-bar__inner-left { align-items: center; }
+  .total-bar__value { font-size: 38px; }
+  .total-bar__actions { width: 100%; }
+  .total-bar__actions .btn { flex: 1; justify-content: center; padding: 14px 16px; }
+  .submitted { padding: 36px 22px; }
+  .submitted__seal { width: 64px; height: 64px; font-size: 26px; }
+  .submitted__title { font-size: 28px; }
+  .submitted__sub { font-size: 16px; }
+  .submitted__score { padding: 20px 30px; }
+  .submitted__score strong { font-size: 44px; }
+  .modal { padding: 30px 24px; }
+  .modal::before { inset: 10px; }
+  .modal__title { font-size: 24px; }
+  .gate__book { padding: 44px 32px; max-width: 100%; }
+  .gate__year { font-size: 52px; }
+  .gate__title { font-size: 32px; }
+}
+
+@media print {
+  body { background: white; }
+  .portal__header, .tabs, .concept-pills, .sheet__back, .total-bar, .toast, .submitted__actions, .status-bar { display: none !important; }
+  .scoresheet { display: block; max-width: none; }
+  .section { break-inside: avoid; box-shadow: none; }
+}
+</style>
+</head>
+<body>
+
+
+<!-- GATE -->
+<div class="gate" id="gate">
+  <div class="gate__book" id="gate-book">
+    <div class="gate__logos">
+      <img class="gate__logo" id="gate-ras-logo" src="https://res.cloudinary.com/dpzqnfemq/image/upload/v1779414167/ras-logo_shb9um.png" alt="Restaurant Association of Singapore">
+      <img class="gate__logo" id="gate-epi-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAEZCAYAAAC5AHPcAAEAAElEQVR42uw9d3gU1fbn3juzJY0aShCMQBAJCBoVAcuCiAbFvgGs2IKKomLBBoQmWFDESvQpdmXtKFFEWZ8PAWEVhKASSiQQIAHSs7szc+/5/ZEEl2VmdnazUXy/N9+Xz/fI5M69555eCSLK0PCQxh8AANH4X2z8IQDAwn6n977e0/Re01p6v4v0hO7DyjetPtTieyLsb0jIWUL3BgDAG9+hMexTD856cNM7gxmMSOP/JgbfpI2/Rwv3GM2ZzGAQum/a+F8RxTljuWc9GIHJulbfA52zmMGNheAQjxHOenRFo8AZHrKO0V2RsHcxZP8ihjvAEFxs+hYLoykeh/uO9TGDvRF/DL9vMxgZrc/C6M+IhkkE/ggG9C5C+ArqnEEPDkbfDP03IoVtQoQtEPqEI1yk960sigUdjfr2BQKxQv8GQ4AcCVZ6MIn1b6MRdlaFsy..." alt="Epicurean Star Award">
+    </div>
+    <div class="gate__flourish">✦ ✦ ✦</div>
+    <div class="gate__eyebrow" id="gate-eyebrow">The Judge's Notebook</div>
+    <h1 class="gate__title" id="gate-title" style="opacity:0;"><span id="gate-title-text">Welcome</span></h1>
+    <p class="gate__sub" id="gate-sub" style="opacity:0;">RAS Epicurean Star Award 2026</p>
+    <div class="gate__dossier" id="gate-dossier" style="opacity:0;">
+      <div class="gate__seal" id="gate-seal"><span id="gate-seal-initials">—</span></div>
+      <div class="gate__dossier-text">
+        <div class="gate__dossier-class" id="gate-dossier-class">—</div>
+        <div class="gate__dossier-rule"></div>
+        <div class="gate__dossier-stats" id="gate-dossier-stats">—</div>
+      </div>
+    </div>
+    <div id="gate-spinner" class="gate__spinner"></div>
+    <button id="gate-open-btn" class="gate__open-btn" onclick="openNotebook()" style="display:none;">Open Notebook</button>
+    <p class="gate__contact" id="gate-contact">Questions? <a href="mailto:xianna.lock@ras.org.sg">xianna.lock@ras.org.sg</a><br>or <a href="mailto:james.chan@ras.org.sg">james.chan@ras.org.sg</a></p>
+  </div>
+</div>
+
+<!-- PORTAL -->
+<div class="portal" id="portal">
+  <header class="portal__header">
+    <div class="portal__header-inner">
+      <div class="portal__brand">
+        <img id="hdr-ras-logo" src="https://res.cloudinary.com/dpzqnfemq/image/upload/v1779414167/ras-logo_shb9um.png" alt="RAS">
+        <div class="portal__brand-text">
+          <small>RAS Epicurean Star Award</small>
+          <strong>The Judge's Notebook</strong>
+        </div>
+      </div>
+      <div class="portal__judge">
+        <small>Judging as</small>
+        <strong id="hdr-judge-name">—</strong>
+        <em id="hdr-judge-type">—</em>
+      </div>
+    </div>
+  </header>
+
+  <main class="portal__main">
+    <div id="dashboard">
+      <div class="status-bar">
+        <div class="status-card">
+          <div class="status-card__label">Mystery Judging Closes In</div>
+          <div class="countdown">
+            <div class="countdown__unit"><span class="countdown__num" id="cd-days">00</span><small>Days</small></div>
+            <div class="countdown__sep">:</div>
+            <div class="countdown__unit"><span class="countdown__num" id="cd-hours">00</span><small>Hours</small></div>
+            <div class="countdown__sep">:</div>
+            <div class="countdown__unit"><span class="countdown__num" id="cd-mins">00</span><small>Mins</small></div>
+            <div class="countdown__sep">:</div>
+            <div class="countdown__unit"><span class="countdown__num" id="cd-secs">00</span><small>Secs</small></div>
+          </div>
+        </div>
+        <div class="remaining">
+          <span class="remaining__num" id="remaining-num">0</span>
+          <div class="remaining__text">
+            <strong>Remaining</strong>
+            <span id="remaining-text">concepts to judge</span>
+          </div>
+        </div>
+      </div>
+      <div class="visited-toolbar" id="visited-toolbar" style="display:none;">
+        <button class="visited-btn" type="button" onclick="openVisited()">
+          <span class="visited-btn__icon">✦</span>
+          <span class="visited-btn__text">
+            <strong>Restaurants I've Visited</strong>
+            <small id="visited-btn-sub">Review your submitted scores</small>
+          </span>
+          <span class="visited-btn__arrow">→</span>
+        </button>
+      </div>
+      <div class="tabs" id="category-tabs"></div>
+      <div class="concept-pills is-hidden" id="concept-pills"></div>
+      <div class="concepts" id="concepts-grid"></div>
+    </div>
+
+    <div id="visited-view" style="display:none;">
+      <button class="sheet__back" onclick="closeVisited()">← Back to your notebook</button>
+      <div class="visited-hero">
+        <div class="visited-hero__eyebrow">Your Visits</div>
+        <h2 class="visited-hero__title" id="visited-hero-title">Restaurants I've Visited</h2>
+        <p class="visited-hero__sub" id="visited-hero-sub">Review your submitted scoresheets</p>
+      </div>
+      <div class="visited-list" id="visited-list"></div>
+    </div>
+
+    <div id="visited-detail" style="display:none;">
+      <button class="sheet__back" onclick="closeVisitedDetail()">← Back to your visits</button>
+      <div id="visited-detail-content"></div>
+    </div>
+
+    <div class="scoresheet" id="scoresheet">
+      <button class="sheet__back" onclick="goToDashboard()">← Back to your notebook</button>
+      <div class="sheet__hero">
+        <div class="sheet__category" id="sheet-category">CATEGORY</div>
+        <h2 class="sheet__concept" id="sheet-concept">Concept Name</h2>
+        <p class="sheet__outlet" id="sheet-outlet">Outlet location</p>
+        <div class="sheet__meta">
+          <div class="sheet__meta-item"><small>Dining Credit</small><strong id="sheet-credit">S$300</strong></div>
+          <div class="sheet__meta-item"><small>Scoresheet</small><strong id="sheet-type">—</strong></div>
+          <div class="sheet__meta-item"><small>Maximum Score</small><strong>100</strong></div>
+        </div>
+      </div>
+      <div id="sheet-extras"></div>
+      <div id="sheet-locked-banner"></div>
+      <div id="chain-picker-container"></div>
+      <div class="visit" id="visit-fields">
+        <h3 class="visit__title">Visit Details</h3>
+        <div class="field">
+          <label class="field__label" for="visitDate">Date of Visit <span class="req">*</span></label>
+          <input class="field__input" type="date" id="visitDate">
+          <div class="field__error" id="err-visitDate">Date of visit is required</div>
+        </div>
+        <div class="field">
+          <label class="field__label" for="visitService">Service <span class="req">*</span></label>
+          <select class="field__select" id="visitService">
+            <option value="">Select service</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+            <option value="Brunch">Brunch</option>
+            <option value="High Tea">High Tea</option>
+            <option value="All-Day Service">All-Day Service</option>
+            <option value="Other">Other</option>
+          </select>
+          <div class="field__error" id="err-visitService">Service period is required</div>
+        </div>
+        <div class="field">
+          <label class="field__label" for="billAmount">Bill Amount Charged (S$) <span class="req">*</span></label>
+          <input class="field__input" type="number" step="0.01" id="billAmount" placeholder="0.00">
+          <div class="field__error" id="err-billAmount">Bill amount is required</div>
+        </div>
+        <input type="hidden" id="additionalCost" value="0">
+      </div>
+      <div id="sections-container"></div>
+      <div class="total-bar">
+        <div class="total-bar__inner-left">
+          <div class="total-bar__label">Running Total</div>
+          <div class="total-bar__value"><span id="total-score">0.0</span><small> / 100</small></div>
+          <div class="total-bar__draft" id="draft-status">Drafts save automatically</div>
+        </div>
+        <div class="total-bar__actions">
+          <button class="btn btn--ghost" onclick="goToDashboard()">Save & Exit</button>
+          <button class="btn btn--primary" id="submit-btn" onclick="onSubmitClick()">Submit Scores →</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-backdrop" id="submit-modal">
+  <div class="modal modal--wide">
+    <h3 class="modal__title">Confirm Submission</h3>
+    <p class="modal__body">
+      You're about to submit your scoresheet for <strong id="modal-concept">—</strong>. After submission, you may <strong>revise once</strong> if you spot an error. Any further changes must be requested via email to <strong>xianna.lock@ras.org.sg</strong> and/or <strong>james.chan@ras.org.sg</strong>.
+    </p>
+    <div class="modal__score-preview">
+      <small>Your Total</small>
+      <strong id="modal-total">0.0<span> / 100</span></strong>
+    </div>
+    <div class="signature">
+      <div class="signature__label">Sign below to confirm</div>
+      <div class="signature__pad-wrap">
+        <canvas id="signature-pad" class="signature__pad"></canvas>
+        <div class="signature__hint" id="signature-hint">Draw your signature with your finger or mouse</div>
+        <div class="signature__baseline"></div>
+      </div>
+      <button class="signature__clear" type="button" onclick="clearSignature()">Clear signature</button>
+    </div>
+    <div class="modal__actions">
+      <button class="btn btn--text" onclick="closeModal()">Cancel</button>
+      <button class="btn btn--burgundy" id="confirm-submit" onclick="doSubmit()">Yes, Submit Scores</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="revise-modal">
+  <div class="modal">
+    <h3 class="modal__title">Open scoresheet for revision?</h3>
+    <p class="modal__body">
+      This is your <strong>one and only</strong> revision for this concept. After re-submitting, the scoresheet will be locked permanently — further changes must be requested via email to <strong>xianna.lock@ras.org.sg</strong> and/or <strong>james.chan@ras.org.sg</strong>.
+    </p>
+    <div class="modal__actions">
+      <button class="btn btn--text" onclick="closeReviseModal()">Cancel</button>
+      <button class="btn btn--warn" onclick="doRevise()">Yes, Revise</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// SCORESHEET DEFINITIONS — RAS Epicurean Star Award 2026
+// ============================================================
+const SCORESHEETS = {
+
+  general: {
+    name: "General Categories",
+    sections: [
+      { id: "s1", title: "Culinary Excellence", max: 45, criteria: [
+        { id: "s1_1", label: "1.1 Flavour & Balance", desc: "Harmony of flavours, seasoning, and taste balance across dishes ordered", max: 15 },
+        { id: "s1_2", label: "1.2 Presentation & Plating", desc: "Visual appeal, creativity, and thoughtfulness in presentation", max: 10 },
+        { id: "s1_3", label: "1.3 Technique & Execution", desc: "Cooking skill, proper temperatures, textures, and technical proficiency", max: 12 },
+        { id: "s1_4", label: "1.4 Innovation & Creativity", desc: "Unique ingredients, creative concepts, or fresh approaches to familiar dishes", max: 8 }
+      ]},
+      { id: "s2", title: "Ingredient Quality & Preparation", max: 20, criteria: [
+        { id: "s2_1", label: "2.1 Freshness & Quality", desc: "Use of fresh, high-quality ingredients evident in taste and appearance", max: 10 },
+        { id: "s2_2", label: "2.2 Sourcing & Transparency", desc: "Evidence of quality sourcing (menu mentions origin, sustainable practices). Mark NA if not applicable.", max: 5 },
+        { id: "s2_3", label: "2.3 Portion Appropriateness", desc: "Portion sizes suitable for the concept and price point", max: 5 }
+      ]},
+      { id: "s3", title: "Service & Ambience", max: 25, criteria: [
+        { id: "s3_1", label: "3.1 Service Quality", desc: "Attentiveness, professionalism, friendliness, and knowledge of menu", max: 10 },
+        { id: "s3_2", label: "3.2 Atmosphere & Ambience", desc: "Decor, lighting, music, and overall environment appropriate to the concept", max: 8 },
+        { id: "s3_3", label: "3.3 Cleanliness & Maintenance", desc: "Hygiene of dining area, restrooms, and visible facilities", max: 7 }
+      ]},
+      { id: "s4", title: "Overall Dining Experience", max: 10, criteria: [
+        { id: "s4_1", label: "4.1 Value for Money", desc: "Quality and experience relative to price paid", max: 5 },
+        { id: "s4_2", label: "4.2 Concept Execution", desc: "How well the establishment delivers on its unique concept", max: 3 },
+        { id: "s4_3", label: "4.3 Would You Return?", desc: "Lasting impression and desire to revisit", max: 2 }
+      ]}
+    ]
+  },
+
+  finedining: {
+    name: "Fine Dining Categories",
+    sections: [
+      { id: "s1", title: "Culinary Excellence", max: 45, criteria: [
+        { id: "s1_1", label: "1.1 Flavour & Balance", desc: "Harmony of flavours, seasoning, and taste balance across dishes ordered", max: 15 },
+        { id: "s1_2", label: "1.2 Presentation & Plating", desc: "Visual appeal, artistry, and sophistication in plating", max: 12 },
+        { id: "s1_3", label: "1.3 Technique & Execution", desc: "Advanced cooking techniques, precision, and mastery", max: 10 },
+        { id: "s1_4", label: "1.4 Innovation & Creativity", desc: "Unique ingredients, creative concepts, or refined interpretations", max: 8 }
+      ]},
+      { id: "s2", title: "Ingredient Quality & Preparation", max: 15, criteria: [
+        { id: "s2_1", label: "2.1 Ingredient Quality & Seasonality", desc: "Use of premium, seasonal ingredients evident in taste and sourcing", max: 10 },
+        { id: "s2_2", label: "2.2 Sourcing Transparency", desc: "Evidence of exceptional sourcing (provenance, sustainability). Mark NA if not applicable.", max: 5 }
+      ]},
+      { id: "s3", title: "Service & Ambience", max: 30, criteria: [
+        { id: "s3_1", label: "3.1 Service Excellence", desc: "Polished, anticipatory service with deep menu knowledge and attention to detail", max: 12 },
+        { id: "s3_2", label: "3.2 Atmosphere & Refinement", desc: "Elegant ambience, sophisticated decor, and refined environment befitting fine dining", max: 10 },
+        { id: "s3_3", label: "3.3 Cleanliness & Maintenance", desc: "Impeccable hygiene and meticulous maintenance of all facilities", max: 8 }
+      ]},
+      { id: "s4", title: "Overall Dining Experience", max: 10, criteria: [
+        { id: "s4_1", label: "4.1 Value Relative to Fine Dining Standards", desc: "Quality and experience relative to fine dining price expectations", max: 4 },
+        { id: "s4_2", label: "4.2 Wine & Beverage Programme", desc: "Quality of wine list, pairings, and beverage service. Mark NA if not applicable.", max: 3 },
+        { id: "s4_3", label: "4.3 Memorability & Distinction", desc: "Exceptional, memorable experience worthy of special occasions", max: 3 }
+      ]}
+    ]
+  },
+
+  visual: {
+    name: "Visual Concept Categories",
+    sections: [
+      { id: "s1", title: "Culinary Excellence", max: 45, criteria: [
+        { id: "s1_1", label: "1.1 Flavour & Balance", desc: "Harmony of flavours, seasoning, and taste balance across dishes ordered", max: 15 },
+        { id: "s1_2", label: "1.2 Presentation & Plating", desc: "Visual appeal, creativity, and thoughtfulness in presentation", max: 12 },
+        { id: "s1_3", label: "1.3 Technique & Execution", desc: "Cooking skill, proper temperatures, textures, and technical proficiency", max: 10 },
+        { id: "s1_4", label: "1.4 Variety & Selection", desc: "Range and diversity of offerings appropriate to the concept", max: 8 }
+      ]},
+      { id: "s2", title: "Ingredient Quality & Preparation", max: 20, criteria: [
+        { id: "s2_1", label: "2.1 Freshness & Quality", desc: "Use of fresh, high-quality ingredients evident in taste and appearance", max: 10 },
+        { id: "s2_2", label: "2.2 Sourcing & Transparency", desc: "Evidence of quality sourcing. Mark NA if not applicable.", max: 5 },
+        { id: "s2_3", label: "2.3 Portion Appropriateness", desc: "Portion sizes suitable for the concept and price point", max: 5 }
+      ]},
+      { id: "s3", title: "Service & Ambience", max: 25, criteria: [
+        { id: "s3_1", label: "3.1 Service Quality", desc: "Attentiveness, professionalism, friendliness, and knowledge of menu", max: 10 },
+        { id: "s3_2", label: "3.2 Atmosphere & Ambience", desc: "Decor, lighting, music, and overall environment appropriate to the concept", max: 8 },
+        { id: "s3_3", label: "3.3 Cleanliness & Maintenance", desc: "Hygiene of dining area, restrooms, and visible facilities", max: 7 }
+      ]},
+      { id: "s4", title: "Overall Dining Experience", max: 10, criteria: [
+        { id: "s4_1", label: "4.1 Value for Money", desc: "Quality and experience relative to price paid", max: 5 },
+        { id: "s4_2", label: "4.2 Concept Execution", desc: "How well the establishment delivers on its unique concept", max: 3 },
+        { id: "s4_3", label: "4.3 Would You Return?", desc: "Lasting impression and desire to revisit", max: 2 }
+      ]}
+    ]
+  },
+
+  buffet: {
+    name: "Buffet Categories",
+    sections: [
+      { id: "s1", title: "Culinary Excellence", max: 40, criteria: [
+        { id: "s1_1", label: "1.1 Flavour & Balance", desc: "Harmony of flavours, seasoning, and taste balance across dishes sampled", max: 12 },
+        { id: "s1_2", label: "1.2 Quality Across Stations", desc: "Consistency of execution across hot, cold, grill, dessert, and specialty stations (as applicable)", max: 10 },
+        { id: "s1_3", label: "1.3 Technique & Execution", desc: "Cooking skill, proper temperatures, textures, and technical proficiency", max: 8 },
+        { id: "s1_4", label: "1.4 Menu Variety & Curation", desc: "Range and diversity of offerings, and how well the selection is curated for the buffet concept", max: 10 }
+      ]},
+      { id: "s2", title: "Ingredient Quality & Food Safety", max: 20, criteria: [
+        { id: "s2_1", label: "2.1 Freshness & Quality", desc: "Use of fresh, high-quality ingredients evident in taste and appearance", max: 8 },
+        { id: "s2_2", label: "2.2 Holding Standards", desc: "Food served at appropriate temperatures; items not overcooked or dried out; cold items kept properly chilled", max: 7 },
+        { id: "s2_3", label: "2.3 Replenishment & Waste Control", desc: "Timely replenishment without compromising quality; reasonable approach to waste and batch sizes", max: 5 }
+      ]},
+      { id: "s3", title: "Service, Operations & Ambience", max: 30, criteria: [
+        { id: "s3_1", label: "3.1 Service Quality", desc: "Attentiveness, professionalism, friendliness, and ability to support a buffet dining flow", max: 8 },
+        { id: "s3_2", label: "3.2 Station Operations", desc: "Queue management, station hygiene, staff engagement at live stations, and smooth guest flow", max: 8 },
+        { id: "s3_3", label: "3.3 Atmosphere & Ambience", desc: "Decor, lighting, music, and overall environment appropriate to the concept", max: 7 },
+        { id: "s3_4", label: "3.4 Cleanliness & Maintenance", desc: "Dining area, restrooms, buffet counters and stations, and visible hygiene standards", max: 7 }
+      ]},
+      { id: "s4", title: "Overall Buffet Experience", max: 10, criteria: [
+        { id: "s4_1", label: "4.1 Value for Money", desc: "Quality and experience relative to price paid", max: 5 },
+        { id: "s4_2", label: "4.2 Concept Clarity & Memorability", desc: "How well the buffet delivers on its concept (cuisine focus, theme, signature items) and overall memorability", max: 5 }
+      ]}
+    ]
+  },
+
+  innovation: {
+    name: "Innovation Categories",
+    sections: [
+      { id: "s1", title: "Culinary Excellence", max: 45, criteria: [
+        { id: "s1_1", label: "1.1 Flavour & Balance", desc: "Harmony of flavours, seasoning, and taste balance across dishes ordered", max: 15 },
+        { id: "s1_2", label: "1.2 Presentation & Plating", desc: "Visual appeal, creativity, and thoughtfulness in presentation", max: 10 },
+        { id: "s1_3", label: "1.3 Technique & Execution", desc: "Cooking skill, proper temperatures, textures, and technical proficiency", max: 10 },
+        { id: "s1_4", label: "1.4 Innovation & Creativity", desc: "Unique ingredients, creative concepts, or fresh approaches to familiar dishes", max: 10 }
+      ]},
+      { id: "s2", title: "Ingredient Quality & Preparation", max: 22, criteria: [
+        { id: "s2_1", label: "2.1 Freshness & Quality", desc: "Use of fresh, high-quality ingredients evident in taste and appearance", max: 10 },
+        { id: "s2_2", label: "2.2 Sourcing & Transparency", desc: "Evidence of quality sourcing (menu mentions origin, sustainable practices). Mark NA if not applicable.", max: 7 },
+        { id: "s2_3", label: "2.3 Portion Appropriateness", desc: "Portion sizes suitable for the concept and price point", max: 5 }
+      ]},
+      { id: "s3", title: "Service & Ambience", max: 23, criteria: [
+        { id: "s3_1", label: "3.1 Service Quality", desc: "Attentiveness, professionalism, friendliness, and knowledge of menu", max: 8 },
+        { id: "s3_2", label: "3.2 Atmosphere & Ambience", desc: "Decor, lighting, music, and overall environment appropriate to the concept", max: 8 },
+        { id: "s3_3", label: "3.3 Cleanliness & Maintenance", desc: "Hygiene of dining area, restrooms, and visible facilities", max: 7 }
+      ]},
+      { id: "s4", title: "Overall Dining Experience", max: 10, criteria: [
+        { id: "s4_1", label: "4.1 Value for Money", desc: "Quality and experience relative to price paid", max: 4 },
+        { id: "s4_2", label: "4.2 Concept Innovation", desc: "Originality and execution of the restaurant's unique concept", max: 4 },
+        { id: "s4_3", label: "4.3 Would You Return?", desc: "Lasting impression and desire to revisit", max: 2 }
+      ]}
+    ]
+  },
+
+  chain: {
+    name: "Best Chain Restaurant",
+    sections: [
+      { id: "s1", title: "Culinary Excellence", max: 40, criteria: [
+        { id: "s1_1", label: "1.1 Flavour & Balance", desc: "Harmony of flavours, seasoning, and taste balance across dishes ordered", max: 12 },
+        { id: "s1_2", label: "1.2 Presentation & Plating", desc: "Visual appeal, creativity, and thoughtfulness in presentation", max: 10 },
+        { id: "s1_3", label: "1.3 Technique & Execution", desc: "Cooking skill, proper temperatures, textures, and technical proficiency", max: 10 },
+        { id: "s1_4", label: "1.4 Consistency Across Outlets", desc: "Evidence of standardisation and quality control across multiple outlets. Score this on Visit 2 only — you need both outlets to compare fairly. Leave blank on Visit 1 and return to score it after your second visit.", max: 8, chainVisit2Only: true }
+      ]},
+      { id: "s2", title: "Ingredient Quality & Preparation", max: 18, criteria: [
+        { id: "s2_1", label: "2.1 Freshness & Quality", desc: "Use of fresh, high-quality ingredients evident in taste and appearance", max: 8 },
+        { id: "s2_2", label: "2.2 Sourcing & Transparency", desc: "Evidence of quality sourcing. Mark NA if not applicable.", max: 5 },
+        { id: "s2_3", label: "2.3 Portion Appropriateness", desc: "Portion sizes suitable for the concept and price point", max: 5 }
+      ]},
+      { id: "s3", title: "Service & Ambience", max: 25, criteria: [
+        { id: "s3_1", label: "3.1 Service Quality", desc: "Attentiveness, professionalism, friendliness, and knowledge of menu", max: 10 },
+        { id: "s3_2", label: "3.2 Atmosphere & Ambience", desc: "Decor, lighting, music, and overall environment appropriate to the concept", max: 8 },
+        { id: "s3_3", label: "3.3 Cleanliness & Maintenance", desc: "Hygiene of dining area, restrooms, and visible facilities", max: 7 }
+      ]},
+      { id: "s4", title: "Brand Experience & Operations", max: 17, criteria: [
+        { id: "s4_1", label: "4.1 Brand Consistency", desc: "Visual identity, service standards, and menu consistency across outlets", max: 7 },
+        { id: "s4_2", label: "4.2 Operational Efficiency", desc: "Speed of service, table turnover, order accuracy", max: 5 },
+        { id: "s4_3", label: "4.3 Value for Money", desc: "Quality and experience relative to price paid", max: 5 }
+      ]}
+    ]
+  },
+
+  omakase: {
+    name: "Best Omakase/Counter Dining",
+    sections: [
+      { id: "s1", title: "Culinary Excellence", max: 50, criteria: [
+        { id: "s1_1", label: "1.1 Flavour & Balance", desc: "Harmony of flavours, seasoning, and taste balance across the courses", max: 15 },
+        { id: "s1_2", label: "1.2 Presentation & Plating", desc: "Visual artistry, attention to detail, and sophistication", max: 12 },
+        { id: "s1_3", label: "1.3 Technique & Craftsmanship", desc: "Technical mastery, knife work, precision, and authenticity", max: 13 },
+        { id: "s1_4", label: "1.4 Course Progression & Pacing", desc: "Thoughtful sequencing, variety, and tempo of courses", max: 10 }
+      ]},
+      { id: "s2", title: "Ingredient Quality", max: 15, criteria: [
+        { id: "s2_1", label: "2.1 Premium Ingredients", desc: "Use of high-quality, seasonal, or rare ingredients", max: 10 },
+        { id: "s2_2", label: "2.2 Sourcing & Provenance", desc: "Chef's knowledge and transparency about ingredient origins. Mark NA if not applicable.", max: 5 }
+      ]},
+      { id: "s3", title: "Chef Interaction & Storytelling", max: 20, criteria: [
+        { id: "s3_1", label: "3.1 Chef Engagement", desc: "Chef's presence, interaction, and connection with diners", max: 10 },
+        { id: "s3_2", label: "3.2 Storytelling & Context", desc: "Explanation of ingredients, techniques, and philosophy behind dishes", max: 5 },
+        { id: "s3_3", label: "3.3 Personalisation", desc: "Chef's attentiveness to preferences, allergies, and guest experience", max: 5 }
+      ]},
+      { id: "s4", title: "Ambience & Experience", max: 15, criteria: [
+        { id: "s4_1", label: "4.1 Intimate Atmosphere", desc: "Counter setting, decor, and overall environment conducive to the experience", max: 7 },
+        { id: "s4_2", label: "4.2 Supporting Service", desc: "Coordination between chef and support staff, beverage service", max: 5 },
+        { id: "s4_3", label: "4.3 Cleanliness & Maintenance", desc: "Counter cleanliness, workspace organisation, facility upkeep", max: 3 }
+      ]}
+    ]
+  },
+
+  customerservice_casual: {
+    name: "Best Customer Service (Casual)",
+    sections: [
+      { id: "s1", title: "Core Service Excellence", max: 50, criteria: [
+        { id: "s1_1", label: "1.1 Greeting & First Impression", desc: "Warmth, friendliness, and professionalism upon arrival", max: 8 },
+        { id: "s1_2", label: "1.2 Attentiveness & Responsiveness", desc: "Proactive service, awareness of guest needs, and quick response times", max: 12 },
+        { id: "s1_3", label: "1.3 Menu Knowledge & Recommendations", desc: "Staff understanding of menu, ability to answer questions and suggest items", max: 10 },
+        { id: "s1_4", label: "1.4 Problem-Solving & Recovery", desc: "Handling of issues, complaints, or special requests with grace and efficiency", max: 10 },
+        { id: "s1_5", label: "1.5 Farewell & Closing Interaction", desc: "Sincere thank you, invitation to return, and lasting positive impression", max: 10 }
+      ]},
+      { id: "s2", title: "Staff Professionalism", max: 25, criteria: [
+        { id: "s2_1", label: "2.1 Teamwork & Coordination", desc: "Seamless collaboration among staff, smooth handoffs", max: 8 },
+        { id: "s2_2", label: "2.2 Personal Presentation", desc: "Grooming, uniform, and professional appearance", max: 7 },
+        { id: "s2_3", label: "2.3 Communication Skills", desc: "Clarity, politeness, and appropriate tone", max: 10 }
+      ]},
+      { id: "s3", title: "Ambience & Environment", max: 15, criteria: [
+        { id: "s3_1", label: "3.1 Cleanliness & Hygiene", desc: "Spotless dining area, restrooms, and visible facilities", max: 8 },
+        { id: "s3_2", label: "3.2 Atmosphere Contribution", desc: "Staff contribute positively to a welcoming and comfortable environment", max: 7 }
+      ]},
+      { id: "s4", title: "Overall Guest Experience", max: 10, criteria: [
+        { id: "s4_1", label: "4.1 Exceeding Expectations", desc: "Service that goes above and beyond standard casual dining expectations", max: 5 },
+        { id: "s4_2", label: "4.2 Memorability", desc: "Service that creates a memorable and delightful experience", max: 5 }
+      ]}
+    ]
+  },
+
+  customerservice_fine: {
+    name: "Best Customer Service (Fine Dining)",
+    sections: [
+      { id: "s1", title: "Core Service Excellence", max: 55, criteria: [
+        { id: "s1_1", label: "1.1 Greeting & First Impression", desc: "Refined welcome, personalisation, and professionalism upon arrival", max: 8 },
+        { id: "s1_2", label: "1.2 Anticipatory Service", desc: "Proactive attention, intuitive understanding of guest needs before they ask", max: 15 },
+        { id: "s1_3", label: "1.3 Menu & Wine Knowledge", desc: "Deep expertise in menu, wine pairings, ingredients, and preparation techniques", max: 12 },
+        { id: "s1_4", label: "1.4 Discretion & Attention to Detail", desc: "Unobtrusive service, perfect timing, and meticulous care throughout", max: 12 },
+        { id: "s1_5", label: "1.5 Problem-Solving & Grace Under Pressure", desc: "Seamless handling of issues or special requests with elegance", max: 8 }
+      ]},
+      { id: "s2", title: "Staff Professionalism", max: 25, criteria: [
+        { id: "s2_1", label: "2.1 Teamwork & Coordination", desc: "Flawless orchestration among service team, seamless synchronisation", max: 10 },
+        { id: "s2_2", label: "2.2 Personal Presentation", desc: "Impeccable grooming, uniform, and professional appearance", max: 7 },
+        { id: "s2_3", label: "2.3 Communication & Poise", desc: "Eloquent, polished communication with appropriate formality and warmth", max: 8 }
+      ]},
+      { id: "s3", title: "Ambience & Environment", max: 10, criteria: [
+        { id: "s3_1", label: "3.1 Cleanliness & Maintenance", desc: "Pristine dining area, restrooms, and all visible facilities", max: 5 },
+        { id: "s3_2", label: "3.2 Atmosphere Contribution", desc: "Staff enhance the refined, elegant atmosphere expected in fine dining", max: 5 }
+      ]},
+      { id: "s4", title: "Overall Guest Experience", max: 10, criteria: [
+        { id: "s4_1", label: "4.1 Exceeding Fine Dining Standards", desc: "Service that elevates the experience beyond typical fine dining expectations", max: 5 },
+        { id: "s4_2", label: "4.2 Lasting Impression", desc: "Service creates an unforgettable, world-class experience worthy of special occasions", max: 5 }
+      ]}
+    ]
+  },
+
+  kiosk: {
+    name: "Best Kiosk",
+    sections: [
+      { id: "s1", title: "Food Quality", max: 40, criteria: [
+        { id: "s1_1", label: "1.1 Flavour & Taste", desc: "Flavour profile, seasoning, and overall taste satisfaction", max: 15 },
+        { id: "s1_2", label: "1.2 Presentation (for Kiosk Context)", desc: "Visual appeal appropriate for kiosk/takeaway format", max: 10 },
+        { id: "s1_3", label: "1.3 Freshness & Quality", desc: "Use of fresh ingredients and quality evident in the final product", max: 10 },
+        { id: "s1_4", label: "1.4 Portion Appropriateness", desc: "Portion size suitable for price and concept", max: 5 }
+      ]},
+      { id: "s2", title: "Service & Operations", max: 30, criteria: [
+        { id: "s2_1", label: "2.1 Speed & Efficiency", desc: "Order-taking speed, preparation time, and overall efficiency", max: 12 },
+        { id: "s2_2", label: "2.2 Friendliness & Courtesy", desc: "Staff attitude, politeness, and customer engagement", max: 8 },
+        { id: "s2_3", label: "2.3 Order Accuracy", desc: "Correctness of order as received", max: 10 }
+      ]},
+      { id: "s3", title: "Hygiene & Cleanliness", max: 20, criteria: [
+        { id: "s3_1", label: "3.1 Food Safety & Hygiene Practices", desc: "Visible food handling practices, glove use, cleanliness of food prep area", max: 12 },
+        { id: "s3_2", label: "3.2 Kiosk Cleanliness", desc: "Cleanliness of counter, equipment, and surrounding area", max: 8 }
+      ]},
+      { id: "s4", title: "Overall Experience", max: 10, criteria: [
+        { id: "s4_1", label: "4.1 Value for Money", desc: "Quality and quantity relative to price paid", max: 5 },
+        { id: "s4_2", label: "4.2 Concept Execution", desc: "How well the kiosk delivers on its unique concept or specialty", max: 3 },
+        { id: "s4_3", label: "4.3 Would You Return?", desc: "Lasting impression and desire to revisit", max: 2 }
+      ]}
+    ]
+  }
+};
+</script>
+<script>
+'use strict';
+
+const API_BASE = 'https://script.google.com/macros/s/AKfycbwbduonGgQCdz0J-xBg1ngXNpUHGgdw1o9LK3lnvEwlas3_GONywRXSZBTOq8BsWueG/exec';
+const DEADLINE = new Date('2026-08-16T00:00:00+08:00').getTime();
+const NA_REGEX = /^\s*(n\.?\/?a\.?|not\s*appl?i?c?a?b?l?e?|no\s*appl?y?|nil)\s*\.?\s*$/i;
+
+function isChainAssignment(a) {
+  if (!a) return false;
+  return (a.scoresheetType || '').toLowerCase() === 'chain' || /chain/i.test(a.category || '');
+}
+
+function parseChainOutlets(outletString) {
+  if (!outletString) return [];
+  return outletString.split(/\s*;;\s*/).map(s => s.trim()).filter(Boolean).map(pair => {
+    const parts = pair.split(/\s*\|\s*/);
+    return { name: (parts[0] || '').trim(), address: (parts[1] || '').trim() };
+  }).filter(o => o.name);
+}
+
+function getChainStatus(a) {
+  const v1Submitted = !!(a.chainVisit1 && a.chainVisit1.submitted);
+  const v2Submitted = !!(a.chainVisit2 && a.chainVisit2.submitted);
+  if (v1Submitted && v2Submitted) {
+    const anyRevised = (a.chainVisit1.revisionCount >= 1) || (a.chainVisit2.revisionCount >= 1);
+    return anyRevised ? 'locked' : 'both_done';
+  }
+  if (v1Submitted && !v2Submitted) {
+    const draft = loadDraft(a, 2);
+    if (draft && hasDraftContent(draft)) return 'visit2_draft';
+    return 'visit1_done';
+  }
+  const draft1 = loadDraft(a, 1);
+  if (draft1 && hasDraftContent(draft1)) return 'visit1_draft';
+  return 'visit1_pending';
+}
+
+let judgeId = '';
+let judgeData = null;
+let currentAssignment = null;
+let currentSheet = null;
+let currentTab = 'all';
+let draftSaveTimer = null;
+let submitting = false;
+let countdownTimer = null;
+let currentChainVisit = null;
+let chainSelectedOutlet = null;
+
+let sigCtx = null;
+let sigDrawing = false;
+let sigHasInk = false;
+let sigLastX = 0, sigLastY = 0;
+
+function setupSignaturePad() {
+  const canvas = document.getElementById('signature-pad');
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  sigCtx = canvas.getContext('2d');
+  sigCtx.scale(dpr, dpr);
+  sigCtx.strokeStyle = '#2A1810';
+  sigCtx.lineWidth = 2;
+  sigCtx.lineCap = 'round';
+  sigCtx.lineJoin = 'round';
+  sigHasInk = false;
+  const hint = document.getElementById('signature-hint');
+  if (hint) hint.classList.remove('is-hidden');
+  document.querySelector('.signature__pad-wrap').classList.remove('has-error');
+  const newCanvas = canvas.cloneNode(true);
+  canvas.parentNode.replaceChild(newCanvas, canvas);
+  sigCtx = newCanvas.getContext('2d');
+  sigCtx.scale(dpr, dpr);
+  sigCtx.strokeStyle = '#2A1810';
+  sigCtx.lineWidth = 2;
+  sigCtx.lineCap = 'round';
+  sigCtx.lineJoin = 'round';
+  function getPos(e) {
+    const r = newCanvas.getBoundingClientRect();
+    return { x: (e.touches ? e.touches[0].clientX : e.clientX) - r.left, y: (e.touches ? e.touches[0].clientY : e.clientY) - r.top };
+  }
+  function start(e) { e.preventDefault(); sigDrawing = true; const p = getPos(e); sigLastX = p.x; sigLastY = p.y; if (!sigHasInk) { const h = document.getElementById('signature-hint'); if (h) h.classList.add('is-hidden'); } sigHasInk = true; }
+  function move(e) { if (!sigDrawing) return; e.preventDefault(); const p = getPos(e); sigCtx.beginPath(); sigCtx.moveTo(sigLastX, sigLastY); sigCtx.lineTo(p.x, p.y); sigCtx.stroke(); sigLastX = p.x; sigLastY = p.y; }
+  function end() { sigDrawing = false; }
+  newCanvas.addEventListener('mousedown', start);
+  newCanvas.addEventListener('mousemove', move);
+  newCanvas.addEventListener('mouseup', end);
+  newCanvas.addEventListener('mouseleave', end);
+  newCanvas.addEventListener('touchstart', start, { passive: false });
+  newCanvas.addEventListener('touchmove', move, { passive: false });
+  newCanvas.addEventListener('touchend', end);
+}
+
+function clearSignature() {
+  const canvas = document.getElementById('signature-pad');
+  if (!canvas || !sigCtx) return;
+  sigCtx.clearRect(0, 0, canvas.width, canvas.height);
+  sigHasInk = false;
+  const hint = document.getElementById('signature-hint');
+  if (hint) hint.classList.remove('is-hidden');
+  document.querySelector('.signature__pad-wrap').classList.remove('has-error');
+}
+
+function fireConfetti() {
+  const overlay = document.createElement('div');
+  overlay.className = 'confetti-overlay';
+  overlay.innerHTML = '<canvas id="confetti-canvas"></canvas><div class="confetti-message"><div class="confetti-flourish">✦ ✦ ✦</div><h2 class="confetti-title">Your judgement is complete.</h2><p class="confetti-sub">Thank you, ' + escapeHtml(judgeData.judgeName || 'Judge') + '.</p><button class="confetti-close" onclick="closeConfetti()">Close</button></div>';
+  document.body.appendChild(overlay);
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const colours = ['#C9A96E','#A8884E','#D9BF8A','#6B2A24','#8B3A2E','#F5EDD8'];
+  const particles = [];
+  for (let i = 0; i < 140; i++) { particles.push({ x: Math.random()*canvas.width, y: Math.random()*-canvas.height, w: 8+Math.random()*8, h: 4+Math.random()*4, vy: 2+Math.random()*3, vx: (Math.random()-0.5)*2, rot: Math.random()*Math.PI*2, vRot: (Math.random()-0.5)*0.15, colour: colours[Math.floor(Math.random()*colours.length)] }); }
+  let frame = 0;
+  function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p => { p.x+=p.vx; p.y+=p.vy; p.rot+=p.vRot; p.vx+=(Math.random()-0.5)*0.1; p.vx=Math.max(-2,Math.min(2,p.vx)); ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle=p.colour; ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); ctx.restore(); }); frame++; if(frame<360) requestAnimationFrame(animate); }
+  animate();
+}
+
+function closeConfetti() {
+  const overlay = document.querySelector('.confetti-overlay');
+  if (overlay) { overlay.classList.add('is-fading'); setTimeout(() => overlay.remove(), 600); }
+}
+
+function init() {
+  const params = new URLSearchParams(window.location.search);
+  judgeId = (params.get('judge') || '').trim().toLowerCase();
+  if (!judgeId) { showGateError("We couldn't find your notebook.", "Use the personal link sent to your email. If you've lost it, write to xianna.lock@ras.org.sg or james.chan@ras.org.sg."); return; }
+  fetchJudgeData(judgeId);
+}
+
+function jsonp(url, params, timeoutMs) {
+  return new Promise((resolve, reject) => {
+    const cbName = '__cb_' + Math.random().toString(36).slice(2);
+    const script = document.createElement('script');
+    const qs = new URLSearchParams({ ...params, callback: cbName }).toString();
+    let timer = setTimeout(() => { cleanup(); reject(new Error('Request timed out. Please check your connection and try again.')); }, timeoutMs || 30000);
+    function cleanup() { delete window[cbName]; if (script.parentNode) script.parentNode.removeChild(script); if (timer) { clearTimeout(timer); timer = null; } }
+    window[cbName] = (data) => { cleanup(); resolve(data); };
+    script.onerror = () => { cleanup(); reject(new Error('Network error reaching the server.')); };
+    script.src = url + (url.includes('?') ? '&' : '?') + qs;
+    document.body.appendChild(script);
+  });
+}
+
+async function fetchJudgeData(jid) {
+  try {
+    const data = await jsonp(API_BASE, { action: 'getJudge', judge: jid });
+    if (!data || data.status !== 'ok' || !data.judge) { showGateError("We couldn't find your assignments.", (data && data.message) || "Your judge ID may be invalid. Please contact xianna.lock@ras.org.sg or james.chan@ras.org.sg."); return; }
+    judgeData = data.judge;
+    enterPortal();
+  } catch (e) { showGateError("Unable to load your notebook.", e.message); }
+}
+
+function showGateError(title, sub) {
+  document.getElementById('gate-spinner').style.display = 'none';
+  document.getElementById('gate-title').textContent = title;
+  document.getElementById('gate-sub').textContent = sub;
+  document.getElementById('gate-eyebrow').textContent = 'Something went wrong';
+}
+
+function enterPortal() {
+  const fullName = judgeData.judgeName || 'Judge';
+  const hasSubmitted = (judgeData.assignments || []).some(a => a.submitted);
+  const greeting = hasSubmitted ? 'Welcome back, ' : 'Welcome, ';
+  document.getElementById('gate-title-text').textContent = greeting + fullName;
+  const assignments = judgeData.assignments || [];
+  const totalConcepts = assignments.length;
+  const remaining = assignments.filter(a => !a.submitted).length;
+  const categories = new Set(assignments.map(a => a.category));
+  const categoryCount = categories.size;
+  const parts = fullName.trim().split(/\s+/);
+  const initials = parts.length > 1 ? (parts[0][0] + parts[parts.length-1][0]).toUpperCase() : parts[0].substring(0,2).toUpperCase();
+  document.getElementById('gate-seal-initials').textContent = initials;
+  document.getElementById('gate-dossier-class').textContent = (judgeData.judgeType || 'Judge') + ' · Class of 2026';
+  let statsLine;
+  if (hasSubmitted && remaining === 0) statsLine = 'All ' + totalConcepts + ' ' + (totalConcepts===1?'concept':'concepts') + ' judged';
+  else if (hasSubmitted) statsLine = remaining + ' of ' + totalConcepts + ' remaining · ' + categoryCount + ' ' + (categoryCount===1?'category':'categories');
+  else statsLine = totalConcepts + ' ' + (totalConcepts===1?'concept':'concepts') + ' across ' + categoryCount + ' ' + (categoryCount===1?'category':'categories');
+  document.getElementById('gate-dossier-stats').textContent = statsLine;
+  document.getElementById('gate-spinner').style.display = 'none';
+  const btnEl = document.getElementById('gate-open-btn');
+  btnEl.style.display = 'inline-block';
+  btnEl.style.opacity = '0';
+  const titleH1 = document.getElementById('gate-title');
+  const subEl = document.getElementById('gate-sub');
+  const dossierEl = document.getElementById('gate-dossier');
+  titleH1.style.transition = 'opacity 0.6s ease';
+  subEl.style.transition = 'opacity 0.6s ease 0.15s';
+  dossierEl.style.transition = 'opacity 0.7s ease 0.3s';
+  btnEl.style.transition = 'opacity 0.6s ease 0.55s';
+  void titleH1.offsetWidth;
+  titleH1.style.opacity = '1';
+  subEl.style.opacity = '1';
+  dossierEl.style.opacity = '1';
+  btnEl.style.opacity = '1';
+  document.getElementById('hdr-judge-name').textContent = fullName;
+  document.getElementById('hdr-judge-type').textContent = judgeData.judgeType || '';
+  startCountdown();
+  renderDashboard();
+}
+
+function openNotebook() {
+  document.getElementById('gate-book').classList.add('is-opening');
+  document.getElementById('gate').classList.add('is-fading');
+  setTimeout(() => {
+    document.getElementById('gate').style.display = 'none';
+    const portal = document.getElementById('portal');
+    portal.classList.add('is-active');
+    portal.classList.add('is-entering');
+    setTimeout(() => portal.classList.remove('is-entering'), 1500);
+  }, 1000);
+}
+
+function startCountdown() {
+  if (countdownTimer) clearInterval(countdownTimer);
+  tickCountdown();
+  countdownTimer = setInterval(tickCountdown, 1000);
+}
+function tickCountdown() {
+  const diff = DEADLINE - Date.now();
+  if (diff <= 0) { ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => document.getElementById(id).textContent = '00'); clearInterval(countdownTimer); return; }
+  document.getElementById('cd-days').textContent = pad(Math.floor(diff/86400000));
+  document.getElementById('cd-hours').textContent = pad(Math.floor((diff%86400000)/3600000));
+  document.getElementById('cd-mins').textContent = pad(Math.floor((diff%3600000)/60000));
+  document.getElementById('cd-secs').textContent = pad(Math.floor((diff%60000)/1000));
+}
+function pad(n) { return n < 10 ? '0' + n : String(n); }
+
+function renderDashboard() {
+  document.getElementById('dashboard').style.display = 'block';
+  document.getElementById('scoresheet').classList.remove('is-active');
+  document.getElementById('visited-view').style.display = 'none';
+  document.getElementById('visited-detail').style.display = 'none';
+  const all = judgeData.assignments || [];
+  const visible = all.filter(a => !a.submitted);
+  const submittedCount = all.filter(a => a.submitted).length;
+  const toolbar = document.getElementById('visited-toolbar');
+  if (submittedCount > 0) {
+    toolbar.style.display = 'block';
+    document.getElementById('visited-btn-sub').textContent = submittedCount + ' ' + (submittedCount===1?'restaurant':'restaurants') + ' · Review your submitted scores';
+  } else { toolbar.style.display = 'none'; }
+  document.getElementById('remaining-num').textContent = visible.length;
+  document.getElementById('remaining-text').textContent = visible.length===1 ? 'concept left' : (visible.length===0 ? 'all concepts judged' : 'concepts left');
+  if (visible.length === 0) {
+    document.getElementById('category-tabs').innerHTML = '';
+    document.getElementById('concept-pills').classList.add('is-hidden');
+    document.getElementById('concepts-grid').innerHTML = '<div class="empty" style="grid-column:1/-1;">Your notebook is closed. Every concept has been judged — thank you.</div>';
+    return;
+  }
+  const byCategory = {};
+  visible.forEach(a => { if (!byCategory[a.category]) byCategory[a.category] = []; byCategory[a.category].push(a); });
+  const categories = Object.keys(byCategory).sort();
+  if (currentTab !== 'all' && !byCategory[currentTab]) currentTab = 'all';
+  let tabsHtml = '<button class="tab ' + (currentTab==='all'?'is-active':'') + '" onclick="switchTab(\'all\')">All <span class="tab__count">' + visible.length + '</span></button>';
+  categories.forEach(cat => { const count = byCategory[cat].length; tabsHtml += '<button class="tab ' + (currentTab===cat?'is-active':'') + '" onclick="switchTab(\'' + escapeAttr(cat) + '\')">' + escapeHtml(cat) + ' <span class="tab__count">' + count + '</span></button>'; });
+  document.getElementById('category-tabs').innerHTML = tabsHtml;
+  let toShow, pillCategory;
+  if (currentTab === 'all') { toShow = visible; pillCategory = null; } else { toShow = byCategory[currentTab] || []; pillCategory = currentTab; }
+  const pillsEl = document.getElementById('concept-pills');
+  if (pillCategory && toShow.length > 1) {
+    pillsEl.classList.remove('is-hidden');
+    pillsEl.innerHTML = toShow.map(a => { const status = getStatus(a); return '<button class="concept-pill" onclick="openSheet(\'' + escapeAttr(assignmentKey(a)) + '\')">' + '<span class="concept-pill__dot is-' + status.kind + '"></span>' + escapeHtml(a.concept) + '</button>'; }).join('');
+  } else { pillsEl.classList.add('is-hidden'); }
+  const grid = document.getElementById('concepts-grid');
+  grid.innerHTML = toShow.map(a => {
+    const status = getStatus(a);
+    const isChain = isChainAssignment(a);
+    const reservationBlock = a.reservationInstructions ? '<div class="concept__reservation"><strong>Reservation Instructions</strong>' + escapeHtml(a.reservationInstructions) + '</div>' : '';
+    let chainBlock = '';
+    if (isChain) {
+      const cs = getChainStatus(a);
+      const dot1Done = ['visit1_done','visit2_draft','both_done','locked'].indexOf(cs) !== -1;
+      const dot2Done = cs==='both_done'||cs==='locked';
+      chainBlock = '<div class="concept__chain-progress"><span class="concept__chain-progress-dots"><span class="concept__chain-progress-dot' + (dot1Done?' is-done':'') + '"></span><span class="concept__chain-progress-dot' + (dot2Done?' is-done':'') + '"></span></span><span>' + (dot1Done&&dot2Done?'2 of 2 visits':(dot1Done?'1 of 2 visits':'0 of 2 visits')) + '</span></div>';
+      if (a.chainVisit1 && a.chainVisit1.submitted && a.chainVisit1.outletName) chainBlock += '<div class="concept__chain-visited">Visit 1: <strong>' + escapeHtml(a.chainVisit1.outletName) + '</strong></div>';
+    }
+    let outletSubline = a.outlet || '';
+    if (isChain) { const outlets = parseChainOutlets(a.outlet || ''); outletSubline = outlets.length > 0 ? (outlets.length + ' endorsed outlets') : 'Outlets pending'; }
+    return '<div class="concept" id="card-' + escapeAttr(assignmentKey(a)) + '" onclick="openSheet(\'' + escapeAttr(assignmentKey(a)) + '\')">' +
+      '<div class="concept__category">' + escapeHtml(a.category) + '</div>' +
+      '<div class="concept__name">' + escapeHtml(a.concept) + '</div>' +
+      '<div class="concept__outlet">' + escapeHtml(outletSubline) + '</div>' +
+      chainBlock + reservationBlock +
+      '<div class="concept__footer"><span class="concept__credit">Dining credit · <strong>S$' + escapeHtml(String(a.diningCredit||300)) + '</strong></span><span class="concept__status concept__status--' + status.kind + '"><span class="concept__status-dot"></span>' + status.label + '</span></div>' +
+    '</div>';
+  }).join('');
+}
+
+function getStatus(a) {
+  if (isChainAssignment(a)) {
+    const cs = getChainStatus(a);
+    switch(cs) {
+      case 'visit1_pending': return { kind:'pending', label:'Visit 1 awaiting' };
+      case 'visit1_draft':   return { kind:'draft',   label:'Visit 1 in progress' };
+      case 'visit1_done':    return { kind:'submitted',label:'Start Visit 2' };
+      case 'visit2_draft':   return { kind:'draft',   label:'Visit 2 in progress' };
+      case 'both_done':      return { kind:'submitted',label:'Both visits submitted' };
+      case 'locked':         return { kind:'locked',  label:'Locked' };
+    }
+  }
+  if (a.submitted) { if (a.revisionCount >= 1) return { kind:'locked', label:'Locked' }; return { kind:'submitted', label:'Submitted' }; }
+  const draft = loadDraft(a);
+  if (draft && hasDraftContent(draft)) return { kind:'draft', label:'In Progress' };
+  return { kind:'pending', label:'Awaiting' };
+}
+
+function hasDraftContent(draft) {
+  if (!draft) return false;
+  if (draft.scores && Object.values(draft.scores).some(v => v !== '')) return true;
+  if (draft.comments && Object.values(draft.comments).some(v => v && v.trim())) return true;
+  if (draft.visit && (draft.visit.visitDate || draft.visit.billAmount)) return true;
+  return false;
+}
+
+function openVisited() {
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('scoresheet').classList.remove('is-active');
+  document.getElementById('visited-detail').style.display = 'none';
+  document.getElementById('visited-view').style.display = 'block';
+  const submitted = (judgeData.assignments || []).filter(a => a.submitted);
+  const list = document.getElementById('visited-list');
+  const subEl = document.getElementById('visited-hero-sub');
+  if (submitted.length === 0) { list.innerHTML = '<div class="empty">No submitted scoresheets yet.</div>'; subEl.textContent = ''; return; }
+  subEl.textContent = submitted.length + ' ' + (submitted.length===1?'visit':'visits') + ' so far';
+  list.innerHTML = submitted.map(a => '<div class="visited-card" onclick="openVisitedDetail(\'' + escapeAttr(assignmentKey(a)) + '\')">' +
+    '<div class="visited-card__category">' + escapeHtml(a.category) + '</div>' +
+    '<div class="visited-card__concept">' + escapeHtml(a.concept) + '</div>' +
+    '<div class="visited-card__outlet">' + escapeHtml(a.outlet||'') + '</div>' +
+    '<div class="visited-card__footer"><div class="visited-card__score">' + (a.totalScore||0).toFixed(1) + '<small> / 100</small></div><span class="visited-card__view">View →</span></div>' +
+  '</div>').join('');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function closeVisited() { document.getElementById('visited-view').style.display = 'none'; document.getElementById('dashboard').style.display = 'block'; window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+function openVisitedDetail(key) {
+  const a = (judgeData.assignments || []).find(x => assignmentKey(x) === key);
+  if (!a || !a.submitted) return;
+  document.getElementById('visited-view').style.display = 'none';
+  document.getElementById('visited-detail').style.display = 'block';
+  const prev = a.previousSubmission;
+  const sheetType = a.scoresheetType || 'general';
+  const s = SCORESHEETS[sheetType];
+  let displayDate = '—';
+  if (prev && prev.visitDate) { try { const d = new Date(prev.visitDate); displayDate = isNaN(d.getTime()) ? prev.visitDate : d.toLocaleDateString('en-SG', { day:'numeric', month:'long', year:'numeric' }); } catch(e) { displayDate = prev.visitDate; } }
+  let html = '<div class="review-hero"><div class="review-hero__eyebrow">' + escapeHtml(a.category) + '</div><h2 class="review-hero__concept">' + escapeHtml(a.concept) + '</h2><p class="review-hero__outlet">' + escapeHtml(a.outlet||'') + '</p><div class="review-hero__divider"></div><div class="review-hero__score-block"><small>Your Submitted Score</small><strong>' + (a.totalScore||0).toFixed(1) + '<span> / 100</span></strong></div></div>';
+  if (prev) html += '<div class="review-visit-details"><div class="review-visit-details__item"><small>Date of Visit</small><strong>' + escapeHtml(displayDate) + '</strong></div><div class="review-visit-details__item"><small>Service</small><strong>' + escapeHtml(prev.visitService||'—') + '</strong></div><div class="review-visit-details__item"><small>Bill Amount</small><strong>S$' + escapeHtml(String(prev.billAmount||'—')) + '</strong></div></div>';
+  if (s && s.sections) {
+    s.sections.forEach((section, idx) => {
+      let sectionTotal = 0;
+      let sectionHtml = '<div class="review-section"><div class="review-section__head"><div class="review-section__title"><span class="review-section__num">' + (idx+1) + '</span>' + escapeHtml(section.title) + '</div><div class="review-section__total" id="rev-sec-total-' + idx + '">— / ' + section.max + '</div></div>';
+      section.criteria.forEach(c => {
+        let scoreVal = prev && prev.scores ? prev.scores[c.id] : '';
+        let commentVal = prev && prev.comments ? prev.comments[c.id] : '';
+        let scoreDisplay, isNa = false;
+        if (scoreVal===''||scoreVal===null||scoreVal===undefined) { scoreDisplay='—'; }
+        else if (NA_REGEX.test(String(scoreVal))) { scoreDisplay='NA'; isNa=true; }
+        else { const num=parseFloat(scoreVal); if(!isNaN(num)){scoreDisplay=num.toFixed(1);sectionTotal+=num;}else{scoreDisplay=String(scoreVal);} }
+        sectionHtml += '<div class="review-criterion"><div class="review-criterion__head"><div><div class="review-criterion__label">' + escapeHtml(c.label) + '</div><div class="review-criterion__desc">' + escapeHtml(c.desc) + '</div></div><div class="review-criterion__score' + (isNa?' is-na':'') + '">' + scoreDisplay + '<small> / ' + c.max + '</small></div></div>' + (commentVal?'<div class="review-criterion__comment">' + escapeHtml(commentVal) + '</div>':'<div class="review-criterion__no-comment">No comment recorded</div>') + '</div>';
+      });
+      sectionHtml += '</div>';
+      html += sectionHtml;
+      setTimeout(() => { const el=document.getElementById('rev-sec-total-'+idx); if(el) el.textContent=sectionTotal.toFixed(1)+' / '+section.max; }, 0);
+    });
+  }
+  const isLocked = (a.revisionCount||0) >= 1;
+  html += '<div class="review-locked-note">' + (isLocked ? 'This scoresheet is locked. Any further changes must be requested via <a href="mailto:xianna.lock@ras.org.sg">xianna.lock@ras.org.sg</a> or <a href="mailto:james.chan@ras.org.sg">james.chan@ras.org.sg</a>.' : 'You may still revise this scoresheet once from the dashboard before it locks.') + '</div>';
+  document.getElementById('visited-detail-content').innerHTML = html;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function closeVisitedDetail() { document.getElementById('visited-detail').style.display = 'none'; openVisited(); }
+function switchTab(cat) { currentTab = cat; renderDashboard(); }
+
+function assignmentKey(a) { return (a.category + '|||' + a.concept).replace(/[^a-zA-Z0-9|]/g, '_'); }
+
+function openSheet(key) {
+  const assignment = (judgeData.assignments || []).find(a => assignmentKey(a) === key);
+  if (!assignment) return;
+  currentAssignment = assignment;
+  const sheetType = (assignment.scoresheetType || 'general').trim();
+  currentSheet = SCORESHEETS[sheetType] || SCORESHEETS.general;
+  currentChainVisit = null;
+  chainSelectedOutlet = null;
+  if (isChainAssignment(assignment)) {
+    const cs = getChainStatus(assignment);
+    if (cs === 'both_done' || cs === 'locked') currentChainVisit = null;
+    else if (cs === 'visit1_pending' || cs === 'visit1_draft') currentChainVisit = 1;
+    else if (cs === 'visit1_done' || cs === 'visit2_draft') currentChainVisit = 2;
+  }
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('scoresheet').classList.add('is-active');
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  renderSheet();
+}
+
+function goToDashboard() {
+  if (draftSaveTimer) { clearTimeout(draftSaveTimer); draftSaveTimer = null; }
+  if (currentAssignment && !currentAssignment.submitted) saveDraft();
+  currentAssignment = null;
+  currentSheet = null;
+  renderDashboard();
+}
+
+function renderSheet() {
+  const a = currentAssignment;
+  const s = currentSheet;
+  const isChain = isChainAssignment(a);
+  document.getElementById('sheet-category').textContent = a.category;
+  let conceptHeader = a.concept;
+  if (isChain && currentChainVisit) conceptHeader = a.concept + ' · Visit ' + currentChainVisit + ' of 2';
+  document.getElementById('sheet-concept').textContent = conceptHeader;
+  if (isChain) {
+    const outlets = parseChainOutlets(a.outlet || '');
+    document.getElementById('sheet-outlet').textContent = outlets.length > 0 ? (outlets.length + ' endorsed outlets — pick yours below') : 'Endorsed outlets pending — contact xianna.lock@ras.org.sg';
+  } else {
+    document.getElementById('sheet-outlet').textContent = a.outlet || '';
+  }
+  document.getElementById('sheet-credit').textContent = 'S$' + (a.diningCredit || 300);
+  document.getElementById('sheet-type').textContent = s.name;
+
+  let visitSubmitted = false;
+  if (isChain) {
+    if (currentChainVisit===1 && a.chainVisit1 && a.chainVisit1.submitted) visitSubmitted = true;
+    if (currentChainVisit===2 && a.chainVisit2 && a.chainVisit2.submitted) visitSubmitted = true;
+    if (!currentChainVisit) visitSubmitted = true;
+  } else { visitSubmitted = !!a.submitted; }
+
+  const extras = document.getElementById('sheet-extras');
+  if (extras) {
+    if (!visitSubmitted) {
+      const downloadBtn = a.letterUrl
+        ? ' <a href="' + escapeHtml(a.letterUrl) + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;padding:7px 16px;background:var(--burgundy);color:var(--paper);border-radius:4px;font-size:13px;font-weight:600;text-decoration:none;">⬇ Download Dining Credit Letter</a>'
+        : '';
+      let html;
+      if (isChain) {
+        html = '<div class="credit-reminder credit-reminder--chain">' +
+          '<span class="credit-reminder__icon">⚐</span>' +
+          '<div class="credit-reminder__text">' +
+            '<strong>Bring your physical dining credit letter</strong>' +
+            'The same letter covers both your outlet visits — each judge visits 2 different outlets in this chain. Hand the letter to the outlet at the end of each meal.' +
+            downloadBtn +
+          '</div>' +
+        '</div>';
+      } else {
+        html = '<div class="credit-reminder">' +
+          '<span class="credit-reminder__icon">⚠</span>' +
+          '<div class="credit-reminder__text">' +
+            '<strong>Bring your physical dining credit letter</strong>' +
+            'You will need to hand the signed letter to the restaurant at the end of the meal. The digital copy here is for reference only.' +
+            downloadBtn +
+          '</div>' +
+        '</div>';
+      }
+      if (a.reservationInstructions) html += '<div class="concept__reservation" style="margin-left:0;margin-bottom:24px;"><strong>Reservation Instructions</strong>' + escapeHtml(a.reservationInstructions) + '</div>';
+      // Chain Visit 1 save-and-exit reminder
+      if (isChain && currentChainVisit === 1) {
+        html += '<div class="credit-reminder" style="background:rgba(74,107,61,0.06);border-color:rgba(74,107,61,0.3);">' +
+          '<span class="credit-reminder__icon" style="color:var(--success);">ℹ</span>' +
+          '<div class="credit-reminder__text">' +
+            '<strong style="color:var(--success);">Two-visit scoring — please read</strong>' +
+            'Score all criteria for this outlet. Once done, tap <em>Save &amp; Exit</em> — do not submit yet. Visit a second outlet from this chain, then return to complete Visit 2 and submit both together.' +
+          '</div>' +
+        '</div>';
+      }
+      extras.innerHTML = html;
+    } else { extras.innerHTML = ''; }
+  }
+
+  const banner = document.getElementById('sheet-locked-banner');
+  banner.innerHTML = '';
+  renderChainPicker(a, visitSubmitted);
+
+  if (visitSubmitted) {
+    banner.innerHTML = renderSubmittedView(a);
+    document.getElementById('visit-fields').style.display = 'none';
+    document.getElementById('sections-container').style.display = 'none';
+    document.querySelector('.total-bar').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('visit-fields').style.display = 'grid';
+  document.getElementById('sections-container').style.display = 'block';
+  document.querySelector('.total-bar').style.display = 'flex';
+
+  const container = document.getElementById('sections-container');
+  container.innerHTML = s.sections.map(section => {
+    return '<div class="section" data-section="' + section.id + '">' +
+      '<div class="section__header"><div class="section__header-left"><span class="section__num">' + section.id.replace('s','') + '</span><span class="section__title">' + escapeHtml(section.title) + '</span></div>' +
+      '<div class="section__score"><strong id="subtotal-' + section.id + '">0.0</strong> / <span id="submax-' + section.id + '">' + section.max + '</span></div></div>' +
+      section.criteria.map(c => renderCriterion(c, section.id)).join('') +
+    '</div>';
+  }).join('');
+
+  s.sections.forEach(section => {
+    section.criteria.forEach(c => {
+      const input = document.getElementById('score-' + c.id);
+      const minus = document.getElementById('minus-' + c.id);
+      const plus  = document.getElementById('plus-' + c.id);
+      const comment = document.getElementById('comment-' + c.id);
+      if (input) { input.addEventListener('input', () => { onScoreInput(c, section.id); scheduleDraftSave(); }); input.addEventListener('blur', () => onScoreBlur(c, section.id)); }
+      if (minus) minus.addEventListener('click', () => { stepScore(c, section.id, -0.1); scheduleDraftSave(); });
+      if (plus)  plus.addEventListener('click',  () => { stepScore(c, section.id, 0.1);  scheduleDraftSave(); });
+      if (comment) { comment.addEventListener('input', () => { scheduleDraftSave(); if(comment.value.trim()){comment.classList.remove('has-error');const err=document.getElementById('comment-err-'+c.id);if(err)err.classList.remove('is-active');} }); }
+    });
+  });
+
+  ['visitDate','visitService','billAmount','additionalCost'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', () => { scheduleDraftSave(); if(el.value){el.classList.remove('has-error');const err=document.getElementById('err-'+id);if(err)err.classList.remove('is-active');} });
+    el.addEventListener('change', () => scheduleDraftSave());
+  });
+
+  if (a.isRevising && a.previousSubmission) restorePreviousSubmission(a.previousSubmission);
+  else { const draft = loadDraft(a); if (draft) restoreDraft(draft); }
+  recalcAll();
+}
+
+function renderChainPicker(a, visitSubmitted) {
+  const container = document.getElementById('chain-picker-container');
+  if (!container) return;
+  if (!isChainAssignment(a) || visitSubmitted) { container.innerHTML = ''; return; }
+  const outlets = parseChainOutlets(a.outlet || '');
+  if (outlets.length === 0) {
+    container.innerHTML = '<div class="credit-reminder credit-reminder--chain" style="margin-bottom:24px;"><span class="credit-reminder__icon">⚠</span><div class="credit-reminder__text"><strong>Endorsed outlets pending</strong>No outlets have been published for this chain yet. Please contact <a href="mailto:xianna.lock@ras.org.sg">xianna.lock@ras.org.sg</a> or <a href="mailto:james.chan@ras.org.sg">james.chan@ras.org.sg</a> before visiting.</div></div>';
+    return;
+  }
+  let availableOutlets = outlets;
+  let priorVisitBlock = '';
+  if (currentChainVisit === 2 && a.chainVisit1 && a.chainVisit1.submitted) {
+    const v1OutletName = a.chainVisit1.outletName;
+    availableOutlets = outlets.filter(o => o.name !== v1OutletName);
+    priorVisitBlock = '<div class="chain-prior-visit"><strong>Visit 1 — already submitted</strong>You visited <strong style="color:var(--ink);font-weight:600">' + escapeHtml(v1OutletName) + '</strong>. Pick a different outlet for this visit.</div>';
+  }
+  const options = ['<option value="">— Select an outlet —</option>'].concat(availableOutlets.map(o => '<option value="' + escapeAttr(o.name) + '" data-address="' + escapeAttr(o.address) + '">' + escapeHtml(o.name) + '</option>')).join('');
+  container.innerHTML = '<div class="chain-picker"><div class="chain-picker__header"><span class="chain-picker__visit-tag">Visit ' + currentChainVisit + ' of 2</span><span class="chain-picker__label">Outlet selection · required</span></div><p class="chain-picker__hint">Pick the outlet you are visiting today. Your choice is locked once you submit this visit.</p><select class="chain-picker__select" id="chainOutletSelect" aria-label="Select outlet">' + options + '</select><div class="chain-picker__address" id="chainOutletAddress"><small>Outlet Address</small><span id="chainOutletAddressText"></span></div>' + priorVisitBlock + '</div>';
+  const sel = document.getElementById('chainOutletSelect');
+  if (sel) {
+    sel.addEventListener('change', () => {
+      const opt = sel.options[sel.selectedIndex];
+      const name = sel.value;
+      const address = opt ? opt.getAttribute('data-address') || '' : '';
+      if (name) { chainSelectedOutlet = { name, address }; const addrBox=document.getElementById('chainOutletAddress'); const addrText=document.getElementById('chainOutletAddressText'); if(addrText)addrText.textContent=address; if(addrBox)addrBox.classList.add('is-active'); sel.classList.remove('has-error'); }
+      else { chainSelectedOutlet = null; const addrBox=document.getElementById('chainOutletAddress'); if(addrBox)addrBox.classList.remove('is-active'); }
+      scheduleDraftSave();
+    });
+    const draft = loadDraft(a, currentChainVisit);
+    if (draft && draft.chainOutlet && draft.chainOutlet.name) {
+      const stillAvailable = availableOutlets.some(o => o.name === draft.chainOutlet.name);
+      if (stillAvailable) { sel.value = draft.chainOutlet.name; sel.dispatchEvent(new Event('change')); }
+    }
+  }
+}
+
+function startChainVisit2() { currentChainVisit = 2; chainSelectedOutlet = null; renderSheet(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+function reviseChainVisit(visitNum) {
+  if (!confirm('Open Visit ' + visitNum + ' for revision? This is your one and only revision for this visit — after re-submitting, it will be locked.')) return;
+  currentChainVisit = visitNum;
+  const visit = visitNum === 1 ? currentAssignment.chainVisit1 : currentAssignment.chainVisit2;
+  if (visit) { visit.submitted = false; currentAssignment.isRevising = true; chainSelectedOutlet = { name: visit.outletName, address: visit.outletAddress }; }
+  renderSheet();
+}
+
+function restorePreviousSubmission(prev) {
+  if (!prev) return;
+  const vDate = document.getElementById('visitDate'); const vSvc = document.getElementById('visitService'); const vBill = document.getElementById('billAmount');
+  if (vDate && prev.visitDate) vDate.value = prev.visitDate;
+  if (vSvc && prev.visitService) vSvc.value = prev.visitService;
+  if (vBill && prev.billAmount !== undefined && prev.billAmount !== '') vBill.value = prev.billAmount;
+  if (prev.scores) { Object.keys(prev.scores).forEach(id => { const el=document.getElementById('score-'+id); const val=prev.scores[id]; if(el&&val!==''&&val!==undefined&&val!==null){const strVal=String(val);el.value=strVal;if(NA_REGEX.test(strVal))el.classList.add('is-na');} }); }
+  if (prev.comments) { Object.keys(prev.comments).forEach(id => { const el=document.getElementById('comment-'+id); if(el&&prev.comments[id])el.value=prev.comments[id]; }); }
+}
+
+function renderCriterion(c, sectionId) {
+  const isChainV2Only = !!(c.chainVisit2Only);
+  const isVisit1 = isChainAssignment(currentAssignment) && currentChainVisit === 1;
+  const noteHtml = isChainV2Only ? '<div class="criterion__note">Score on Visit 2 only — leave blank for now. Return after your second outlet visit to complete this.</div>' : '';
+  return '<div class="criterion" id="crit-' + c.id + '" data-section="' + sectionId + '" data-orig-max="' + c.max + '">' +
+    '<div class="criterion__head"><div><div class="criterion__title">' + escapeHtml(c.label) + '</div><div class="criterion__desc">' + escapeHtml(c.desc) + '</div>' + noteHtml + '</div>' +
+    '<div class="scorer"><button class="scorer__btn" id="minus-' + c.id + '" type="button" aria-label="Decrease"' + (isChainV2Only&&isVisit1?' disabled':'') + '>−</button>' +
+    '<input class="scorer__input" id="score-' + c.id + '" type="text" inputmode="decimal" autocomplete="off" placeholder="0.0" aria-label="Score (or type NA)"' + (isChainV2Only&&isVisit1?' disabled':'') + '>' +
+    '<button class="scorer__btn" id="plus-' + c.id + '" type="button" aria-label="Increase"' + (isChainV2Only&&isVisit1?' disabled':'') + '>+</button>' +
+    '<span class="scorer__max-label" id="max-' + c.id + '">/ ' + c.max + '</span></div></div>' +
+    '<textarea class="criterion__comment" id="comment-' + c.id + '" placeholder="Your observations on ' + escapeAttr(c.label.toLowerCase()) + ' (optional)"' + (isChainV2Only&&isVisit1?' disabled':'') + '></textarea>' +
+    '<div class="criterion__redistribution-note" id="redist-' + c.id + '"></div>' +
+    '<div class="criterion__error" id="score-err-' + c.id + '">Score is required (or type NA)</div>' +
+    '<div class="criterion__error" id="comment-err-' + c.id + '">Comment is required</div>' +
+  '</div>';
+}
+
+function renderSubmittedView(a) {
+  const isChain = isChainAssignment(a);
+  if (isChain) {
+    const v1 = a.chainVisit1; const v2 = a.chainVisit2;
+    const v1Done = v1 && v1.submitted; const v2Done = v2 && v2.submitted;
+    if (v1Done && !v2Done) {
+      const v1Locked = v1.revisionCount >= 1;
+      return '<div class="submitted"><div class="submitted__seal">✓</div><h3 class="submitted__title">Visit 1 Submitted</h3><p class="submitted__sub">You judged <strong>' + escapeHtml(v1.outletName||'') + '</strong>. Visit 2 is now open — head to a different outlet from this chain to complete your judging.</p><div class="submitted__score"><small>Visit 1 Score</small><strong>' + (v1.totalScore||0).toFixed(1) + '<span> / 100</span></strong></div><div class="submitted__actions"><button class="btn btn--text" onclick="goToDashboard()">← Back to your notebook</button><button class="btn btn--burgundy" onclick="startChainVisit2()">Start Visit 2 →</button>' + (!v1Locked?'<button class="btn btn--warn" onclick="reviseChainVisit(1)">Revise Visit 1</button>':'') + '</div></div>';
+    }
+    if (v1Done && v2Done) {
+      const v1Locked = v1.revisionCount >= 1; const v2Locked = v2.revisionCount >= 1;
+      const overall = Math.round(((v1.totalScore + v2.totalScore) / 2) * 10) / 10;
+      const allLocked = v1Locked && v2Locked;
+      return '<div class="submitted"><div class="submitted__seal">✓</div><h3 class="submitted__title">' + (allLocked?'Chain Scoresheet Locked':'Both Visits Submitted') + '</h3><p class="submitted__sub">Visit 1 (<strong>' + escapeHtml(v1.outletName||'') + '</strong>) and Visit 2 (<strong>' + escapeHtml(v2.outletName||'') + '</strong>) are both submitted. Your final score is the average of both visits.</p><div class="submitted__score"><small>Combined Score</small><strong>' + overall.toFixed(1) + '<span> / 100</span></strong></div><div class="submitted__email-note">A copy has been sent to your email.</div><div class="submitted__actions"><button class="btn btn--text" onclick="goToDashboard()">← Back to your notebook</button>' + (!v1Locked?'<button class="btn btn--warn" onclick="reviseChainVisit(1)">Revise Visit 1</button>':'') + (!v2Locked?'<button class="btn btn--warn" onclick="reviseChainVisit(2)">Revise Visit 2</button>':'') + '</div>' + (allLocked?'<p class="submitted__note">Need changes? Email <a href="mailto:xianna.lock@ras.org.sg">xianna.lock@ras.org.sg</a> and/or <a href="mailto:james.chan@ras.org.sg">james.chan@ras.org.sg</a></p>':'') + '</div>';
+    }
+  }
+  const isLocked = a.revisionCount >= 1;
+  return '<div class="submitted"><div class="submitted__seal">✓</div><h3 class="submitted__title">' + (isLocked?'Scoresheet Locked':'Scores Submitted') + '</h3><p class="submitted__sub">' + (isLocked?'You have used your revision for this concept. Any further changes must be requested via email.':'Your scores have been recorded. You may revise this scoresheet once before it locks.') + '</p><div class="submitted__score"><small>Submitted Score</small><strong>' + (a.totalScore||0).toFixed(1) + '<span> / 100</span></strong></div><div class="submitted__email-note">A copy has been sent to your email.</div><div class="submitted__actions"><button class="btn btn--text" onclick="goToDashboard()">← Back to your notebook</button>' + (!isLocked?'<button class="btn btn--warn" onclick="openReviseModal()">Revise this scoresheet</button>':'') + '</div>' + (isLocked?'<p class="submitted__note">Need changes? Email <a href="mailto:xianna.lock@ras.org.sg">xianna.lock@ras.org.sg</a> and/or <a href="mailto:james.chan@ras.org.sg">james.chan@ras.org.sg</a></p>':'') + '</div>';
+}
+
+function onScoreInput(c, sectionId) {
+  const input = document.getElementById('score-' + c.id);
+  const raw = input.value;
+  input.classList.remove('has-error');
+  const err = document.getElementById('score-err-' + c.id);
+  if (err) err.classList.remove('is-active');
+  if (NA_REGEX.test(raw)) input.classList.add('is-na');
+  else input.classList.remove('is-na');
+  recalcAll();
+}
+
+function onScoreBlur(c, sectionId) {
+  const input = document.getElementById('score-' + c.id);
+  const raw = input.value.trim();
+  if (NA_REGEX.test(raw)) { input.value='NA'; input.classList.add('is-na'); }
+  else if (raw === '') { input.classList.remove('is-na'); }
+  else {
+    let v = parseFloat(raw);
+    if (isNaN(v)) { input.value=''; input.classList.remove('is-na'); }
+    else { const effMax=getEffectiveMax(c,sectionId); if(v<0)v=0; if(v>effMax)v=effMax; v=Math.round(v*10)/10; input.value=v.toFixed(1); input.classList.remove('is-na'); }
+  }
+  recalcAll();
+}
+
+function stepScore(c, sectionId, delta) {
+  const input = document.getElementById('score-' + c.id);
+  if (NA_REGEX.test(input.value)) { input.value='0.0'; input.classList.remove('is-na'); }
+  let v = parseFloat(input.value) || 0;
+  v = Math.round((v + delta) * 10) / 10;
+  if (v < 0) v = 0;
+  const effMax = getEffectiveMax(c, sectionId);
+  if (v > effMax) v = effMax;
+  input.value = v.toFixed(1);
+  input.classList.remove('has-error');
+  const err = document.getElementById('score-err-' + c.id);
+  if (err) err.classList.remove('is-active');
+  recalcAll();
+}
+
+function getEffectiveMax(criterion, sectionId) {
+  const section = currentSheet.sections.find(s => s.id === sectionId);
+  if (!section) return criterion.max;
+  const naSiblings = section.criteria.filter(c => { const el=document.getElementById('score-'+c.id); return el && NA_REGEX.test(el.value); });
+  if (naSiblings.length === 0) return criterion.max;
+  const nonNAsiblings = section.criteria.filter(c => { const el=document.getElementById('score-'+c.id); return el && !NA_REGEX.test(el.value); });
+  if (nonNAsiblings.length === 0) return criterion.max;
+  const totalNAPoints = naSiblings.reduce((sum,c) => sum+c.max, 0);
+  const baseShare = Math.floor(totalNAPoints / nonNAsiblings.length);
+  const remainder = totalNAPoints - (baseShare * nonNAsiblings.length);
+  const idx = nonNAsiblings.findIndex(c => c.id === criterion.id);
+  if (idx === -1) return criterion.max;
+  return criterion.max + baseShare + (idx === 0 ? remainder : 0);
+}
+
+function recalcAll() {
+  let grandTotal = 0;
+  currentSheet.sections.forEach(section => {
+    let subtotal = 0;
+    section.criteria.forEach(c => {
+      const input = document.getElementById('score-' + c.id);
+      const maxLabel = document.getElementById('max-' + c.id);
+      const critEl = document.getElementById('crit-' + c.id);
+      const redistNote = document.getElementById('redist-' + c.id);
+      if (!input) return;
+      const isNA = NA_REGEX.test(input.value);
+      const effMax = getEffectiveMax(c, section.id);
+      if (maxLabel) { if(isNA)maxLabel.textContent='— NA'; else if(effMax!==c.max)maxLabel.textContent='/ '+effMax+' (was '+c.max+')'; else maxLabel.textContent='/ '+c.max; }
+      if (redistNote) { if(!isNA&&effMax!==c.max){redistNote.textContent='+'+(effMax-c.max)+' points redistributed from NA criteria in this section';redistNote.classList.add('is-active');}else{redistNote.classList.remove('is-active');} }
+      if (critEl) { critEl.classList.toggle('is-na',isNA); critEl.classList.toggle('is-redistributed',!isNA&&effMax!==c.max); }
+      if (!isNA) { const v=parseFloat(input.value); if(!isNaN(v)) subtotal+=v; }
+    });
+    subtotal = Math.round(subtotal * 10) / 10;
+    const subEl = document.getElementById('subtotal-' + section.id);
+    if (subEl) subEl.textContent = subtotal.toFixed(1);
+    grandTotal += subtotal;
+  });
+  grandTotal = Math.round(grandTotal * 10) / 10;
+  document.getElementById('total-score').textContent = grandTotal.toFixed(1);
+  return grandTotal;
+}
+
+function draftKey(a, visitNum) {
+  const k = 'esa2026-draft-' + judgeId + '-' + assignmentKey(a || currentAssignment);
+  const targetAssignment = a || currentAssignment;
+  if (isChainAssignment(targetAssignment)) { const v = visitNum || currentChainVisit || 1; return k + '-visit' + v; }
+  return k;
+}
+function scheduleDraftSave() {
+  if (draftSaveTimer) clearTimeout(draftSaveTimer);
+  document.getElementById('draft-status').textContent = 'Saving…';
+  document.getElementById('draft-status').classList.remove('is-saved');
+  draftSaveTimer = setTimeout(saveDraft, 1200);
+}
+function saveDraft() {
+  if (!currentAssignment) return;
+  const data = collectFormData();
+  try {
+    localStorage.setItem(draftKey(), JSON.stringify(data));
+    const stamp = new Date().toLocaleTimeString('en-SG', { hour:'2-digit', minute:'2-digit' });
+    const status = document.getElementById('draft-status');
+    if (status) { status.textContent = 'Draft saved at ' + stamp; status.classList.add('is-saved'); }
+  } catch(e) { console.warn('Draft save failed', e); }
+}
+function loadDraft(a, visitNum) {
+  try {
+    let k = 'esa2026-draft-' + judgeId + '-' + assignmentKey(a);
+    if (isChainAssignment(a)) { const v = visitNum || 1; k = k + '-visit' + v; }
+    const raw = localStorage.getItem(k);
+    return raw ? JSON.parse(raw) : null;
+  } catch(e) { return null; }
+}
+function clearDraft() {
+  if (!currentAssignment) return;
+  try { if(isChainAssignment(currentAssignment)){localStorage.removeItem(draftKey(currentAssignment,currentChainVisit));}else{localStorage.removeItem(draftKey());} } catch(e) {}
+}
+function restoreDraft(draft) {
+  if (draft.visit) { ['visitDate','visitService','billAmount','additionalCost'].forEach(id => { const el=document.getElementById(id); if(el&&draft.visit[id]!==undefined)el.value=draft.visit[id]; }); }
+  if (draft.scores) { Object.keys(draft.scores).forEach(id => { const el=document.getElementById('score-'+id); if(el&&draft.scores[id]!==''){el.value=draft.scores[id];if(NA_REGEX.test(draft.scores[id]))el.classList.add('is-na');} }); }
+  if (draft.comments) { Object.keys(draft.comments).forEach(id => { const el=document.getElementById('comment-'+id); if(el)el.value=draft.comments[id]; }); }
+}
+function collectFormData() {
+  const scores = {}; const comments = {};
+  currentSheet.sections.forEach(section => { section.criteria.forEach(c => { const sEl=document.getElementById('score-'+c.id); const cEl=document.getElementById('comment-'+c.id); scores[c.id]=sEl?sEl.value:''; comments[c.id]=cEl?cEl.value:''; }); });
+  const out = { visit: { visitDate: document.getElementById('visitDate').value, visitService: document.getElementById('visitService').value, billAmount: document.getElementById('billAmount').value, additionalCost: document.getElementById('additionalCost').value }, scores, comments, ts: Date.now() };
+  if (isChainAssignment(currentAssignment) && chainSelectedOutlet) out.chainOutlet = { name: chainSelectedOutlet.name, address: chainSelectedOutlet.address };
+  return out;
+}
+
+function validate() {
+  let firstError = null; let errors = 0;
+  if (isChainAssignment(currentAssignment)) {
+    const sel = document.getElementById('chainOutletSelect');
+    if (!sel || !sel.value) { if(sel)sel.classList.add('has-error'); errors++; if(!firstError)firstError=sel; }
+    else if (sel) sel.classList.remove('has-error');
+  }
+  [['visitDate','Date'],['visitService','Service'],['billAmount','Bill amount']].forEach(([id]) => {
+    const el=document.getElementById(id); const err=document.getElementById('err-'+id);
+    const isEmpty = !el.value || (id==='billAmount' && parseFloat(el.value)<=0);
+    if (isEmpty) { el.classList.add('has-error'); if(err)err.classList.add('is-active'); errors++; if(!firstError)firstError=el; }
+    else { el.classList.remove('has-error'); if(err)err.classList.remove('is-active'); }
+  });
+  currentSheet.sections.forEach(section => {
+    section.criteria.forEach(c => {
+      // Skip disabled criteria (chain visit 1 only criteria)
+      const input = document.getElementById('score-' + c.id);
+      if (input && input.disabled) return;
+      const sEl=document.getElementById('score-'+c.id); const sErr=document.getElementById('score-err-'+c.id);
+      const raw = sEl.value.trim(); const isNA = NA_REGEX.test(raw); const isEmpty = raw==='';
+      if (isEmpty) { sEl.classList.add('has-error'); if(sErr){sErr.textContent='Score is required (or type NA)';sErr.classList.add('is-active');} errors++; if(!firstError)firstError=sEl; }
+      else if (!isNA && isNaN(parseFloat(raw))) { sEl.classList.add('has-error'); if(sErr){sErr.textContent='Enter a number or type NA';sErr.classList.add('is-active');} errors++; if(!firstError)firstError=sEl; }
+      else { sEl.classList.remove('has-error'); if(sErr)sErr.classList.remove('is-active'); }
+    });
+  });
+  const total = recalcAll();
+  if (total > 100) { errors++; if(!firstError)firstError=document.querySelector('.total-bar'); }
+  if (firstError) { firstError.scrollIntoView({ behavior:'smooth', block:'center' }); setTimeout(() => { try{firstError.focus();}catch(e){} }, 400); }
+  return { ok: errors===0, count: errors, total };
+}
+
+function onSubmitClick() {
+  const result = validate();
+  if (!result.ok) { showToast('Please fix ' + result.count + ' issue' + (result.count===1?'':'s') + ' before submitting.', 'error'); return; }
+  if (result.total > 100) { showToast('Total score exceeds 100. Please review.', 'error'); return; }
+  document.getElementById('modal-concept').textContent = currentAssignment.concept;
+  document.getElementById('modal-total').innerHTML = result.total.toFixed(1) + '<span> / 100</span>';
+  document.getElementById('submit-modal').classList.add('is-active');
+  setTimeout(setupSignaturePad, 50);
+}
+function closeModal() { document.getElementById('submit-modal').classList.remove('is-active'); }
+
+async function doSubmit() {
+  if (submitting) return;
+  if (!sigHasInk) { document.querySelector('.signature__pad-wrap').classList.add('has-error'); showToast('Please sign to confirm your submission.', 'error'); return; }
+  submitting = true;
+  closeModal();
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true; btn.textContent = 'Submitting…';
+  const payload = buildSubmitPayload();
+  try {
+    const res = await jsonp(API_BASE, { action: 'saveScores', payload: JSON.stringify(payload) });
+    if (res && res.status === 'ok') {
+      const wasChain = isChainAssignment(currentAssignment);
+      const visitNum = currentChainVisit;
+      if (wasChain) {
+        const visitRec = { submitted:true, totalScore:payload.totalScore, outletName:payload.outletName, outletAddress:payload.outletAddress, revisionCount:currentAssignment.isRevising?1:0, previousSubmission:{ visitDate:payload.visitDate, visitService:payload.visitService, billAmount:payload.billAmount, scores:payload.scores, comments:payload.comments, outletName:payload.outletName, outletAddress:payload.outletAddress } };
+        if (visitNum===1) currentAssignment.chainVisit1=visitRec; else currentAssignment.chainVisit2=visitRec;
+        const v1Done=currentAssignment.chainVisit1&&currentAssignment.chainVisit1.submitted;
+        const v2Done=currentAssignment.chainVisit2&&currentAssignment.chainVisit2.submitted;
+        if (v1Done&&v2Done) { currentAssignment.submitted=true; currentAssignment.totalScore=Math.round(((currentAssignment.chainVisit1.totalScore+currentAssignment.chainVisit2.totalScore)/2)*10)/10; }
+        else currentAssignment.submitted=false;
+      } else {
+        currentAssignment.submitted=true;
+        currentAssignment.revisionCount=currentAssignment.revisionCount||0;
+        if(currentAssignment.isRevising)currentAssignment.revisionCount=1;
+        currentAssignment.totalScore=payload.totalScore;
+      }
+      currentAssignment.isRevising=false;
+      clearDraft();
+      if (wasChain && visitNum===1 && !currentAssignment.submitted) showToast('Visit 1 submitted. You can now start Visit 2.','success');
+      else showToast('Scores submitted. A copy has been emailed to you.','success');
+      const allDone = (judgeData.assignments||[]).every(a => a.submitted);
+      setTimeout(() => {
+        const cardId='card-'+assignmentKey(currentAssignment);
+        const card=document.getElementById(cardId);
+        if (wasChain && !currentAssignment.submitted) { renderSheet(); return; }
+        if (card) { card.classList.add('is-removing'); setTimeout(() => { renderSheet(); if(allDone)fireConfetti(); }, 700); }
+        else { renderSheet(); if(allDone)fireConfetti(); }
+      }, 600);
+    } else { throw new Error((res&&res.message)||'Submission failed.'); }
+  } catch(e) { showToast('Submission failed: ' + e.message, 'error'); }
+  finally { submitting=false; btn.disabled=false; btn.textContent='Submit Scores →'; }
+}
+
+function openReviseModal() { document.getElementById('revise-modal').classList.add('is-active'); }
+function closeReviseModal() { document.getElementById('revise-modal').classList.remove('is-active'); }
+function doRevise() { closeReviseModal(); currentAssignment.submitted=false; currentAssignment.isRevising=true; renderSheet(); showToast('You may now revise your scoresheet. Re-submitting will lock it.','success'); }
+
+function buildSubmitPayload() {
+  const a = currentAssignment;
+  const data = collectFormData();
+  const scores = {}; const comments = {}; const subtotals = {}; let totalScore = 0;
+  currentSheet.sections.forEach(section => {
+    let sub = 0;
+    section.criteria.forEach(c => {
+      const raw=data.scores[c.id]; const isNA=NA_REGEX.test(raw);
+      if(isNA){scores[c.id]='NA';}
+      else if(raw===''||raw===null||raw===undefined){scores[c.id]='';}
+      else{const v=parseFloat(raw);scores[c.id]=isNaN(v)?'':v;if(!isNaN(v))sub+=v;}
+      comments[c.id]=data.comments[c.id]||'';
+    });
+    sub=Math.round(sub*10)/10; subtotals[section.id]=sub; totalScore+=sub;
+  });
+  totalScore=Math.round(totalScore*10)/10;
+  const payload = { judgeId, judgeName:judgeData.judgeName, judgeType:judgeData.judgeType, category:a.category, concept:a.concept, outlet:a.outlet, visitDate:data.visit.visitDate, visitService:data.visit.visitService, billAmount:data.visit.billAmount, additionalCost:data.visit.additionalCost, scores, comments, subtotals, totalScore, scoresheetType:a.scoresheetType, isRevision:!!a.isRevising };
+  if (isChainAssignment(a)) { payload.isChain=true; payload.chainVisitNumber=currentChainVisit; payload.chainTotalVisits=2; if(chainSelectedOutlet){payload.outletName=chainSelectedOutlet.name;payload.outletAddress=chainSelectedOutlet.address;} }
+  return payload;
+}
+
+function showToast(msg, kind) {
+  const el=document.getElementById('toast'); el.textContent=msg;
+  el.className='toast is-visible'+(kind==='error'?' is-error':kind==='success'?' is-success':'');
+  setTimeout(()=>{el.className='toast';},4500);
+}
+function escapeHtml(s) { if(s===undefined||s===null)return''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function escapeAttr(s) { return escapeHtml(s).replace(/\\/g,'\\\\'); }
+
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
