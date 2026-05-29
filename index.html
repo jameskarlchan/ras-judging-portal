@@ -1193,18 +1193,24 @@ function init() {
   fetchJudgeData(judgeId);
 }
 
-function jsonp(url, params, timeoutMs) {
-  return new Promise((resolve, reject) => {
-    const cbName = '__cb_' + Math.random().toString(36).slice(2);
-    const script = document.createElement('script');
-    const qs = new URLSearchParams({ ...params, callback: cbName }).toString();
-    let timer = setTimeout(() => { cleanup(); reject(new Error('Request timed out. Please check your connection and try again.')); }, timeoutMs || 30000);
-    function cleanup() { delete window[cbName]; if (script.parentNode) script.parentNode.removeChild(script); if (timer) { clearTimeout(timer); timer = null; } }
-    window[cbName] = (data) => { cleanup(); resolve(data); };
-    script.onerror = () => { cleanup(); reject(new Error('Network error reaching the server.')); };
-    script.src = url + (url.includes('?') ? '&' : '?') + qs;
-    document.body.appendChild(script);
-  });
+async function jsonp(url, params, timeoutMs) {
+  const qs = new URLSearchParams(params).toString();
+  const fullUrl = url + (url.includes('?') ? '&' : '?') + qs;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs || 30000);
+  try {
+    const res = await fetch(fullUrl, {
+      signal: controller.signal,
+      redirect: 'follow'
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return await res.json();
+  } catch (e) {
+    if (e.name === 'AbortError') throw new Error('Request timed out.');
+    throw e;
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 async function fetchJudgeData(jid) {
