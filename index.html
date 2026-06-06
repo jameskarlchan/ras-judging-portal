@@ -2027,7 +2027,7 @@ function buildSubmitPayload() {
     if(chainSelectedOutlet){payload.outletName=chainSelectedOutlet.name;payload.outletAddress=chainSelectedOutlet.address;}
   }
   return payload;
-
+}
 function showToast(msg, kind) {
   const el=document.getElementById('toast'); el.textContent=msg;
   el.className='toast is-visible'+(kind==='error'?' is-error':kind==='success'?' is-success':'');
