@@ -1721,16 +1721,15 @@ function onScoreInput(c, sectionId) {
 function onScoreBlur(c, sectionId) {
   const input = document.getElementById('score-' + c.id);
   const raw = input.value.trim();
-  const wasNA = input.classList.contains('is-na');
+  const wasNA = input.getAttribute('data-committed-na') === 'true';
   const willBeNA = NA_REGEX.test(raw);
 
   if (willBeNA) {
     input.value = 'NA';
     input.classList.add('is-na');
 
-    // When transitioning to NA, reset other (non-NA) scores in this section to 0.0
-    // This forces the judge to re-key against the redistributed maxes
     if (!wasNA) {
+      input.setAttribute('data-committed-na', 'true');
       const section = currentSheet.sections.find(s => s.id === sectionId);
       if (section) {
         let resetCount = 0;
@@ -1743,6 +1742,7 @@ function onScoreBlur(c, sectionId) {
           if (isNaN(num) || otherEl.value.trim() === '') return;
           otherEl.value = '0.0';
           otherEl.classList.remove('is-na', 'has-error');
+          otherEl.removeAttribute('data-committed-na');
           const err = document.getElementById('score-err-' + other.id);
           if (err) err.classList.remove('is-active');
           resetCount++;
@@ -1754,16 +1754,21 @@ function onScoreBlur(c, sectionId) {
     }
   } else if (raw === '') {
     input.classList.remove('is-na');
+    input.removeAttribute('data-committed-na');
   } else {
     let v = parseFloat(raw);
-    if (isNaN(v)) { input.value = ''; input.classList.remove('is-na'); }
-    else {
+    if (isNaN(v)) {
+      input.value = '';
+      input.classList.remove('is-na');
+      input.removeAttribute('data-committed-na');
+    } else {
       const effMax = getEffectiveMax(c, sectionId);
       if (v < 0) v = 0;
       if (v > effMax) v = effMax;
       v = Math.round(v * 10) / 10;
       input.value = v.toFixed(1);
       input.classList.remove('is-na');
+      input.removeAttribute('data-committed-na');
     }
   }
   recalcAll();
