@@ -1072,6 +1072,12 @@ function isChainAssignment(a) {
   return (a.scoresheetType || '').toLowerCase() === 'chain' || /chain/i.test(a.category || '');
 }
 
+function isMultiOutletAssignment(a) {
+  if (!a) return false;
+  if (isChainAssignment(a)) return false; // chain has its own two-visit flow
+  return (a.outlet || '').includes(';;');
+}
+
 function parseChainOutlets(outletString) {
   if (!outletString) return [];
   return outletString.split(/\s*;;\s*/).map(s => s.trim()).filter(Boolean).map(pair => {
@@ -1383,6 +1389,7 @@ function renderDashboard() {
     }
     let outletSubline = a.outlet || '';
     if (isChain) { const outlets = parseChainOutlets(a.outlet || ''); outletSubline = outlets.length > 0 ? (outlets.length + ' endorsed outlets') : 'Outlets pending'; }
+    else if (isMultiOutletAssignment(a)) { const outlets = parseChainOutlets(a.outlet || ''); outletSubline = outlets.length + ' outlets — you pick which in the scoresheet'; }
     return '<div class="concept" id="card-' + escapeAttr(assignmentKey(a)) + '" onclick="openSheet(\'' + escapeAttr(assignmentKey(a)) + '\')">' +
       '<div class="concept__category">' + escapeHtml(a.category) + '</div>' +
       '<div class="concept__name">' + escapeHtml(a.concept) + '</div>' +
@@ -1450,7 +1457,11 @@ function openVisitedDetail(key) {
   const s = SCORESHEETS[sheetType];
   let displayDate = '—';
   if (prev && prev.visitDate) { try { const d = new Date(prev.visitDate); displayDate = isNaN(d.getTime()) ? prev.visitDate : d.toLocaleDateString('en-SG', { day:'numeric', month:'long', year:'numeric' }); } catch(e) { displayDate = prev.visitDate; } }
-  let html = '<div class="review-hero"><div class="review-hero__eyebrow">' + escapeHtml(a.category) + '</div><h2 class="review-hero__concept">' + escapeHtml(a.concept) + '</h2><p class="review-hero__outlet">' + escapeHtml(a.outlet||'') + '</p><div class="review-hero__divider"></div><div class="review-hero__score-block"><small>Your Submitted Score</small><strong>' + (a.totalScore||0).toFixed(1) + '<span> / 100</span></strong></div></div>';
+  let displayOutlet = a.outlet || '';
+  if (isMultiOutletAssignment(a) && prev && prev.outletName) {
+    displayOutlet = prev.outletName + (prev.outletAddress ? ' · ' + prev.outletAddress : '');
+  }
+  let html = '<div class="review-hero"><div class="review-hero__eyebrow">' + escapeHtml(a.category) + '</div><h2 class="review-hero__concept">' + escapeHtml(a.concept) + '</h2><p class="review-hero__outlet">' + escapeHtml(displayOutlet) + '</p><div class="review-hero__divider"></div><div class="review-hero__score-block"><small>Your Submitted Score</small><strong>' + (a.totalScore||0).toFixed(1) + '<span> / 100</span></strong></div></div>';
   if (prev) html += '<div class="review-visit-details"><div class="review-visit-details__item"><small>Date of Visit</small><strong>' + escapeHtml(displayDate) + '</strong></div><div class="review-visit-details__item"><small>Service</small><strong>' + escapeHtml(prev.visitService||'—') + '</strong></div><div class="review-visit-details__item"><small>Bill Amount</small><strong>S$' + escapeHtml(String(prev.billAmount||'—')) + '</strong></div></div>';
   if (s && s.sections) {
     s.sections.forEach((section, idx) => {
@@ -1520,6 +1531,9 @@ function renderSheet() {
   if (isChain) {
     const outlets = parseChainOutlets(a.outlet || '');
     document.getElementById('sheet-outlet').textContent = outlets.length > 0 ? (outlets.length + ' endorsed outlets — pick yours below') : 'Endorsed outlets pending — contact xianna.lock@ras.org.sg';
+  } else if (isMultiOutletAssignment(a)) {
+    const outlets = parseChainOutlets(a.outlet || '');
+    document.getElementById('sheet-outlet').textContent = outlets.length + ' outlets — pick yours below';
   } else {
     document.getElementById('sheet-outlet').textContent = a.outlet || '';
   }
@@ -1616,21 +1630,26 @@ function renderSheet() {
 function renderChainPicker(a, visitSubmitted) {
   const container = document.getElementById('chain-picker-container');
   if (!container) return;
-  if (!isChainAssignment(a) || visitSubmitted) { container.innerHTML = ''; return; }
+  const isChain = isChainAssignment(a);
+  const isMultiOutlet = isMultiOutletAssignment(a);
+  if ((!isChain && !isMultiOutlet) || visitSubmitted) { container.innerHTML = ''; return; }
   const outlets = parseChainOutlets(a.outlet || '');
   if (outlets.length === 0) {
-    container.innerHTML = '<div class="credit-reminder credit-reminder--chain" style="margin-bottom:24px;"><span class="credit-reminder__icon">⚠</span><div class="credit-reminder__text"><strong>Endorsed outlets pending</strong>No outlets have been published for this chain yet. Please contact <a href="mailto:xianna.lock@ras.org.sg">xianna.lock@ras.org.sg</a> or <a href="mailto:james.chan@ras.org.sg">james.chan@ras.org.sg</a> before visiting.</div></div>';
+    container.innerHTML = '<div class="credit-reminder credit-reminder--chain" style="margin-bottom:24px;"><span class="credit-reminder__icon">⚠</span><div class="credit-reminder__text"><strong>Endorsed outlets pending</strong>No outlets have been published for this concept yet. Please contact <a href="mailto:xianna.lock@ras.org.sg">xianna.lock@ras.org.sg</a> or <a href="mailto:james.chan@ras.org.sg">james.chan@ras.org.sg</a> before visiting.</div></div>';
     return;
   }
   let availableOutlets = outlets;
   let priorVisitBlock = '';
-  if (currentChainVisit === 2 && a.chainVisit1 && a.chainVisit1.submitted) {
+  if (isChain && currentChainVisit === 2 && a.chainVisit1 && a.chainVisit1.submitted) {
     const v1OutletName = a.chainVisit1.outletName;
     availableOutlets = outlets.filter(o => o.name !== v1OutletName);
     priorVisitBlock = '<div class="chain-prior-visit"><strong>Visit 1 — already submitted</strong>You visited <strong style="color:var(--ink);font-weight:600">' + escapeHtml(v1OutletName) + '</strong>. Pick a different outlet for this visit.</div>';
   }
   const options = ['<option value="">— Select an outlet —</option>'].concat(availableOutlets.map(o => '<option value="' + escapeAttr(o.name) + '" data-address="' + escapeAttr(o.address) + '">' + escapeHtml(o.name) + '</option>')).join('');
-  container.innerHTML = '<div class="chain-picker"><div class="chain-picker__header"><span class="chain-picker__visit-tag">Visit ' + currentChainVisit + ' of 2</span><span class="chain-picker__label">Outlet selection · required</span></div><p class="chain-picker__hint">Pick the outlet you are visiting today. Your choice is locked once you submit this visit.</p><select class="chain-picker__select" id="chainOutletSelect" aria-label="Select outlet">' + options + '</select><div class="chain-picker__address" id="chainOutletAddress"><small>Outlet Address</small><span id="chainOutletAddressText"></span></div>' + priorVisitBlock + '</div>';
+  const headerHtml = isChain
+    ? '<div class="chain-picker__header"><span class="chain-picker__visit-tag">Visit ' + currentChainVisit + ' of 2</span><span class="chain-picker__label">Outlet selection · required</span></div><p class="chain-picker__hint">Pick the outlet you are visiting today. Your choice is locked once you submit this visit.</p>'
+    : '<div class="chain-picker__header"><span class="chain-picker__label">Outlet selection · required</span></div><p class="chain-picker__hint">This concept has multiple outlets. Pick the one you are visiting today.</p>';
+  container.innerHTML = '<div class="chain-picker">' + headerHtml + '<select class="chain-picker__select" id="chainOutletSelect" aria-label="Select outlet">' + options + '</select><div class="chain-picker__address" id="chainOutletAddress"><small>Outlet Address</small><span id="chainOutletAddressText"></span></div>' + priorVisitBlock + '</div>';
   const sel = document.getElementById('chainOutletSelect');
   if (sel) {
     sel.addEventListener('change', () => {
@@ -1641,14 +1660,21 @@ function renderChainPicker(a, visitSubmitted) {
       else { chainSelectedOutlet = null; const addrBox=document.getElementById('chainOutletAddress'); if(addrBox)addrBox.classList.remove('is-active'); }
       scheduleDraftSave();
     });
-    const draft = loadDraft(a, currentChainVisit);
-    if (draft && draft.chainOutlet && draft.chainOutlet.name) {
-      const stillAvailable = availableOutlets.some(o => o.name === draft.chainOutlet.name);
-      if (stillAvailable) { sel.value = draft.chainOutlet.name; sel.dispatchEvent(new Event('change')); }
+    // Pre-select from in-memory state (e.g. revision)
+    if (chainSelectedOutlet && chainSelectedOutlet.name) {
+      const stillAvailable = availableOutlets.some(o => o.name === chainSelectedOutlet.name);
+      if (stillAvailable) { sel.value = chainSelectedOutlet.name; sel.dispatchEvent(new Event('change')); }
+    }
+    // Then restore from draft if no in-memory state
+    if (!sel.value) {
+      const draft = isChain ? loadDraft(a, currentChainVisit) : loadDraft(a);
+      if (draft && draft.chainOutlet && draft.chainOutlet.name) {
+        const stillAvailable = availableOutlets.some(o => o.name === draft.chainOutlet.name);
+        if (stillAvailable) { sel.value = draft.chainOutlet.name; sel.dispatchEvent(new Event('change')); }
+      }
     }
   }
 }
-
 function startChainVisit2() { currentChainVisit = 2; chainSelectedOutlet = null; renderSheet(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
 function reviseChainVisit(visitNum) {
@@ -1875,13 +1901,13 @@ function collectFormData() {
   currentSheet.sections.forEach(section => { section.criteria.forEach(c => { const sEl=document.getElementById('score-'+c.id); const cEl=document.getElementById('comment-'+c.id); scores[c.id]=sEl?sEl.value:''; comments[c.id]=cEl?cEl.value:''; }); });
   const orderedEl = document.getElementById('orderedItems');
   const out = { visit: { visitDate: document.getElementById('visitDate').value, visitService: document.getElementById('visitService').value, billAmount: document.getElementById('billAmount').value, additionalCost: document.getElementById('additionalCost').value, orderedItems: orderedEl ? orderedEl.value : '' }, scores, comments, ts: Date.now() };
-  if (isChainAssignment(currentAssignment) && chainSelectedOutlet) out.chainOutlet = { name: chainSelectedOutlet.name, address: chainSelectedOutlet.address };
+  if ((isChainAssignment(currentAssignment) || isMultiOutletAssignment(currentAssignment)) && chainSelectedOutlet) out.chainOutlet = { name: chainSelectedOutlet.name, address: chainSelectedOutlet.address };
   return out;
 }
 
 function validate() {
   let firstError = null; let errors = 0;
-  if (isChainAssignment(currentAssignment)) {
+  if (isChainAssignment(currentAssignment) || isMultiOutletAssignment(currentAssignment)) {
     const sel = document.getElementById('chainOutletSelect');
     if (!sel || !sel.value) { if(sel)sel.classList.add('has-error'); errors++; if(!firstError)firstError=sel; }
     else if (sel) sel.classList.remove('has-error');
@@ -1966,7 +1992,16 @@ async function doSubmit() {
 
 function openReviseModal() { document.getElementById('revise-modal').classList.add('is-active'); }
 function closeReviseModal() { document.getElementById('revise-modal').classList.remove('is-active'); }
-function doRevise() { closeReviseModal(); currentAssignment.submitted=false; currentAssignment.isRevising=true; renderSheet(); showToast('You may now revise your scoresheet. Re-submitting will lock it.','success'); }
+function doRevise() {
+  closeReviseModal();
+  currentAssignment.submitted=false;
+  currentAssignment.isRevising=true;
+  if (isMultiOutletAssignment(currentAssignment) && currentAssignment.previousSubmission && currentAssignment.previousSubmission.outletName) {
+    chainSelectedOutlet = { name: currentAssignment.previousSubmission.outletName, address: currentAssignment.previousSubmission.outletAddress || '' };
+  }
+  renderSheet();
+  showToast('You may now revise your scoresheet. Re-submitting will lock it.','success');
+}
 
 function buildSubmitPayload() {
   const a = currentAssignment;
@@ -1985,9 +2020,13 @@ function buildSubmitPayload() {
   });
   totalScore=Math.round(totalScore*10)/10;
   const payload = { judgeId, judgeName:judgeData.judgeName, judgeType:judgeData.judgeType, category:a.category, concept:a.concept, outlet:a.outlet, visitDate:data.visit.visitDate, visitService:data.visit.visitService, billAmount:data.visit.billAmount, additionalCost:data.visit.additionalCost, orderedItems:data.visit.orderedItems||'', scores, comments, subtotals, totalScore, scoresheetType:a.scoresheetType, isRevision:!!a.isRevising };
-  if (isChainAssignment(a)) { payload.isChain=true; payload.chainVisitNumber=currentChainVisit; payload.chainTotalVisits=2; if(chainSelectedOutlet){payload.outletName=chainSelectedOutlet.name;payload.outletAddress=chainSelectedOutlet.address;} }
+  if (isChainAssignment(a)) {
+    payload.isChain=true; payload.chainVisitNumber=currentChainVisit; payload.chainTotalVisits=2;
+    if(chainSelectedOutlet){payload.outletName=chainSelectedOutlet.name;payload.outletAddress=chainSelectedOutlet.address;}
+  } else if (isMultiOutletAssignment(a)) {
+    if(chainSelectedOutlet){payload.outletName=chainSelectedOutlet.name;payload.outletAddress=chainSelectedOutlet.address;}
+  }
   return payload;
-}
 
 function showToast(msg, kind) {
   const el=document.getElementById('toast'); el.textContent=msg;
