@@ -735,7 +735,7 @@ body::before {
         <div class="total-bar__inner-left">
           <div class="total-bar__label">Running Total</div>
           <div class="total-bar__value"><span id="total-score">0.0</span><small> / 100</small></div>
-          <div class="total-bar__draft" id="draft-status">Drafts save automatically</div>
+          <div class="total-bar__draft" id="draft-status">Scores saved to cloud on Save &amp; Exit</div>
         </div>
         <div class="total-bar__actions">
           <button class="btn btn--ghost" onclick="goToDashboard()">Save & Exit</button>
@@ -1123,6 +1123,9 @@ let countdownTimer = null;
 let currentChainVisit = null;
 let v1Section14Mode = false;
 let chainSelectedOutlet = null;
+let serverDraftCache = {};
+let serverDraftCacheReady = false;
+let pendingServerSave = null;
 
 let sigCtx = null;
 let sigDrawing = false;
@@ -1234,6 +1237,15 @@ async function fetchJudgeData(jid) {
     const data = await jsonp(API_BASE, { action: 'getJudge', judge: jid });
     if (!data || data.status !== 'ok' || !data.judge) { showGateError("We couldn't find your assignments.", (data && data.message) || "Your judge ID may be invalid. Please contact xianna.lock@ras.org.sg or james.chan@ras.org.sg."); return; }
     judgeData = data.judge;
+    // Prime server-draft cache so loadDraft() can run synchronously during dashboard render
+    try {
+      const dr = await jsonp(API_BASE, { action: 'getAllDrafts', judgeId: jid }, 15000);
+      if (dr && dr.status === 'ok' && dr.drafts) serverDraftCache = dr.drafts;
+      serverDraftCacheReady = true;
+    } catch (e) {
+      console.warn('Could not prime server drafts; falling back to localStorage', e);
+      serverDraftCacheReady = false;
+    }
     enterPortal();
   } catch (e) { showGateError("Unable to load your notebook.", e.message); }
 }
@@ -1525,9 +1537,22 @@ function openSheet(key) {
   renderSheet();
 }
 
-function goToDashboard() {
+async function goToDashboard() {
   if (draftSaveTimer) { clearTimeout(draftSaveTimer); draftSaveTimer = null; }
-  if (currentAssignment && !currentAssignment.submitted && !v1Section14Mode) saveDraft();
+  // Server-save before navigating away (unless already submitted or in 1.4 completion mode)
+  if (currentAssignment && !currentAssignment.submitted && !v1Section14Mode) {
+    const status = document.getElementById('draft-status');
+    if (status) { status.textContent = 'Saving to cloud…'; status.classList.remove('is-saved'); }
+    const result = await saveDraft();
+    if (result && result.ok) {
+      if (status) { status.textContent = 'Saved to cloud ✓'; status.classList.add('is-saved'); }
+    } else {
+      if (status) { status.textContent = 'Saved locally — will sync later'; status.classList.remove('is-saved'); }
+      showToast('Could not save to cloud right now — your scores are stored on this device and will sync when you reconnect.', 'error');
+    }
+    // Brief pause so the judge sees the confirmation before dashboard renders
+    await new Promise(resolve => setTimeout(resolve, 400));
+  }
   currentAssignment = null;
   currentSheet = null;
   v1Section14Mode = false;
@@ -1954,14 +1979,26 @@ function draftKey(a, visitNum) {
   if (isChainAssignment(targetAssignment)) { const v = visitNum || currentChainVisit || 1; return k + '-visit' + v; }
   return k;
 }
+// Server-side DraftID format must match Apps Script buildDraftId_ exactly
+function serverDraftId(a, visitNum) {
+  const target = a || currentAssignment;
+  const cat = (target && target.category) || '';
+  const con = (target && target.concept) || '';
+  const k = (cat + '|||' + con).replace(/[^a-zA-Z0-9|]/g, '_');
+  let v;
+  if (isChainAssignment(target)) v = visitNum || currentChainVisit || 1;
+  else v = 0;
+  return judgeId + '__' + k + '__v' + v;
+}
 function scheduleDraftSave() {
   if (v1Section14Mode) return; // No drafts in 1.4 completion mode (V1 already submitted)
   if (draftSaveTimer) clearTimeout(draftSaveTimer);
   document.getElementById('draft-status').textContent = 'Saving…';
   document.getElementById('draft-status').classList.remove('is-saved');
-  draftSaveTimer = setTimeout(saveDraft, 1200);
+  // Local debounced save only — server save runs explicitly on Save & Exit
+  draftSaveTimer = setTimeout(saveDraftLocal, 1200);
 }
-function saveDraft() {
+function saveDraftLocal() {
   if (!currentAssignment) return;
   const data = collectFormData();
   try {
@@ -1969,9 +2006,60 @@ function saveDraft() {
     const stamp = new Date().toLocaleTimeString('en-SG', { hour:'2-digit', minute:'2-digit' });
     const status = document.getElementById('draft-status');
     if (status) { status.textContent = 'Draft saved at ' + stamp; status.classList.add('is-saved'); }
-  } catch(e) { console.warn('Draft save failed', e); }
+  } catch(e) { console.warn('Local draft save failed', e); }
+}
+// Async server save — called from goToDashboard (Save & Exit) and after successful local save
+async function saveDraftServer() {
+  if (!currentAssignment) return { ok: false, reason: 'no_assignment' };
+  const a = currentAssignment;
+  const data = collectFormData();
+  // Mirror to localStorage first as a safety net (in case server fails)
+  try { localStorage.setItem(draftKey(), JSON.stringify(data)); } catch(e) {}
+  const payload = {
+    judgeId: judgeId,
+    judgeName: judgeData && judgeData.judgeName || '',
+    category: a.category || '',
+    concept: a.concept || '',
+    visitNumber: isChainAssignment(a) ? (currentChainVisit || 1) : 0,
+    visitDate: data.visit.visitDate,
+    visitService: data.visit.visitService,
+    billAmount: data.visit.billAmount,
+    outletName: data.chainOutlet ? data.chainOutlet.name : '',
+    outletAddress: data.chainOutlet ? data.chainOutlet.address : '',
+    orderedItems: data.visit.orderedItems || '',
+    scores: data.scores || {},
+    comments: data.comments || {}
+  };
+  try {
+    const res = await jsonp(API_BASE, { action: 'saveDraft', payload: JSON.stringify(payload) }, 20000);
+    if (res && res.status === 'ok') {
+      // Update local cache so subsequent reads see the latest data without another server call
+      const sid = serverDraftId(a, payload.visitNumber);
+      serverDraftCache[sid] = {
+        visit: { visitDate: payload.visitDate, visitService: payload.visitService, billAmount: payload.billAmount, additionalCost: 0, orderedItems: payload.orderedItems },
+        scores: payload.scores,
+        comments: payload.comments,
+        chainOutlet: (payload.outletName || payload.outletAddress) ? { name: payload.outletName, address: payload.outletAddress } : null,
+        lastSavedAt: res.savedAt
+      };
+      return { ok: true, savedAt: res.savedAt };
+    }
+    return { ok: false, reason: (res && res.message) || 'server_error' };
+  } catch (e) {
+    return { ok: false, reason: 'network', error: e };
+  }
+}
+// Combined save for explicit Save & Exit — preferred path
+async function saveDraft() {
+  saveDraftLocal();
+  return await saveDraftServer();
 }
 function loadDraft(a, visitNum) {
+  // Server cache first (cross-device), localStorage second (offline fallback)
+  try {
+    const sid = serverDraftId(a, visitNum);
+    if (serverDraftCache && serverDraftCache[sid]) return serverDraftCache[sid];
+  } catch (e) {}
   try {
     let k = 'esa2026-draft-' + judgeId + '-' + assignmentKey(a);
     if (isChainAssignment(a)) { const v = visitNum || 1; k = k + '-visit' + v; }
@@ -1981,7 +2069,19 @@ function loadDraft(a, visitNum) {
 }
 function clearDraft() {
   if (!currentAssignment) return;
+  // Local clear
   try { if(isChainAssignment(currentAssignment)){localStorage.removeItem(draftKey(currentAssignment,currentChainVisit));}else{localStorage.removeItem(draftKey());} } catch(e) {}
+  // Cache clear
+  try {
+    const visitNum = isChainAssignment(currentAssignment) ? (currentChainVisit || 1) : 0;
+    const sid = serverDraftId(currentAssignment, visitNum);
+    delete serverDraftCache[sid];
+  } catch(e) {}
+  // Server delete (fire and forget — submission already succeeded, draft cleanup is best-effort)
+  try {
+    const visitNum = isChainAssignment(currentAssignment) ? (currentChainVisit || 1) : 0;
+    jsonp(API_BASE, { action: 'deleteDraft', judgeId: judgeId, category: currentAssignment.category || '', concept: currentAssignment.concept || '', visit: visitNum }, 10000).catch(() => {});
+  } catch(e) {}
 }
 function restoreDraft(draft) {
   if (draft.visit) { ['visitDate','visitService','billAmount','additionalCost','orderedItems'].forEach(id => { const el=document.getElementById(id); if(el&&draft.visit[id]!==undefined)el.value=draft.visit[id]; }); }
