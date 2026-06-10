@@ -1836,7 +1836,7 @@ function renderSubmittedView(a) {
     const v1Done = v1 && v1.submitted; const v2Done = v2 && v2.submitted;
     if (v1Done && !v2Done) {
       const v1Locked = v1.revisionCount >= 1;
-      return '<div class="submitted"><div class="submitted__seal">✓</div><h3 class="submitted__title">Visit 1 Submitted</h3><p class="submitted__sub">You judged <strong>' + escapeHtml(v1.outletName||'') + '</strong>. Visit 2 is now open — head to a different outlet from this chain to complete your judging.</p><div class="submitted__score"><small>Visit 1 Score</small><strong>' + (v1.totalScore||0).toFixed(1) + '<span> / 100</span></strong></div><div class="submitted__actions"><button class="btn btn--text" onclick="goToDashboard()">← Back to your notebook</button><button class="btn btn--burgundy" onclick="startChainVisit2()">Start Visit 2 →</button>' + (!v1Locked?'<button class="btn btn--warn" onclick="reviseChainVisit(1)">Revise Visit 1</button>':'') + '</div></div>';
+      return '<div class="submitted"><div class="submitted__seal">✓</div><h3 class="submitted__title">Visit 1 Submitted</h3><p class="submitted__sub">You judged <strong>' + escapeHtml(v1.outletName||'') + '</strong>. Visit 2 is now open — head to a different outlet from this chain to complete your judging. After you submit Visit 2, you will be brought back here to score Section 1.4 (Consistency).</p><div class="submitted__score"><small>Visit 1 Score</small><strong>' + (v1.totalScore||0).toFixed(1) + '<span> / 100</span></strong></div><div class="submitted__actions"><button class="btn btn--text" onclick="goToDashboard()">← Back to your notebook</button><button class="btn btn--burgundy" onclick="startChainVisit2()">Start Visit 2 →</button>' + (!v1Locked?'<button class="btn btn--warn" onclick="reviseChainVisit(1)">Revise Visit 1</button>':'') + '</div></div>';
     }
     if (v1Done && v2Done) {
       const v1Locked = v1.revisionCount >= 1; const v2Locked = v2.revisionCount >= 1;
@@ -2172,7 +2172,7 @@ async function doSubmit() {
   btn.disabled = true; btn.textContent = 'Submitting…';
   const payload = buildSubmitPayload();
   try {
-    const res = await jsonp(API_BASE, { action: 'saveScores', payload: JSON.stringify(payload) });
+    const res = await jsonp(API_BASE, { action: 'saveScores', payload: JSON.stringify(payload) }, 90000);
     if (res && res.status === 'ok') {
       const wasChain = isChainAssignment(currentAssignment);
       const visitNum = currentChainVisit;
