@@ -1086,10 +1086,19 @@ function parseChainOutlets(outletString) {
   }).filter(o => o.name);
 }
 
+function chainNeedsV1Section14(a) {
+  if (!isChainAssignment(a)) return false;
+  if (!a.chainVisit1 || !a.chainVisit1.submitted) return false;
+  if (!a.chainVisit2 || !a.chainVisit2.submitted) return false;
+  const s14 = a.chainVisit1.previousSubmission && a.chainVisit1.previousSubmission.scores ? a.chainVisit1.previousSubmission.scores.s1_4 : '';
+  return !s14 || String(s14).trim() === '';
+}
+
 function getChainStatus(a) {
   const v1Submitted = !!(a.chainVisit1 && a.chainVisit1.submitted);
   const v2Submitted = !!(a.chainVisit2 && a.chainVisit2.submitted);
   if (v1Submitted && v2Submitted) {
+    if (chainNeedsV1Section14(a)) return 'visit1_needs_14';
     const anyRevised = (a.chainVisit1.revisionCount >= 1) || (a.chainVisit2.revisionCount >= 1);
     return anyRevised ? 'locked' : 'both_done';
   }
@@ -1112,6 +1121,7 @@ let draftSaveTimer = null;
 let submitting = false;
 let countdownTimer = null;
 let currentChainVisit = null;
+let v1Section14Mode = false;
 let chainSelectedOutlet = null;
 
 let sigCtx = null;
@@ -1382,9 +1392,9 @@ function renderDashboard() {
     let chainBlock = '';
     if (isChain) {
       const cs = getChainStatus(a);
-      const dot1Done = ['visit1_done','visit2_draft','both_done','locked'].indexOf(cs) !== -1;
-      const dot2Done = cs==='both_done'||cs==='locked';
-      chainBlock = '<div class="concept__chain-progress"><span class="concept__chain-progress-dots"><span class="concept__chain-progress-dot' + (dot1Done?' is-done':'') + '"></span><span class="concept__chain-progress-dot' + (dot2Done?' is-done':'') + '"></span></span><span>' + (dot1Done&&dot2Done?'2 of 2 visits':(dot1Done?'1 of 2 visits':'0 of 2 visits')) + '</span></div>';
+      const dot1Done = ['visit1_done','visit2_draft','both_done','locked','visit1_needs_14'].indexOf(cs) !== -1;
+      const dot2Done = cs==='both_done'||cs==='locked'||cs==='visit1_needs_14';
+      chainBlock = '<div class="concept__chain-progress"><span class="concept__chain-progress-dots"><span class="concept__chain-progress-dot' + (dot1Done?' is-done':'') + '"></span><span class="concept__chain-progress-dot' + (dot2Done?' is-done':'') + '"></span></span><span>' + (cs==='visit1_needs_14'?'Final step: score 1.4':(dot1Done&&dot2Done?'2 of 2 visits':(dot1Done?'1 of 2 visits':'0 of 2 visits'))) + '</span></div>';
       if (a.chainVisit1 && a.chainVisit1.submitted && a.chainVisit1.outletName) chainBlock += '<div class="concept__chain-visited">Visit 1: <strong>' + escapeHtml(a.chainVisit1.outletName) + '</strong></div>';
     }
     let outletSubline = a.outlet || '';
@@ -1408,6 +1418,7 @@ function getStatus(a) {
       case 'visit1_draft':   return { kind:'draft',   label:'Visit 1 in progress' };
       case 'visit1_done':    return { kind:'submitted',label:'Start Visit 2' };
       case 'visit2_draft':   return { kind:'draft',   label:'Visit 2 in progress' };
+      case 'visit1_needs_14':return { kind:'draft',   label:'Complete Section 1.4' };
       case 'both_done':      return { kind:'submitted',label:'Both visits submitted' };
       case 'locked':         return { kind:'locked',  label:'Locked' };
     }
@@ -1500,11 +1511,13 @@ function openSheet(key) {
   currentSheet = SCORESHEETS[sheetType] || SCORESHEETS.general;
   currentChainVisit = null;
   chainSelectedOutlet = null;
+  v1Section14Mode = false;
   if (isChainAssignment(assignment)) {
     const cs = getChainStatus(assignment);
     if (cs === 'both_done' || cs === 'locked') currentChainVisit = null;
     else if (cs === 'visit1_pending' || cs === 'visit1_draft') currentChainVisit = 1;
     else if (cs === 'visit1_done' || cs === 'visit2_draft') currentChainVisit = 2;
+    else if (cs === 'visit1_needs_14') { currentChainVisit = 1; v1Section14Mode = true; }
   }
   document.getElementById('dashboard').style.display = 'none';
   document.getElementById('scoresheet').classList.add('is-active');
@@ -1514,9 +1527,10 @@ function openSheet(key) {
 
 function goToDashboard() {
   if (draftSaveTimer) { clearTimeout(draftSaveTimer); draftSaveTimer = null; }
-  if (currentAssignment && !currentAssignment.submitted) saveDraft();
+  if (currentAssignment && !currentAssignment.submitted && !v1Section14Mode) saveDraft();
   currentAssignment = null;
   currentSheet = null;
+  v1Section14Mode = false;
   renderDashboard();
 }
 
@@ -1526,7 +1540,10 @@ function renderSheet() {
   const isChain = isChainAssignment(a);
   document.getElementById('sheet-category').textContent = a.category;
   let conceptHeader = a.concept;
-  if (isChain && currentChainVisit) conceptHeader = a.concept + ' · Visit ' + currentChainVisit + ' of 2';
+  if (isChain && currentChainVisit) {
+    if (v1Section14Mode) conceptHeader = a.concept + ' · Visit 1 — Final Step: Section 1.4';
+    else conceptHeader = a.concept + ' · Visit ' + currentChainVisit + ' of 2';
+  }
   document.getElementById('sheet-concept').textContent = conceptHeader;
   if (isChain) {
     const outlets = parseChainOutlets(a.outlet || '');
@@ -1542,7 +1559,7 @@ function renderSheet() {
 
   let visitSubmitted = false;
   if (isChain) {
-    if (currentChainVisit===1 && a.chainVisit1 && a.chainVisit1.submitted) visitSubmitted = true;
+    if (currentChainVisit===1 && a.chainVisit1 && a.chainVisit1.submitted && !v1Section14Mode) visitSubmitted = true;
     if (currentChainVisit===2 && a.chainVisit2 && a.chainVisit2.submitted) visitSubmitted = true;
     if (!currentChainVisit) visitSubmitted = true;
   } else { visitSubmitted = !!a.submitted; }
@@ -1564,12 +1581,22 @@ function renderSheet() {
         '</div>';
       if (a.reservationInstructions) html += '<div class="concept__reservation" style="margin-left:0;margin-bottom:24px;"><strong>Reservation Instructions</strong>' + escapeHtml(a.reservationInstructions) + '</div>';
       // Chain Visit 1 two-visit instructions banner
-      if (isChain && currentChainVisit === 1) {
+      if (isChain && currentChainVisit === 1 && !v1Section14Mode) {
         html += '<div class="chain-v1-banner">' +
           '<span class="chain-v1-banner__icon">ℹ</span>' +
           '<div class="chain-v1-banner__text">' +
             '<strong>Two-visit scoring — please read</strong>' +
-            'Score all criteria for this outlet (Section 1.4 is locked until Visit 2). Once done, tap <em>Save &amp; Exit</em> — do not submit yet. Visit a second outlet from this chain, then return to complete Visit 2 and submit both together.' +
+            'Score every criterion except Section 1.4 (locked — you need both outlets to score consistency fairly). Tap <strong>Lock In Visit 1</strong> when done. Then visit a second outlet from this chain, return, and complete Visit 2. After you submit Visit 2, you will be brought back here to score Section 1.4 — and only then is the scoresheet complete.' +
+          '</div>' +
+        '</div>';
+      }
+      // Chain Visit 1 — Section 1.4 only completion banner
+      if (isChain && currentChainVisit === 1 && v1Section14Mode) {
+        html += '<div class="chain-v1-banner">' +
+          '<span class="chain-v1-banner__icon">★</span>' +
+          '<div class="chain-v1-banner__text">' +
+            '<strong>Final step — score Section 1.4 (Consistency)</strong>' +
+            'Both outlets have now been visited. All your earlier Visit 1 scores are locked in below for your reference. Score Section 1.4 (Consistency Across Outlets) based on what you observed across both outlets, then tap <strong>Submit Section 1.4</strong> to finalise this scoresheet.' +
           '</div>' +
         '</div>';
       }
@@ -1592,6 +1619,15 @@ function renderSheet() {
   document.getElementById('visit-fields').style.display = 'grid';
   document.getElementById('sections-container').style.display = 'block';
   document.querySelector('.total-bar').style.display = 'flex';
+
+  // Dynamic submit button label per chain mode
+  const submitBtn = document.getElementById('submit-btn');
+  if (submitBtn) {
+    if (v1Section14Mode) submitBtn.textContent = 'Submit Section 1.4 →';
+    else if (isChain && currentChainVisit === 1) submitBtn.textContent = 'Lock In Visit 1 →';
+    else if (isChain && currentChainVisit === 2) submitBtn.textContent = 'Submit Visit 2 →';
+    else submitBtn.textContent = 'Submit Scores →';
+  }
 
   const container = document.getElementById('sections-container');
   container.innerHTML = s.sections.map(section => {
@@ -1622,7 +1658,44 @@ function renderSheet() {
     el.addEventListener('change', () => scheduleDraftSave());
   });
 
-  if (a.isRevising && a.previousSubmission) restorePreviousSubmission(a.previousSubmission);
+  if (v1Section14Mode && a.chainVisit1 && a.chainVisit1.previousSubmission) {
+    // Load Visit 1's prior submission data, then lock all fields except score-s1_4
+    restorePreviousSubmission(a.chainVisit1.previousSubmission);
+    chainSelectedOutlet = { name: a.chainVisit1.outletName, address: a.chainVisit1.outletAddress || '' };
+    ['visitDate','visitService','billAmount','additionalCost','orderedItems'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.disabled = true;
+    });
+    s.sections.forEach(section => {
+      section.criteria.forEach(c => {
+        if (c.id === 's1_4') return;
+        const input = document.getElementById('score-' + c.id);
+        const minus = document.getElementById('minus-' + c.id);
+        const plus  = document.getElementById('plus-' + c.id);
+        const comment = document.getElementById('comment-' + c.id);
+        if (input) input.disabled = true;
+        if (minus) minus.disabled = true;
+        if (plus)  plus.disabled = true;
+        if (comment) comment.disabled = true;
+      });
+    });
+    // Clear s1_4 so judge enters fresh (don't carry over blank/NA from V1 first submission)
+    const s14Input = document.getElementById('score-s1_4');
+    if (s14Input) { s14Input.disabled = false; s14Input.value = ''; s14Input.classList.remove('is-na'); }
+    const s14Minus = document.getElementById('minus-s1_4');
+    const s14Plus  = document.getElementById('plus-s1_4');
+    const s14Comment = document.getElementById('comment-s1_4');
+    if (s14Minus) s14Minus.disabled = false;
+    if (s14Plus)  s14Plus.disabled = false;
+    if (s14Comment) s14Comment.disabled = false;
+    recalcAll();
+    // Auto-scroll to s1_4 after a brief delay so the page settles first
+    setTimeout(() => {
+      const target = document.getElementById('crit-s1_4');
+      if (target) target.scrollIntoView({ behavior:'smooth', block:'center' });
+      setTimeout(() => { try { if (s14Input) s14Input.focus(); } catch(e) {} }, 500);
+    }, 200);
+  } else if (a.isRevising && a.previousSubmission) restorePreviousSubmission(a.previousSubmission);
   else { const draft = loadDraft(a); if (draft) restoreDraft(draft); }
   recalcAll();
 }
@@ -1633,6 +1706,11 @@ function renderChainPicker(a, visitSubmitted) {
   const isChain = isChainAssignment(a);
   const isMultiOutlet = isMultiOutletAssignment(a);
   if ((!isChain && !isMultiOutlet) || visitSubmitted) { container.innerHTML = ''; return; }
+  // v1Section14Mode: show locked Visit 1 outlet (no picker — outlet was chosen at first V1 submission)
+  if (isChain && v1Section14Mode && a.chainVisit1 && a.chainVisit1.outletName) {
+    container.innerHTML = '<div class="chain-picker"><div class="chain-picker__header"><span class="chain-picker__visit-tag">Visit 1 outlet · locked</span></div><div class="chain-prior-visit"><strong>Outlet visited</strong><strong style="color:var(--ink);font-weight:600">' + escapeHtml(a.chainVisit1.outletName) + '</strong>' + (a.chainVisit1.outletAddress?'<div style="font-size:12px;color:var(--ink-muted);margin-top:4px;">' + escapeHtml(a.chainVisit1.outletAddress) + '</div>':'') + '</div></div>';
+    return;
+  }
   const outlets = parseChainOutlets(a.outlet || '');
   if (outlets.length === 0) {
     container.innerHTML = '<div class="credit-reminder credit-reminder--chain" style="margin-bottom:24px;"><span class="credit-reminder__icon">⚠</span><div class="credit-reminder__text"><strong>Endorsed outlets pending</strong>No outlets have been published for this concept yet. Please contact <a href="mailto:xianna.lock@ras.org.sg">xianna.lock@ras.org.sg</a> or <a href="mailto:james.chan@ras.org.sg">james.chan@ras.org.sg</a> before visiting.</div></div>';
@@ -1675,11 +1753,12 @@ function renderChainPicker(a, visitSubmitted) {
     }
   }
 }
-function startChainVisit2() { currentChainVisit = 2; chainSelectedOutlet = null; renderSheet(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function startChainVisit2() { currentChainVisit = 2; v1Section14Mode = false; chainSelectedOutlet = null; renderSheet(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
 function reviseChainVisit(visitNum) {
   if (!confirm('Open Visit ' + visitNum + ' for revision? This is your one and only revision for this visit — after re-submitting, it will be locked.')) return;
   currentChainVisit = visitNum;
+  v1Section14Mode = false;
   const visit = visitNum === 1 ? currentAssignment.chainVisit1 : currentAssignment.chainVisit2;
   if (visit) { visit.submitted = false; currentAssignment.isRevising = true; chainSelectedOutlet = { name: visit.outletName, address: visit.outletAddress }; }
   renderSheet();
@@ -1699,7 +1778,16 @@ function restorePreviousSubmission(prev) {
 function renderCriterion(c, sectionId) {
   const isChainV2Only = !!(c.chainVisit2Only);
   const isVisit1 = isChainAssignment(currentAssignment) && currentChainVisit === 1;
-  const isDisabled = isChainV2Only && isVisit1;
+  // v1Section14Mode (post-Visit-2 completion): everything locked EXCEPT 1.4
+  // First Visit 1 entry / pre-V2 V1 revise: 1.4 stays locked
+  // Post-V2 V1 revise: 1.4 already scored once, so editable
+  let isDisabled;
+  if (v1Section14Mode) isDisabled = (c.id !== 's1_4');
+  else if (isChainV2Only && isVisit1) {
+    const v2Submitted = !!(currentAssignment && currentAssignment.chainVisit2 && currentAssignment.chainVisit2.submitted);
+    isDisabled = !v2Submitted;
+  }
+  else isDisabled = false;
   return '<div class="criterion" id="crit-' + c.id + '" data-section="' + sectionId + '" data-orig-max="' + c.max + '">' +
     '<div class="criterion__head"><div><div class="criterion__title">' + escapeHtml(c.label) + '</div><div class="criterion__desc">' + escapeHtml(c.desc) + '</div></div>' +
     '<div class="scorer"><button class="scorer__btn" id="minus-' + c.id + '" type="button" aria-label="Decrease"' + (isDisabled?' disabled':'') + '>−</button>' +
@@ -1864,6 +1952,7 @@ function draftKey(a, visitNum) {
   return k;
 }
 function scheduleDraftSave() {
+  if (v1Section14Mode) return; // No drafts in 1.4 completion mode (V1 already submitted)
   if (draftSaveTimer) clearTimeout(draftSaveTimer);
   document.getElementById('draft-status').textContent = 'Saving…';
   document.getElementById('draft-status').classList.remove('is-saved');
@@ -1907,6 +1996,30 @@ function collectFormData() {
 
 function validate() {
   let firstError = null; let errors = 0;
+  // v1Section14Mode: only validate score-s1_4 (everything else is locked + already submitted on first V1 entry)
+  if (v1Section14Mode) {
+    const s14El = document.getElementById('score-s1_4');
+    const s14Err = document.getElementById('score-err-s1_4');
+    const raw = (s14El.value || '').trim();
+    const isNA = NA_REGEX.test(raw);
+    const isEmpty = raw === '';
+    if (isEmpty) {
+      s14El.classList.add('has-error');
+      if (s14Err) { s14Err.textContent = 'Score is required (or type NA)'; s14Err.classList.add('is-active'); }
+      errors++; if (!firstError) firstError = s14El;
+    } else if (!isNA && isNaN(parseFloat(raw))) {
+      s14El.classList.add('has-error');
+      if (s14Err) { s14Err.textContent = 'Enter a number or type NA'; s14Err.classList.add('is-active'); }
+      errors++; if (!firstError) firstError = s14El;
+    } else {
+      s14El.classList.remove('has-error');
+      if (s14Err) s14Err.classList.remove('is-active');
+    }
+    const total = recalcAll();
+    if (total > 100) { errors++; if(!firstError)firstError=document.querySelector('.total-bar'); }
+    if (firstError) { firstError.scrollIntoView({ behavior:'smooth', block:'center' }); setTimeout(() => { try{firstError.focus();}catch(e){} }, 400); }
+    return { ok: errors===0, count: errors, total };
+  }
   if (isChainAssignment(currentAssignment) || isMultiOutletAssignment(currentAssignment)) {
     const sel = document.getElementById('chainOutletSelect');
     if (!sel || !sel.value) { if(sel)sel.classList.add('has-error'); errors++; if(!firstError)firstError=sel; }
@@ -1960,12 +2073,27 @@ async function doSubmit() {
     if (res && res.status === 'ok') {
       const wasChain = isChainAssignment(currentAssignment);
       const visitNum = currentChainVisit;
-      if (wasChain) {
+      const wasV1Section14 = v1Section14Mode;
+      if (wasV1Section14) {
+        // Section 1.4 completion submission: merge into existing chainVisit1 without consuming revision
+        const v1 = currentAssignment.chainVisit1 || {};
+        const prev = v1.previousSubmission || {};
+        const mergedScores = Object.assign({}, prev.scores || {}, payload.scores);
+        const mergedComments = Object.assign({}, prev.comments || {}, payload.comments);
+        v1.totalScore = payload.totalScore;
+        v1.previousSubmission = Object.assign({}, prev, { scores: mergedScores, comments: mergedComments });
+        currentAssignment.chainVisit1 = v1;
+        const v2Score = currentAssignment.chainVisit2 ? currentAssignment.chainVisit2.totalScore : 0;
+        currentAssignment.submitted = true;
+        currentAssignment.totalScore = Math.round(((v1.totalScore + v2Score) / 2) * 10) / 10;
+      } else if (wasChain) {
         const visitRec = { submitted:true, totalScore:payload.totalScore, outletName:payload.outletName, outletAddress:payload.outletAddress, revisionCount:currentAssignment.isRevising?1:0, previousSubmission:{ visitDate:payload.visitDate, visitService:payload.visitService, billAmount:payload.billAmount, scores:payload.scores, comments:payload.comments, outletName:payload.outletName, outletAddress:payload.outletAddress } };
         if (visitNum===1) currentAssignment.chainVisit1=visitRec; else currentAssignment.chainVisit2=visitRec;
         const v1Done=currentAssignment.chainVisit1&&currentAssignment.chainVisit1.submitted;
         const v2Done=currentAssignment.chainVisit2&&currentAssignment.chainVisit2.submitted;
-        if (v1Done&&v2Done) { currentAssignment.submitted=true; currentAssignment.totalScore=Math.round(((currentAssignment.chainVisit1.totalScore+currentAssignment.chainVisit2.totalScore)/2)*10)/10; }
+        // After Visit 2 submission, if V1 still missing s1_4, we redirect to V1 1.4-only mode (handled below)
+        const needsV14AfterThis = (visitNum===2) && chainNeedsV1Section14(currentAssignment);
+        if (v1Done && v2Done && !needsV14AfterThis) { currentAssignment.submitted=true; currentAssignment.totalScore=Math.round(((currentAssignment.chainVisit1.totalScore+currentAssignment.chainVisit2.totalScore)/2)*10)/10; }
         else currentAssignment.submitted=false;
       } else {
         currentAssignment.submitted=true;
@@ -1975,12 +2103,25 @@ async function doSubmit() {
       }
       currentAssignment.isRevising=false;
       clearDraft();
-      if (wasChain && visitNum===1 && !currentAssignment.submitted) showToast('Visit 1 submitted. You can now start Visit 2.','success');
+      // Post-Visit-2 redirect: if V1 is missing s1_4, enter v1Section14Mode and stay on the sheet
+      const triggerV1Section14Redirect = wasChain && visitNum===2 && !wasV1Section14 && chainNeedsV1Section14(currentAssignment);
+      if (wasV1Section14) showToast('Section 1.4 submitted. Scoresheet complete — a copy has been emailed to you.','success');
+      else if (triggerV1Section14Redirect) showToast('Visit 2 submitted. One final step — score Section 1.4 (Consistency) for Visit 1.','success');
+      else if (wasChain && visitNum===1 && !currentAssignment.submitted) showToast('Visit 1 locked in. You can now visit a second outlet and start Visit 2.','success');
       else showToast('Scores submitted. A copy has been emailed to you.','success');
       const allDone = (judgeData.assignments||[]).every(a => a.submitted);
       setTimeout(() => {
         const cardId='card-'+assignmentKey(currentAssignment);
         const card=document.getElementById(cardId);
+        if (triggerV1Section14Redirect) {
+          // Stay on sheet — flip into v1Section14Mode and re-render Visit 1 with only 1.4 unlocked
+          currentChainVisit = 1;
+          v1Section14Mode = true;
+          chainSelectedOutlet = null;
+          renderSheet();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
         if (wasChain && !currentAssignment.submitted) { renderSheet(); return; }
         if (card) { card.classList.add('is-removing'); setTimeout(() => { renderSheet(); if(allDone)fireConfetti(); }, 700); }
         else { renderSheet(); if(allDone)fireConfetti(); }
@@ -2019,7 +2160,7 @@ function buildSubmitPayload() {
     sub=Math.round(sub*10)/10; subtotals[section.id]=sub; totalScore+=sub;
   });
   totalScore=Math.round(totalScore*10)/10;
-  const payload = { judgeId, judgeName:judgeData.judgeName, judgeType:judgeData.judgeType, category:a.category, concept:a.concept, outlet:a.outlet, visitDate:data.visit.visitDate, visitService:data.visit.visitService, billAmount:data.visit.billAmount, additionalCost:data.visit.additionalCost, orderedItems:data.visit.orderedItems||'', scores, comments, subtotals, totalScore, scoresheetType:a.scoresheetType, isRevision:!!a.isRevising };
+  const payload = { judgeId, judgeName:judgeData.judgeName, judgeType:judgeData.judgeType, category:a.category, concept:a.concept, outlet:a.outlet, visitDate:data.visit.visitDate, visitService:data.visit.visitService, billAmount:data.visit.billAmount, additionalCost:data.visit.additionalCost, orderedItems:data.visit.orderedItems||'', scores, comments, subtotals, totalScore, scoresheetType:a.scoresheetType, isRevision:!!a.isRevising, isV1Section14Completion: !!v1Section14Mode };
   if (isChainAssignment(a)) {
     payload.isChain=true; payload.chainVisitNumber=currentChainVisit; payload.chainTotalVisits=2;
     if(chainSelectedOutlet){payload.outletName=chainSelectedOutlet.name;payload.outletAddress=chainSelectedOutlet.address;}
