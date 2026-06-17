@@ -1505,7 +1505,12 @@ function openVisitedDetail(key) {
     });
   }
   const isLocked = (a.revisionCount||0) >= 1;
-  html += '<div class="review-locked-note">' + (isLocked ? 'This scoresheet is locked. Any further changes must be requested via <a href="mailto:xianna.lock@ras.org.sg">xianna.lock@ras.org.sg</a> or <a href="mailto:james.chan@ras.org.sg">james.chan@ras.org.sg</a>.' : 'You may still revise this scoresheet once from the dashboard before it locks.') + '</div>';
+  const isChainHere = isChainAssignment(a);
+  if (isLocked) {
+    html += '<div class="review-locked-note">This scoresheet is locked. Any further changes must be requested via <a href="mailto:xianna.lock@ras.org.sg">xianna.lock@ras.org.sg</a> or <a href="mailto:james.chan@ras.org.sg">james.chan@ras.org.sg</a>.</div>';
+  } else {
+    html += '<div class="review-locked-note" style="background:rgba(168,136,78,0.10);border-style:solid;color:var(--ink);"><p style="margin:0 0 14px;font-style:normal;">You may revise this scoresheet <strong>once</strong> before it locks. Resubmitting counts as your revision.</p><button class="btn btn--warn" onclick="openSheet(\'' + escapeAttr(assignmentKey(a)) + '\')">' + (isChainHere ? 'Open scoresheet to revise a visit' : 'Revise this scoresheet') + ' →</button></div>';
+  }
   document.getElementById('visited-detail-content').innerHTML = html;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
