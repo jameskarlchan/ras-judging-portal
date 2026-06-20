@@ -260,6 +260,10 @@ body::before {
 .chain-v1-banner__text { font-size: 14px; color: var(--ink); line-height: 1.55; }
 .chain-v1-banner__text strong { display: block; margin-bottom: 4px; font-weight: 600; color: var(--success); }
 .chain-v1-banner__text em { font-style: italic; color: var(--ink); }
+.chain-v1-banner--final { background: rgba(139,45,36,0.08); border-color: rgba(139,45,36,0.35); border-left: 4px solid var(--burgundy); }
+.chain-v1-banner--final .chain-v1-banner__icon { color: var(--burgundy); font-size: 26px; }
+.chain-v1-banner--final .chain-v1-banner__text strong { color: var(--burgundy); }
+.chain-v1-banner--final .chain-v1-banner__text strong:first-child { font-size: 16px; text-transform: uppercase; letter-spacing: 0.02em; }
 
 .concept__chain-progress { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; margin-left: 16px; padding: 6px 12px; background: rgba(107,42,36,0.08); border: 1px solid rgba(107,42,36,0.2); border-radius: 999px; font-size: 12px; font-weight: 600; color: var(--burgundy); letter-spacing: 0.04em; }
 .concept__chain-progress-dots { display: inline-flex; gap: 4px; }
@@ -1575,7 +1579,7 @@ function renderSheet() {
   document.getElementById('sheet-category').textContent = a.category;
   let conceptHeader = a.concept;
   if (isChain && currentChainVisit) {
-    if (v1Section14Mode) conceptHeader = a.concept + ' · Visit 1 — Final Step: Section 1.4';
+    if (v1Section14Mode) conceptHeader = a.concept + ' · BACK TO OUTLET 1 — Score Section 1.4';
     else conceptHeader = a.concept + ' · Visit ' + currentChainVisit + ' of 2';
   }
   document.getElementById('sheet-concept').textContent = conceptHeader;
@@ -1629,11 +1633,12 @@ function renderSheet() {
       }
       // Chain Visit 1 — Section 1.4 only completion banner
       if (isChain && currentChainVisit === 1 && v1Section14Mode) {
-        html += '<div class="chain-v1-banner">' +
-          '<span class="chain-v1-banner__icon">★</span>' +
+        const v1Outlet = (a.chainVisit1 && a.chainVisit1.outletName) ? a.chainVisit1.outletName : 'Outlet 1';
+        html += '<div class="chain-v1-banner chain-v1-banner--final">' +
+          '<span class="chain-v1-banner__icon">↩</span>' +
           '<div class="chain-v1-banner__text">' +
-            '<strong>Final step: score Section 1.4</strong>' +
-            'Both outlets visited. Your Visit 1 scores are locked below. Score 1.4 (Consistency Across Outlets) based on what you saw at both outlets, then tap <em>Submit Section 1.4</em>.' +
+            '<strong>You are now back on OUTLET 1 (' + escapeHtml(v1Outlet) + ')</strong>' +
+            'Both outlets are done. We have brought you back to your <strong>first</strong> scoresheet to score the one part that was locked earlier: <strong>Section 1.4 — Consistency Across Outlets</strong>. All your other Outlet 1 scores are shown below for reference and cannot be changed here. Score 1.4 only, then tap <em>Submit Section 1.4</em> to finish.' +
           '</div>' +
         '</div>';
       }
@@ -1737,6 +1742,13 @@ function renderSheet() {
     // Chain visits MUST load the draft for the specific visit — never fall back to V1
     const draft = isChainAssignment(a) ? loadDraft(a, currentChainVisit) : loadDraft(a);
     if (draft) restoreDraft(draft);
+    else if (isChainAssignment(a)) {
+      // No draft for this visit — ensure a truly blank canvas (visit-info fields must not carry over)
+      ['visitDate','visitService','billAmount','additionalCost','orderedItems'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+    }
   }
   recalcAll();
 }
