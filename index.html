@@ -942,7 +942,7 @@ const SCORESHEETS = {
         { id: "s1_1", label: "1.1 Flavour & Balance", desc: "Harmony of flavours, seasoning, and taste balance across dishes ordered", max: 12 },
         { id: "s1_2", label: "1.2 Presentation & Plating", desc: "Visual appeal, creativity, and thoughtfulness in presentation", max: 10 },
         { id: "s1_3", label: "1.3 Technique & Execution", desc: "Cooking skill, proper temperatures, textures, and technical proficiency", max: 10 },
-        { id: "s1_4", label: "1.4 Consistency Across Outlets", desc: "Evidence of standardisation and quality control across multiple outlets. Score this on Visit 2 only — you need both outlets to compare fairly.", max: 8, chainVisit2Only: true }
+        { id: "s1_4", label: "1.4 Consistency Across Outlets", desc: "Evidence of standardisation and quality control across both outlets. This is locked for now — after you submit Visit 2, the portal will automatically bring you back here to score it, with both outlets fresh in mind.", max: 8, chainVisit2Only: true }
       ]},
       { id: "s2", title: "Ingredient Quality & Preparation", max: 18, criteria: [
         { id: "s2_1", label: "2.1 Freshness & Quality", desc: "Use of fresh, high-quality ingredients evident in taste and appearance", max: 8 },
@@ -1731,12 +1731,20 @@ function renderSheet() {
     if (s14Plus)  s14Plus.disabled = false;
     if (s14Comment) s14Comment.disabled = false;
     recalcAll();
-    // Auto-scroll to s1_4 after a brief delay so the page settles first
+    // Auto-scroll so the 1.4 criterion sits near the top of the viewport (not centred/below)
     setTimeout(() => {
       const target = document.getElementById('crit-s1_4');
-      if (target) target.scrollIntoView({ behavior:'smooth', block:'center' });
-      setTimeout(() => { try { if (s14Input) s14Input.focus(); } catch(e) {} }, 500);
-    }, 200);
+      if (target) {
+        const rect = target.getBoundingClientRect();
+        const y = window.pageYOffset + rect.top - 90; // 90px offset so the heading is clearly visible
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      }
+      setTimeout(() => { try { if (s14Input) s14Input.focus({ preventScroll: true }); } catch(e) {} }, 600);
+    }, 350);
+  } else if (a.isRevising && isChainAssignment(a)) {
+    // Revising a chain visit — restore THAT visit's stored scores (not the top-level previousSubmission)
+    const visitRec = currentChainVisit === 1 ? a.chainVisit1 : a.chainVisit2;
+    if (visitRec && visitRec.previousSubmission) restorePreviousSubmission(visitRec.previousSubmission);
   } else if (a.isRevising && a.previousSubmission) restorePreviousSubmission(a.previousSubmission);
   else {
     // Chain visits MUST load the draft for the specific visit — never fall back to V1
