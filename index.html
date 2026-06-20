@@ -379,6 +379,10 @@ body::before {
 .submitted__actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 .submitted__note { margin-top: 24px; font-size: 13px; color: var(--ink-muted); font-style: italic; font-family: var(--font-display); }
 .submitted__note a { color: var(--burgundy); }
+.chain-breakdown { display: flex; flex-direction: column; gap: 8px; max-width: 440px; margin: 0 auto 22px; }
+.chain-breakdown__row { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 18px; background: rgba(168,136,78,0.07); border: 1px solid rgba(168,136,78,0.2); border-radius: var(--r-sm); }
+.chain-breakdown__label { font-family: var(--font-display); font-style: italic; font-size: 14px; color: var(--ink-soft); text-align: left; }
+.chain-breakdown__val { font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 18px; color: var(--ink); white-space: nowrap; }
 
 .visited-toolbar { margin-bottom: 18px; }
 .visited-btn { width: 100%; display: flex; align-items: center; gap: 16px; padding: 16px 22px; background: linear-gradient(180deg, #FBF6EC 0%, #F5EBD4 100%); border: 1px solid var(--gold-soft); border-left: 4px solid var(--burgundy); border-radius: var(--r-sm); cursor: pointer; text-align: left; font-family: var(--font-body); color: var(--ink); transition: all 0.25s ease; box-shadow: 0 1px 3px rgba(74,31,26,0.08); }
@@ -1851,7 +1855,8 @@ function renderSubmittedView(a) {
       const v1Locked = v1.revisionCount >= 1; const v2Locked = v2.revisionCount >= 1;
       const overall = Math.round(((v1.totalScore + v2.totalScore) / 2) * 10) / 10;
       const allLocked = v1Locked && v2Locked;
-      return '<div class="submitted"><div class="submitted__seal">✓</div><h3 class="submitted__title">' + (allLocked?'Chain Scoresheet Locked':'Both Visits Submitted') + '</h3><p class="submitted__sub">Visit 1 (<strong>' + escapeHtml(v1.outletName||'') + '</strong>) and Visit 2 (<strong>' + escapeHtml(v2.outletName||'') + '</strong>) are both submitted. Your final score is the average of both visits.</p><div class="submitted__score"><small>Combined Score</small><strong>' + overall.toFixed(1) + '<span> / 100</span></strong></div><div class="submitted__email-note">A copy has been sent to your email.</div><div class="submitted__actions"><button class="btn btn--text" onclick="goToDashboard()">← Back to your notebook</button>' + (!v1Locked?'<button class="btn btn--warn" onclick="reviseChainVisit(1)">Revise Visit 1</button>':'') + (!v2Locked?'<button class="btn btn--warn" onclick="reviseChainVisit(2)">Revise Visit 2</button>':'') + '</div>' + (allLocked?'<p class="submitted__note">Need changes? Email <a href="mailto:xianna.lock@ras.org.sg">xianna.lock@ras.org.sg</a> and/or <a href="mailto:james.chan@ras.org.sg">james.chan@ras.org.sg</a></p>':'') + '</div>';
+      const breakdown = '<div class="chain-breakdown"><div class="chain-breakdown__row"><span class="chain-breakdown__label">Visit 1 · ' + escapeHtml(v1.outletName||'') + '</span><span class="chain-breakdown__val">' + (v1.totalScore||0).toFixed(1) + ' / 100</span></div><div class="chain-breakdown__row"><span class="chain-breakdown__label">Visit 2 · ' + escapeHtml(v2.outletName||'') + '</span><span class="chain-breakdown__val">' + (v2.totalScore||0).toFixed(1) + ' / 100</span></div></div>';
+      return '<div class="submitted"><div class="submitted__seal">✓</div><h3 class="submitted__title">' + (allLocked?'Chain Scoresheet Locked':'Both Visits Submitted') + '</h3><p class="submitted__sub">Both visits are submitted. Your final score is the average of the two.</p>' + breakdown + '<div class="submitted__score"><small>Combined Score (Average)</small><strong>' + overall.toFixed(1) + '<span> / 100</span></strong></div><div class="submitted__email-note">A copy has been sent to your email.</div><div class="submitted__actions"><button class="btn btn--text" onclick="goToDashboard()">← Back to your notebook</button>' + (!v1Locked?'<button class="btn btn--warn" onclick="reviseChainVisit(1)">Revise Visit 1</button>':'') + (!v2Locked?'<button class="btn btn--warn" onclick="reviseChainVisit(2)">Revise Visit 2</button>':'') + '</div>' + (allLocked?'<p class="submitted__note">Need changes? Email <a href="mailto:xianna.lock@ras.org.sg">xianna.lock@ras.org.sg</a> and/or <a href="mailto:james.chan@ras.org.sg">james.chan@ras.org.sg</a></p>':'') + '</div>';
     }
   }
   const isLocked = a.revisionCount >= 1;
@@ -2190,13 +2195,18 @@ async function doSubmit() {
       const visitNum = currentChainVisit;
       const wasV1Section14 = v1Section14Mode;
       if (wasV1Section14) {
-        // Section 1.4 completion submission: merge into existing chainVisit1 without consuming revision
+        // Section 1.4 completion: server has updated the V1 row + recomputed its total.
+        // Update in-memory V1 record with the new 1.4 score + the server-returned V1 total.
         const v1 = currentAssignment.chainVisit1 || {};
         const prev = v1.previousSubmission || {};
-        const mergedScores = Object.assign({}, prev.scores || {}, payload.scores);
-        const mergedComments = Object.assign({}, prev.comments || {}, payload.comments);
-        v1.totalScore = payload.totalScore;
-        v1.previousSubmission = Object.assign({}, prev, { scores: mergedScores, comments: mergedComments });
+        const newScores = Object.assign({}, prev.scores || {}, { s1_4: payload.section14Score });
+        const newComments = Object.assign({}, prev.comments || {}, { s1_4: payload.section14Comment });
+        // Server returns the recomputed V1 total in res.v1Total (fallback: add 1.4 to prior total)
+        const v1Total = (res.v1Total !== undefined && res.v1Total !== null)
+          ? res.v1Total
+          : ((v1.totalScore || 0) + (typeof payload.section14Score === 'number' ? payload.section14Score : 0));
+        v1.totalScore = Math.round(v1Total * 10) / 10;
+        v1.previousSubmission = Object.assign({}, prev, { scores: newScores, comments: newComments });
         currentAssignment.chainVisit1 = v1;
         const v2Score = currentAssignment.chainVisit2 ? currentAssignment.chainVisit2.totalScore : 0;
         currentAssignment.submitted = true;
@@ -2217,6 +2227,7 @@ async function doSubmit() {
         currentAssignment.totalScore=payload.totalScore;
       }
       currentAssignment.isRevising=false;
+      if (wasV1Section14) { v1Section14Mode = false; currentChainVisit = null; }
       clearDraft();
       // Post-Visit-2 redirect: if V1 is missing s1_4, enter v1Section14Mode and stay on the sheet
       const triggerV1Section14Redirect = wasChain && visitNum===2 && !wasV1Section14 && chainNeedsV1Section14(currentAssignment);
@@ -2262,6 +2273,25 @@ function doRevise() {
 function buildSubmitPayload() {
   const a = currentAssignment;
   const data = collectFormData();
+
+  // ─── V1 Section 1.4 completion: send ONLY the 1.4 score + comment ───
+  // Do not recompute total from a half-disabled form, do not touch outlet.
+  // The server reads the existing V1 row, adds 1.4, recomputes the total, updates in place.
+  if (v1Section14Mode) {
+    const raw14 = data.scores.s1_4;
+    let s14;
+    if (NA_REGEX.test(raw14)) s14 = 'NA';
+    else { const v = parseFloat(raw14); s14 = isNaN(v) ? '' : v; }
+    return {
+      judgeId, judgeName: judgeData.judgeName, judgeType: judgeData.judgeType,
+      category: a.category, concept: a.concept, outlet: a.outlet,
+      isChain: true, chainVisitNumber: 1, chainTotalVisits: 2,
+      isV1Section14Completion: true,
+      section14Score: s14,
+      section14Comment: data.comments.s1_4 || ''
+    };
+  }
+
   const scores = {}; const comments = {}; const subtotals = {}; let totalScore = 0;
   currentSheet.sections.forEach(section => {
     let sub = 0;
@@ -2275,7 +2305,7 @@ function buildSubmitPayload() {
     sub=Math.round(sub*10)/10; subtotals[section.id]=sub; totalScore+=sub;
   });
   totalScore=Math.round(totalScore*10)/10;
-  const payload = { judgeId, judgeName:judgeData.judgeName, judgeType:judgeData.judgeType, category:a.category, concept:a.concept, outlet:a.outlet, visitDate:data.visit.visitDate, visitService:data.visit.visitService, billAmount:data.visit.billAmount, additionalCost:data.visit.additionalCost, orderedItems:data.visit.orderedItems||'', scores, comments, subtotals, totalScore, scoresheetType:a.scoresheetType, isRevision:!!a.isRevising, isV1Section14Completion: !!v1Section14Mode };
+  const payload = { judgeId, judgeName:judgeData.judgeName, judgeType:judgeData.judgeType, category:a.category, concept:a.concept, outlet:a.outlet, visitDate:data.visit.visitDate, visitService:data.visit.visitService, billAmount:data.visit.billAmount, additionalCost:data.visit.additionalCost, orderedItems:data.visit.orderedItems||'', scores, comments, subtotals, totalScore, scoresheetType:a.scoresheetType, isRevision:!!a.isRevising, isV1Section14Completion: false };
   if (isChainAssignment(a)) {
     payload.isChain=true; payload.chainVisitNumber=currentChainVisit; payload.chainTotalVisits=2;
     if(chainSelectedOutlet){payload.outletName=chainSelectedOutlet.name;payload.outletAddress=chainSelectedOutlet.address;}
