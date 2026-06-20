@@ -1624,10 +1624,10 @@ function renderSheet() {
           '<span class="chain-v1-banner__icon">ℹ</span>' +
           '<div class="chain-v1-banner__text">' +
             '<strong>Best Chain: two outlet visits</strong>' +
-            '1. Score everything except 1.4 (it&rsquo;s locked).<br>' +
+            '1. Score everything except 1.4 (it&rsquo;s locked on Visit 1).<br>' +
             '2. Tap <em>Lock In Visit 1</em>.<br>' +
-            '3. Visit a different outlet. Score and submit Visit 2.<br>' +
-            '4. You&rsquo;ll be brought straight back to score 1.4 — that finalises the scoresheet.' +
+            '3. Visit a different outlet. On Visit 2 you score the full sheet, including 1.4 (Consistency).<br>' +
+            '4. After you submit Visit 2, the portal brings you back here to record your 1.4 score on Visit 1 too — that finalises the scoresheet.' +
           '</div>' +
         '</div>';
       }
@@ -1849,8 +1849,21 @@ function renderCriterion(c, sectionId) {
     isDisabled = !v2Submitted;
   }
   else isDisabled = false;
+
+  // Context-aware description for the chain consistency criterion (1.4)
+  let critDesc = c.desc;
+  if (c.id === 's1_4' && isChainAssignment(currentAssignment)) {
+    if (v1Section14Mode) {
+      critDesc = 'Evidence of standardisation and quality control across both outlets. Score this based on what you observed at both outlets you visited.';
+    } else if (currentChainVisit === 2) {
+      critDesc = 'Evidence of standardisation and quality control across both outlets. Score it here based on both outlets. After you submit Visit 2, the portal brings you back to Visit 1 to record this score there too.';
+    } else {
+      critDesc = 'Evidence of standardisation and quality control across both outlets. Locked for Visit 1 — you score this on Visit 2, once you have both outlets to compare.';
+    }
+  }
+
   return '<div class="criterion" id="crit-' + c.id + '" data-section="' + sectionId + '" data-orig-max="' + c.max + '">' +
-    '<div class="criterion__head"><div><div class="criterion__title">' + escapeHtml(c.label) + '</div><div class="criterion__desc">' + escapeHtml(c.desc) + '</div></div>' +
+    '<div class="criterion__head"><div><div class="criterion__title">' + escapeHtml(c.label) + '</div><div class="criterion__desc">' + escapeHtml(critDesc) + '</div></div>' +
     '<div class="scorer"><button class="scorer__btn" id="minus-' + c.id + '" type="button" aria-label="Decrease"' + (isDisabled?' disabled':'') + '>−</button>' +
     '<input class="scorer__input" id="score-' + c.id + '" type="text" inputmode="decimal" autocomplete="off" placeholder="' + (isDisabled?'V2':'0.0') + '" aria-label="Score (or type NA)"' + (isDisabled?' disabled':'') + '>' +
     '<button class="scorer__btn" id="plus-' + c.id + '" type="button" aria-label="Increase"' + (isDisabled?' disabled':'') + '>+</button>' +
