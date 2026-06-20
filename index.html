@@ -1729,7 +1729,11 @@ function renderSheet() {
       setTimeout(() => { try { if (s14Input) s14Input.focus(); } catch(e) {} }, 500);
     }, 200);
   } else if (a.isRevising && a.previousSubmission) restorePreviousSubmission(a.previousSubmission);
-  else { const draft = loadDraft(a); if (draft) restoreDraft(draft); }
+  else {
+    // Chain visits MUST load the draft for the specific visit — never fall back to V1
+    const draft = isChainAssignment(a) ? loadDraft(a, currentChainVisit) : loadDraft(a);
+    if (draft) restoreDraft(draft);
+  }
   recalcAll();
 }
 
@@ -2060,14 +2064,17 @@ async function saveDraft() {
   return await saveDraftServer();
 }
 function loadDraft(a, visitNum) {
+  const target = a || currentAssignment;
+  // Resolve the visit number consistently: explicit arg, else current chain visit (never silent 1)
+  const resolvedVisit = isChainAssignment(target) ? (visitNum || currentChainVisit || 1) : 0;
   // Server cache first (cross-device), localStorage second (offline fallback)
   try {
-    const sid = serverDraftId(a, visitNum);
+    const sid = serverDraftId(target, resolvedVisit);
     if (serverDraftCache && serverDraftCache[sid]) return serverDraftCache[sid];
   } catch (e) {}
   try {
-    let k = 'esa2026-draft-' + judgeId + '-' + assignmentKey(a);
-    if (isChainAssignment(a)) { const v = visitNum || 1; k = k + '-visit' + v; }
+    let k = 'esa2026-draft-' + judgeId + '-' + assignmentKey(target);
+    if (isChainAssignment(target)) { k = k + '-visit' + resolvedVisit; }
     const raw = localStorage.getItem(k);
     return raw ? JSON.parse(raw) : null;
   } catch(e) { return null; }
