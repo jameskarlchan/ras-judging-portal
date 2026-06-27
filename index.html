@@ -1240,6 +1240,31 @@ async function jsonp(url, params, timeoutMs) {
   }
 }
 
+// POST transport for write actions (saveScores, saveDraft).
+// Payload travels in the request body, not the URL, so long comments
+// no longer overflow the URL length limit. text/plain keeps this a
+// "simple" CORS request (no preflight) — same cross-origin behaviour as the GET path.
+async function apiPost(url, params, timeoutMs) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs || 30000);
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(params),
+      signal: controller.signal,
+      redirect: 'follow'
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return await res.json();
+  } catch (e) {
+    if (e.name === 'AbortError') throw new Error('Request timed out.');
+    throw e;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function fetchJudgeData(jid) {
   try {
     const data = await jsonp(API_BASE, { action: 'getJudge', judge: jid });
@@ -2078,7 +2103,7 @@ async function saveDraftServer() {
     comments: data.comments || {}
   };
   try {
-    const res = await jsonp(API_BASE, { action: 'saveDraft', payload: JSON.stringify(payload) }, 20000);
+    const res = await apiPost(API_BASE, { action: 'saveDraft', payload: JSON.stringify(payload) }, 20000);
     if (res && res.status === 'ok') {
       // Update local cache so subsequent reads see the latest data without another server call
       const sid = serverDraftId(a, payload.visitNumber);
@@ -2222,7 +2247,7 @@ async function doSubmit() {
   btn.disabled = true; btn.textContent = 'Submitting…';
   const payload = buildSubmitPayload();
   try {
-    const res = await jsonp(API_BASE, { action: 'saveScores', payload: JSON.stringify(payload) }, 90000);
+    const res = await apiPost(API_BASE, { action: 'saveScores', payload: JSON.stringify(payload) }, 90000);
     if (res && res.status === 'ok') {
       const wasChain = isChainAssignment(currentAssignment);
       const visitNum = currentChainVisit;
